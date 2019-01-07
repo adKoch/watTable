@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "515277045217",
+    "firebase_url": "https://wattimetable.firebaseio.com",
+    "project_id": "wattimetable",
+    "storage_bucket": "wattimetable.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:515277045217:android:18624cb3733d1ca2",
+        "android_client_info": {
+          "package_name": "com.wat.student.adkoch.wattable"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "515277045217-e17n2qm6kk6288m8hl2pan5dm6uobh5p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wat.student.adkoch.wattable",
+            "certificate_hash": "ec6af88e26be2fc4be7f9ad6327d408747498c0a"
+          }
+        },
+        {
+          "client_id": "515277045217-6cs63ehnobmadu3l7klgbvnda7o1mrrn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATt92lEMcgcl0FuQopP7--KZ9iEP1-7_0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "515277045217-6cs63ehnobmadu3l7klgbvnda7o1mrrn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

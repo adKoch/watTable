@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">WAT Rozkład</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="action_day_view">Dzień</string>
+    <string name="action_week_view">Rozkład</string>
+    <string name="action_subs">Subskrypcje</string>
+    <string name="sub_name_hint">Nazwa</string>
+    <string name="sub_token_hint">Token</string>
+    <string name="clear_button_text">Wyczyść</string>
+    <string name="add_sub_button_text">Dodaj</string>
+</resources>
