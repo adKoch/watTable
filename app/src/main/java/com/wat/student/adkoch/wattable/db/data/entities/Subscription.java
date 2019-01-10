@@ -1,4 +1,4 @@
-package com.wat.student.adkoch.wattable.db.entities;
+package com.wat.student.adkoch.wattable.db.data.entities;
 
 public final class Subscription {
     private String name;

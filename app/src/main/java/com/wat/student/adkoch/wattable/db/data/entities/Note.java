@@ -1,4 +1,4 @@
-package com.wat.student.adkoch.wattable.db.entities;
+package com.wat.student.adkoch.wattable.db.data.entities;
 
 public final class Note {
     private String title;

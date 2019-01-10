@@ -1,4 +1,4 @@
-package com.wat.student.adkoch.wattable;
+package com.wat.student.adkoch.wattable.db.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,48 +6,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
-import com.wat.student.adkoch.wattable.db.DataAccess;
-import com.wat.student.adkoch.wattable.db.entities.Subscription;
+import com.wat.student.adkoch.wattable.R;
 
-public class AddSubActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_sub);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        final EditText subName = findViewById(R.id.subName);
-        final EditText subToken = findViewById(R.id.subToken);
         setSupportActionBar(toolbar);
-        Button addSubButton = findViewById(R.id.addButton);
-        addSubButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                if(checkFields(subName.getText().toString(), subToken.getText().toString())){
-                    addSub(subName.getText().toString(), subToken.getText().toString());
-                    goToSubs();
-                }
-            }
-        });
-        Button clearButton = findViewById(R.id.clearButton);
-        clearButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                subName.setText("");
-                subToken.setText("");
-            }
-        });
     }
 
-    private void addSub(String subName, String subToken){
-        DataAccess.putSub(new Subscription(subName, subToken));
-    }
-    private boolean checkFields(String name, String token){
-        if(name==null || token==null || name==" " || token==" ") return false;
-        return true;
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -75,6 +47,10 @@ public class AddSubActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    private void goToAddSub(){
+        Intent intent = new Intent(this, AddSubActivity.class);
+        startActivity(intent);
     }
     private void goToDay(){
         Intent intent = new Intent(this, DayActivity.class);

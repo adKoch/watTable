@@ -1,4 +1,4 @@
-package com.wat.student.adkoch.wattable.db;
+package com.wat.student.adkoch.wattable.db.data;
 
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -6,7 +6,7 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.wat.student.adkoch.wattable.db.entities.Subscription;
+import com.wat.student.adkoch.wattable.db.data.entities.Subscription;
 
 import java.util.HashMap;
 import java.util.Map;
