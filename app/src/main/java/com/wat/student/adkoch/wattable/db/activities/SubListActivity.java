@@ -16,8 +16,8 @@ import android.widget.Toast;
 
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.entities.Subscription;
-import com.wat.student.adkoch.wattable.db.ui.SublistAdapter;
-import com.wat.student.adkoch.wattable.db.ui.sublist.SublistRecyclerTouchListener;
+import com.wat.student.adkoch.wattable.db.ui.sublist.SublistAdapter;
+import com.wat.student.adkoch.wattable.db.ui.ListRecyclerTouchListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +67,7 @@ public class SubListActivity extends AppCompatActivity {
 
         mAdapter = new SublistAdapter(myData);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        mRecyclerView.addOnItemTouchListener(new SublistRecyclerTouchListener(getApplicationContext(), mRecyclerView, new SublistRecyclerTouchListener.ClickListener() {
+        mRecyclerView.addOnItemTouchListener(new ListRecyclerTouchListener(getApplicationContext(), mRecyclerView, new ListRecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
                 Subscription sub = myData.get(position);

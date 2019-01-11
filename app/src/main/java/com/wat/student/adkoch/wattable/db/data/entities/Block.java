@@ -10,6 +10,7 @@ public final class Block {
     private int blockNr;
     private String place;
     private String type;
+    private Date date;
 
     public int getTimeBlockNr() {
         return timeBlockNr;
@@ -43,8 +44,6 @@ public final class Block {
         return date;
     }
 
-    private Date date;
-
     public Block(int timeBlockNr, String subjectName, String subjectNameShort, String director, int blockNr, String place, String type, Date date) {
         this.timeBlockNr = timeBlockNr;
         this.subjectName = subjectName;
@@ -54,5 +53,11 @@ public final class Block {
         this.place = place;
         this.type = type;
         this.date = date;
+    }
+    public Block(int timeBlockNr, Date date){
+        this.timeBlockNr = timeBlockNr;
+        this.date = date;
+        blockNr=-1;
+        timeBlockNr=-1;
     }
 }

@@ -1,4 +1,4 @@
-package com.wat.student.adkoch.wattable.db.ui.sublist;
+package com.wat.student.adkoch.wattable.db.ui;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,11 +7,11 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class SublistRecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+public class ListRecyclerTouchListener implements RecyclerView.OnItemTouchListener {
     private ClickListener clickListener;
     private GestureDetector gestureDetector;
 
-    public SublistRecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener){
+    public ListRecyclerTouchListener(Context context, final RecyclerView recyclerView, final ClickListener clickListener){
         this.clickListener=clickListener;
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener(){
             @Override

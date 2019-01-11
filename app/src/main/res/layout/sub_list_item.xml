@@ -18,8 +18,7 @@ android:paddingTop="@dimen/row_padding_vertical">
     android:layout_alignParentTop="true"
     android:textColor="@color/title"
     android:textSize="24sp"
-    android:textStyle="bold"
-    />
+    android:textStyle="bold"/>
 
 <TextView
     android:id="@+id/token"

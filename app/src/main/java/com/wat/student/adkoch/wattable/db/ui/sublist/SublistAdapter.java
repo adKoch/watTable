@@ -1,4 +1,4 @@
-package com.wat.student.adkoch.wattable.db.ui;
+package com.wat.student.adkoch.wattable.db.ui.sublist;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
