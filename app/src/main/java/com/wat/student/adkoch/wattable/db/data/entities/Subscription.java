@@ -1,12 +1,12 @@
 package com.wat.student.adkoch.wattable.db.data.entities;
 
 public final class Subscription {
-    private String name;
+    private String title;
     private String token;
 
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     public String getToken() {
@@ -15,8 +15,8 @@ public final class Subscription {
 
 
 
-    public Subscription(String name, String token) {
-        this.name = name;
+    public Subscription(String title, String token) {
+        this.title = title;
         this.token = token;
     }
 }

@@ -19,7 +19,7 @@ public final class DataAccess {
 
 
         Map<String, Object> subscription = new HashMap<>();
-        subscription.put("name",sub.getName());
+        subscription.put("name",sub.getTitle());
         subscription.put("token",sub.getToken());
 
         db.document("test/subscription").set(subscription).addOnSuccessListener(new OnSuccessListener<Void>() {

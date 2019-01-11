@@ -4,15 +4,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.wat.student.adkoch.wattable.R;
+import com.wat.student.adkoch.wattable.db.data.entities.Subscription;
 import com.wat.student.adkoch.wattable.db.ui.SublistAdapter;
+import com.wat.student.adkoch.wattable.db.ui.sublist.SublistRecyclerTouchListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SubListActivity extends AppCompatActivity {
 
@@ -44,11 +52,33 @@ public class SubListActivity extends AppCompatActivity {
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        // specify an adapter (see also next example)
-        String[] myData = {"Adam","NieAdam", "NieNieAdam", "NieNieNieAdam"};
+        // TODO exchange with getting sub list from db
+        final List<Subscription> myData = new ArrayList<>();
+        myData.add(new Subscription("Adam", "75GSF3$"));
+        myData.add(new Subscription("Ada", "354FG^D!"));
+        myData.add(new Subscription("Stefan", "DFS@7#F"));
+        myData.add(new Subscription("Janek", "432TSDr234SDF@"));
+        myData.add(new Subscription("Misiek", "gD%2s54"));
+        myData.add(new Subscription("Małek", "sGe%@#sdSD"));
+        myData.add(new Subscription("Kacper", "strf45sdf"));
+        myData.add(new Subscription("Melchior", "saf%dfASDF35S"));
 
         mAdapter = new SublistAdapter(myData);
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        mRecyclerView.addOnItemTouchListener(new SublistRecyclerTouchListener(getApplicationContext(), mRecyclerView, new SublistRecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Subscription sub = myData.get(position);
+                Toast.makeText(getApplicationContext(), sub.getTitle() + "is selected!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
         mRecyclerView.setAdapter(mAdapter);
     }
     @Override
