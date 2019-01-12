@@ -98,10 +98,6 @@ public class DayActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    private void goToAddSub(){
-        Intent intent = new Intent(this, AddSubActivity.class);
-        startActivity(intent);
-    }
     private void goToDay(){
         Intent intent = new Intent(this, DayActivity.class);
         startActivity(intent);
