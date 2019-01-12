@@ -31,7 +31,7 @@ public class DayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.day_toolbar);
         setSupportActionBar(toolbar);
 
         dayRecyclerView = (RecyclerView) findViewById(R.id.day_block_list_recycler_view);

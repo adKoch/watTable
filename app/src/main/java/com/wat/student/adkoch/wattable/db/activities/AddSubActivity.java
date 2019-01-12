@@ -20,7 +20,7 @@ public class AddSubActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_sub);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.add_sub_toolbar);
         final EditText subName = findViewById(R.id.subName);
         final EditText subToken = findViewById(R.id.subToken);
         setSupportActionBar(toolbar);
