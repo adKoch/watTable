@@ -57,8 +57,8 @@ public class WeekActivity extends AppCompatActivity {
         myData.add(new Block(7, new Date()));
         myData.add(new Block(1, "Analiza", "PZ", "Adam XYZ", 3, "095(S)","p",new Date()));
         myData.add(new Block(2, "coś innego", "PZ", "Adam XYZ", 4, "095(S)","p",new Date()));
-        myData.add(new Block(4, "Metodyki numeryczne", "Mn", "abc NieAdam", 1, "313(S)","Ćw",new Date()));
         myData.add(new Block(3, new Date()));
+        myData.add(new Block(4, "Metodyki numeryczne", "Mn", "abc NieAdam", 1, "313(S)","Ćw",new Date()));
         myData.add(new Block(5, new Date()));
         myData.add(new Block(6, "Analiza i wizualizacja danych", "Awd", "Adam Kochalniczak", 8, "224(065)","l",new Date()));
         myData.add(new Block(7, new Date()));
