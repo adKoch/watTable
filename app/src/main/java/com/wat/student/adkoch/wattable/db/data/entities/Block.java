@@ -1,5 +1,8 @@
 package com.wat.student.adkoch.wattable.db.data.entities;
 
+import com.google.firebase.Timestamp;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public final class Block {
@@ -10,7 +13,7 @@ public final class Block {
     private int blockNr;
     private String place;
     private String type;
-    private Date date;
+    private Timestamp date;
 
     public int getTimeBlockNr() {
         return timeBlockNr;
@@ -40,11 +43,11 @@ public final class Block {
         return type;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public Block(int timeBlockNr, String subjectName, String subjectNameShort, String director, int blockNr, String place, String type, Date date) {
+    public Block(int timeBlockNr, String subjectName, String subjectNameShort, String director, int blockNr, String place, String type, Timestamp date) {
         this.timeBlockNr = timeBlockNr;
         this.subjectName = subjectName;
         this.subjectNameShort = subjectNameShort;
@@ -54,10 +57,23 @@ public final class Block {
         this.type = type;
         this.date = date;
     }
-    public Block(int timeBlockNr, Date date){
+    public Block(int timeBlockNr, Timestamp date){
         this.timeBlockNr = timeBlockNr;
         this.date = date;
         blockNr=-1;
         timeBlockNr=-1;
+    }
+    public String getReadableDate(){
+        SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
+        return sfd.format(date.toDate());
+    }
+
+    public Block(String subjectName, String type, int timeBlockNr, String place, Timestamp date, int blockNr){
+        this.subjectName=subjectName;
+        this.type=type;
+        this.timeBlockNr=timeBlockNr;
+        this.place=place;
+        this.date=date;
+        this.blockNr=blockNr;
     }
 }

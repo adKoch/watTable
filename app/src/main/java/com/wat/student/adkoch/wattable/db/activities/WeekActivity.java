@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.Timestamp;
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import com.wat.student.adkoch.wattable.db.ui.ListRecyclerTouchListener;
@@ -48,27 +49,27 @@ public class WeekActivity extends AppCompatActivity {
 
         // TODO exchange with getting block from db
         final List<Block> myData = new ArrayList<>();
-        myData.add(new Block(1, "Programowanie zdarzeniowe", "PZ", "Adam XYZ", 3, "095(S)","p",new Date()));
-        myData.add(new Block(2, "Programowanie zdarzeniowe", "PZ", "Adam XYZ", 4, "095(S)","p",new Date()));
-        myData.add(new Block(3, "Metodyki numeryczne", "Mn", "abc NieAdam", 1, "313(S)","Ćw",new Date()));
-        myData.add(new Block(4, new Date()));
-        myData.add(new Block(5, new Date()));
-        myData.add(new Block(6, "Analiza i wizualizacja danych", "Awd", "Adam Kochalniczak", 8, "224(065)","l",new Date()));
-        myData.add(new Block(7, new Date()));
-        myData.add(new Block(1, "Analiza", "PZ", "Adam XYZ", 3, "095(S)","p",new Date()));
-        myData.add(new Block(2, "coś innego", "PZ", "Adam XYZ", 4, "095(S)","p",new Date()));
-        myData.add(new Block(3, new Date()));
-        myData.add(new Block(4, "Metodyki numeryczne", "Mn", "abc NieAdam", 1, "313(S)","Ćw",new Date()));
-        myData.add(new Block(5, new Date()));
-        myData.add(new Block(6, "Analiza i wizualizacja danych", "Awd", "Adam Kochalniczak", 8, "224(065)","l",new Date()));
-        myData.add(new Block(7, new Date()));
-        myData.add(new Block(1, "Programowanie zdarzeniowe", "PZ", "Adam XYZ", 3, "095(S)","p",new Date()));
-        myData.add(new Block(2, "Programowanie zdarzeniowe", "PZ", "Adam XYZ", 4, "095(S)","p",new Date()));
-        myData.add(new Block(3, "Metodyki numeryczne", "Mn", "abc NieAdam", 1, "313(S)","Ćw",new Date()));
-        myData.add(new Block(4, new Date()));
-        myData.add(new Block(5, new Date()));
-        myData.add(new Block(6, "Analiza i wizualizacja danych", "Awd", "Adam Kochalniczak", 8, "224(065)","l",new Date()));
-        myData.add(new Block(7, new Date()));
+        myData.add(new Block(1, "Programowanie zdarzeniowe", "PZ", "Adam XYZ", 3, "095(S)","p",new Timestamp(new Date())));
+        myData.add(new Block(2, "Programowanie zdarzeniowe", "PZ", "Adam XYZ", 4, "095(S)","p",new Timestamp(new Date())));
+        myData.add(new Block(3, "Metodyki numeryczne", "Mn", "abc NieAdam", 1, "313(S)","Ćw",new Timestamp(new Date())));
+        myData.add(new Block(4, new Timestamp(new Date())));
+        myData.add(new Block(5, new Timestamp(new Date())));
+        myData.add(new Block(6, "Analiza i wizualizacja danych", "Awd", "Adam Kochalniczak", 8, "224(065)","l",new Timestamp(new Date())));
+        myData.add(new Block(7, new Timestamp(new Date())));
+        myData.add(new Block(1, "Analiza", "PZ", "Adam XYZ", 3, "095(S)","p",new Timestamp(new Date())));
+        myData.add(new Block(2, "coś innego", "PZ", "Adam XYZ", 4, "095(S)","p",new Timestamp(new Date())));
+        myData.add(new Block(3, new Timestamp(new Date())));
+        myData.add(new Block(4, "Metodyki numeryczne", "Mn", "abc NieAdam", 1, "313(S)","Ćw",new Timestamp(new Date())));
+        myData.add(new Block(5, new Timestamp(new Date())));
+        myData.add(new Block(6, "Analiza i wizualizacja danych", "Awd", "Adam Kochalniczak", 8, "224(065)","l",new Timestamp(new Date())));
+        myData.add(new Block(7, new Timestamp(new Date())));
+        myData.add(new Block(1, "Programowanie zdarzeniowe", "PZ", "Adam XYZ", 3, "095(S)","p",new Timestamp(new Date())));
+        myData.add(new Block(2, "Programowanie zdarzeniowe", "PZ", "Adam XYZ", 4, "095(S)","p",new Timestamp(new Date())));
+        myData.add(new Block(3, "Metodyki numeryczne", "Mn", "abc NieAdam", 1, "313(S)","Ćw",new Timestamp(new Date())));
+        myData.add(new Block(4, new Timestamp(new Date())));
+        myData.add(new Block(5, new Timestamp(new Date())));
+        myData.add(new Block(6, "Analiza i wizualizacja danych", "Awd", "Adam Kochalniczak", 8, "224(065)","l",new Timestamp(new Date())));
+        myData.add(new Block(7, new Timestamp(new Date())));
 
         WeekAdapter = new WeekAdapter(myData);
         weekRecyclerView.addOnItemTouchListener(new ListRecyclerTouchListener(getApplicationContext(), weekRecyclerView, new ListRecyclerTouchListener.ClickListener() {
