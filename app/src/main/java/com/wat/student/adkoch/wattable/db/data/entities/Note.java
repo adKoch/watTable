@@ -22,4 +22,8 @@ public final class Note {
         this.description = description;
         this.author = author;
     }
+
+    public Note(){
+
+    }
 }

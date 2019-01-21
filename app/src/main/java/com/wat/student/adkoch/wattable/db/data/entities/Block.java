@@ -2,6 +2,7 @@ package com.wat.student.adkoch.wattable.db.data.entities;
 
 import com.google.firebase.Timestamp;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -67,6 +68,23 @@ public final class Block {
         SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
         return sfd.format(date.toDate());
     }
+    public Block(String subjectName, String type, int blockNr, String place, Timestamp date,int timeBlockNr){
+
+        String shortName="";
+        String[] part = subjectName.split(" ");
+        for (int i = 0; i < part.length; i++) {
+            String s = part[i];
+            shortName=shortName+s.charAt(0);
+        }
+        this.subjectNameShort=shortName;
+        this.subjectName=subjectName;
+        this.type=type;
+        this.blockNr=blockNr;
+        this.place=place;
+        this.date=date;
+        this.timeBlockNr=timeBlockNr;
+    }
+
 
     public Block(){
 
