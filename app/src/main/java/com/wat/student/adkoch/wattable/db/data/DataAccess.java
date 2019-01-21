@@ -7,6 +7,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -16,10 +17,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.auth.User;
+import com.google.firebase.firestore.model.Document;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import com.wat.student.adkoch.wattable.db.data.entities.Note;
 import com.wat.student.adkoch.wattable.db.data.entities.Subscription;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +30,13 @@ import java.util.Map;
 
 public final class DataAccess {
 
+    private static String userGroup="I6B2S1";
+
+
     private static String sublistRetrievalTAG = "Sublist retrieval";
+    private static String weekBlocksRetrievalTAG = "Week block list retrieval";
+    private static String dayBlocksRetrievalTAG = "Day block list retrieval";
+    private static String notelistRetrievalTAG = "Note list retrieval";
     private static String subAddTAG = "Sub addition";
 
     public static void putSub(Subscription sub){
@@ -37,17 +46,25 @@ public final class DataAccess {
         subscription.put("title",sub.getTitle());
         subscription.put("token",sub.getToken());
 
-        db.document("test/subscription").set(subscription).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d(subAddTAG,"Subscription added");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w(subAddTAG, "Adding Subscription failed :: ", e);
-            }
-        });
+        try{
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            String uid = user.getUid();
+            db.document("user/"+uid+"/sublist/"+sub.getToken()).set(subscription).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(subAddTAG,"Subscription added");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(subAddTAG, "Adding Subscription failed :: ", e);
+                }
+            });
+        } catch(Exception e){
+            Log.w(subAddTAG,"Fetching uid fail:" + e);
+        }
+
+
     }
 
     public static List<Subscription> getSubs() {
@@ -70,8 +87,6 @@ public final class DataAccess {
                      }
                  }
              });
-
-
         } catch(Exception e){
             Log.w(sublistRetrievalTAG,"Fetching subscription list fail:" + e);
         }
@@ -79,16 +94,81 @@ public final class DataAccess {
     }
 
     public static List<Block> getWeek(){
-        return null;
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final List<Block> blocklist = new ArrayList<>();
+        try{
+            db.collection("group/"+userGroup+"day/").get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for(QueryDocumentSnapshot document: task.getResult()){
+                                    try{
+                                        db.collection("group/"+userGroup+"day/"+document.getId()+"/table").get()
+                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                        if(task.isSuccessful()){
+                                                            for(QueryDocumentSnapshot document: task.getResult()){
+                                                                blocklist.add(document.toObject(Block.class));
+                                                                Log.d(weekBlocksRetrievalTAG,"Successful retrieval of block document: "+ document.getId());
+                                                            }
+                                                        } else {
+                                                            Log.w(weekBlocksRetrievalTAG,"Failed retrieval of block document: "+ task.getException());
+                                                        }
+                                                    }
+                                                });
+                                    } catch(Exception e){
+                                        Log.w(weekBlocksRetrievalTAG,"Failed retrieval of block: " + e);
+                                    }
+
+                                    Log.d(weekBlocksRetrievalTAG,"Successful retrieval of day document"+ document.getId());
+                                }
+                            } else {
+                                Log.w(weekBlocksRetrievalTAG,"Failed retrieval of day document: "+ task.getException());
+                            }
+                        }
+                    });
+        } catch(Exception e){
+            Log.w(sublistRetrievalTAG,"Fetching day fail:" + e);
+        }
+        return blocklist;
     }
 
-    public static List<Block> getDay(){
-        return null;
+    public static List<Block> getDay(Timestamp day){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final List<Block> blocklist = new ArrayList<>();
+        try{
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
+            String readDay = sfd.format(day.toDate());
+            db.collection("group/"+userGroup+"day/"+readDay+"/table").get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for(QueryDocumentSnapshot document: task.getResult()){
+                                    blocklist.add(document.toObject(Block.class));
+                                    Log.d(dayBlocksRetrievalTAG,"Successful retrieval of"+ document.getId());
+                                }
+                            } else {
+                                Log.w(dayBlocksRetrievalTAG,"Failed retrieval of document: "+ task.getException());
+                            }
+                        }
+                    });
+        } catch(Exception e){
+            Log.w(sublistRetrievalTAG,"Fetching subscription list fail:" + e);
+        }
+        return blocklist;
     }
 
     public static List<Note> getNotes(Block block){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         return null;
+    }
+
+    public static void putNote(Block block, Note note){
+
     }
 
     public static void putBlock(Block block){
@@ -115,5 +195,9 @@ public final class DataAccess {
                 Log.w("BlockAdd", "Adding Block failed :: ", e);
             }
         });
+    }
+
+    public static void setUserGroup(){
+
     }
 }

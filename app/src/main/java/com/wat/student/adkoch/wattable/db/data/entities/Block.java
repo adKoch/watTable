@@ -76,4 +76,8 @@ public final class Block {
         this.date=date;
         this.blockNr=blockNr;
     }
+
+    public Block(){
+
+    }
 }

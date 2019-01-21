@@ -19,4 +19,8 @@ public final class Subscription {
         this.title = title;
         this.token = token;
     }
+
+    public Subscription(){
+
+    }
 }
