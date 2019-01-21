@@ -4,11 +4,6 @@ public final class Note {
     private String title;
     private String description;
     private String author;
-    private boolean isPublic;
-
-    public boolean getIsPublic(){
-        return isPublic;
-    }
 
     public String getTitle() {
         return title;
@@ -22,10 +17,9 @@ public final class Note {
         return author;
     }
 
-    public Note(String title, String description, String author, boolean isPublic) {
+    public Note(String title, String description, String author) {
         this.title = title;
         this.description = description;
         this.author = author;
-        this.isPublic = isPublic;
     }
 }

@@ -10,14 +10,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
-import com.google.firebase.firestore.model.Document;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import com.wat.student.adkoch.wattable.db.data.entities.Note;
 import com.wat.student.adkoch.wattable.db.data.entities.Subscription;
@@ -36,8 +31,10 @@ public final class DataAccess {
     private static String sublistRetrievalTAG = "Sublist retrieval";
     private static String weekBlocksRetrievalTAG = "Week block list retrieval";
     private static String dayBlocksRetrievalTAG = "Day block list retrieval";
+    private static String grouplistRetrievalTAG = "Group list retrieval";
     private static String notelistRetrievalTAG = "Note list retrieval";
     private static String subAddTAG = "Sub addition";
+    private static String noteAddTAG = "Note addition";
 
     public static void putSub(Subscription sub){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -63,8 +60,6 @@ public final class DataAccess {
         } catch(Exception e){
             Log.w(subAddTAG,"Fetching uid fail:" + e);
         }
-
-
     }
 
     public static List<Subscription> getSubs() {
@@ -164,11 +159,50 @@ public final class DataAccess {
 
     public static List<Note> getNotes(Block block){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        return null;
+
+        final List<Note> notelist = new ArrayList<>();
+        try{
+            db.collection("group/"+userGroup+"day/"+block.getReadableDate()+"/table/"+block.getSubjectName()+"-"+block.getType()+block.getBlockNr()+"note/").get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for(QueryDocumentSnapshot document: task.getResult()){
+                                    notelist.add(document.toObject(Note.class));
+                                    Log.d(notelistRetrievalTAG,"Successful retrieval of"+ document.getId());
+                                }
+                            } else {
+                                Log.w(notelistRetrievalTAG,"Failed retrieval of document: "+ task.getException());
+                            }
+                        }
+                    });
+        } catch(Exception e){
+            Log.w(notelistRetrievalTAG,"Fetching note list fail:" + e);
+        }
+        return notelist;
     }
 
     public static void putNote(Block block, Note note){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+            //public Note(String title, String description, String author, boolean isPublic) {
+        Map<String, Object> newNote = new HashMap<>();
+        newNote.put("title",note.getTitle());
+        newNote.put("author",note.getAuthor());
+        newNote.put("description",note.getDescription());
+
+            db.document("group/"+userGroup+"day/"+block.getReadableDate()+"/table/"+block.getSubjectName()+"-"+block.getType()+block.getBlockNr()+"note/"+note.getAuthor()+note.getTitle())
+                    .set(newNote).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(noteAddTAG,"Note added");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(noteAddTAG,"Adding Note failed :: ", e);
+                }
+            });
     }
 
     public static void putBlock(Block block){
@@ -197,7 +231,31 @@ public final class DataAccess {
         });
     }
 
-    public static void setUserGroup(){
+    public static void setUserGroup(String group){
+        userGroup=group;
+    }
 
+    public static List<String> getAvailableGroups(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final List<String> grouplist = new ArrayList<>();
+        try{
+            db.collection("group").get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for(QueryDocumentSnapshot document: task.getResult()){
+                                    grouplist.add(document.getId());
+                                    Log.d(grouplistRetrievalTAG,"Successful retrieval of"+ document.getId());
+                                }
+                            } else {
+                                Log.w(grouplistRetrievalTAG,"Failed retrieval of document: "+ task.getException());
+                            }
+                        }
+                    });
+        } catch(Exception e){
+            Log.w(sublistRetrievalTAG,"Fetching subscription list fail:" + e);
+        }
+        return grouplist;
     }
 }

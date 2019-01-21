@@ -68,15 +68,6 @@ public final class Block {
         return sfd.format(date.toDate());
     }
 
-    public Block(String subjectName, String type, int timeBlockNr, String place, Timestamp date, int blockNr){
-        this.subjectName=subjectName;
-        this.type=type;
-        this.timeBlockNr=timeBlockNr;
-        this.place=place;
-        this.date=date;
-        this.blockNr=blockNr;
-    }
-
     public Block(){
 
     }
