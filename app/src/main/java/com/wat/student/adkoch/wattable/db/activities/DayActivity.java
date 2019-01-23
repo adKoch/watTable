@@ -2,23 +2,31 @@ package com.wat.student.adkoch.wattable.db.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.Query;
 import com.wat.student.adkoch.wattable.R;
+import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
+import com.wat.student.adkoch.wattable.db.data.entities.Subscription;
 import com.wat.student.adkoch.wattable.db.ui.ListRecyclerTouchListener;
 import com.wat.student.adkoch.wattable.db.ui.day.BlocklistAdapter;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -46,17 +54,26 @@ public class DayActivity extends AppCompatActivity {
         dayRecyclerView.setLayoutManager(dayLayoutManager);
         dayRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        // TODO exchange with getting block from db
-        final List<Block> myData = new ArrayList<>();
-        myData.add(new Block(1, "Programowanie zdarzeniowe", "PZ", "Adam XYZ", 3, "095(S)","p",new Timestamp(new Date())));
-        myData.add(new Block(2, "Programowanie zdarzeniowe", "PZ", "Adam XYZ", 4, "095(S)","p",new Timestamp(new Date())));
-        myData.add(new Block(3, "Metodyki numeryczne", "Mn", "abc NieAdam", 1, "313(S)","Ćw",new Timestamp(new Date())));
-        myData.add(new Block(4, new Timestamp(new Date())));
-        myData.add(new Block(5, new Timestamp(new Date())));
-        myData.add(new Block(6, "Analiza i wizualizacja danych", "Awd", "Adam Kochalniczak", 8, "224(065)","l",new Timestamp(new Date())));
-        myData.add(new Block(7, new Timestamp(new Date())));
+        final List<Block> myData = DataAccess.getDay(Timestamp.now());
 
-        dayAdapter = new BlocklistAdapter(myData);
+        Query query = DataAccess.getDayQuery(new Timestamp(new Date(119,1,23)));
+
+        FirestoreRecyclerOptions<Block> options = new FirestoreRecyclerOptions.Builder<Block>()
+                .setQuery(query, Block.class)
+                .build();
+        dayAdapter = new FirestoreRecyclerAdapter<Block, DayActivity.BlocklistViewHolder>(options) {
+            @Override
+            protected void onBindViewHolder(@NonNull DayActivity.BlocklistViewHolder holder, int position, @NonNull Block model) {
+                holder.setFields(model);
+            }
+
+            @NonNull
+            @Override
+            public DayActivity.BlocklistViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.day_item,viewGroup,false);
+                return new DayActivity.BlocklistViewHolder(view);
+            }
+        };
         dayRecyclerView.addOnItemTouchListener(new ListRecyclerTouchListener(getApplicationContext(), dayRecyclerView, new ListRecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
@@ -71,6 +88,41 @@ public class DayActivity extends AppCompatActivity {
         }));
         dayRecyclerView.setAdapter(dayAdapter);
     }
+
+    private static class BlocklistViewHolder extends RecyclerView.ViewHolder{
+        private TextView time, description, details;
+        private View view;
+        private final String[] blockTime= {"8:00  ", "9:50  ", "11:40", "13:30", "15:45", "17:35", "19:25"};
+
+        public BlocklistViewHolder(View v){
+            super(v);
+            time = (TextView) v.findViewById(R.id.time);
+            description = (TextView) v.findViewById(R.id.subject_description);
+            details = (TextView) v.findViewById(R.id.subject_details);
+        }
+
+        void setFields(Block block){
+            String displayDescription;
+            String displayDetails;
+            if(block.getPlace() == null || block.getBlockNr() == -1 || block.getType() == null || block.getDate() == null || block.getSubjectName() == null || block.getSubjectNameShort() == null || block.getTimeBlockNr() == -1){
+                displayDescription = " ";
+                displayDetails = " ";
+            } else {
+                if(null!=block.getDirector()){
+                    displayDetails = block.getDirector() + " " + block.getPlace();
+                } else {
+                    displayDetails =block.getPlace();
+                }
+
+                displayDescription = block.getSubjectName() + " (" + block.getType() + ") [" + block.getBlockNr() + "]";
+
+            }
+            time.setText(blockTime[block.getTimeBlockNr()-1] + "   ");
+            description.setText(displayDescription);
+            details.setText(displayDetails);
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

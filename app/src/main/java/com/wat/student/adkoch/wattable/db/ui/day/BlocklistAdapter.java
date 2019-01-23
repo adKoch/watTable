@@ -47,12 +47,18 @@ public class BlocklistAdapter extends RecyclerView.Adapter<BlocklistAdapter.Bloc
         Block block = mDataset.get(position);
         String displayDescription;
         String displayDetails;
-        if(block.getPlace() == null || block.getBlockNr() == -1 || block.getType() == null || block.getDate() == null || block.getDirector() == null || block.getSubjectName() == null || block.getSubjectNameShort() == null || block.getTimeBlockNr() == -1){
+        if(block.getPlace() == null || block.getBlockNr() == -1 || block.getType() == null || block.getDate() == null || block.getSubjectName() == null || block.getSubjectNameShort() == null || block.getTimeBlockNr() == -1){
             displayDescription = " ";
             displayDetails = " ";
         } else {
+            if(null==block.getDirector()){
+                displayDetails = block.getDirector() + " " + block.getPlace();
+            } else {
+                displayDetails =block.getPlace();
+            }
+
             displayDescription = block.getSubjectName() + " (" + block.getType() + ") [" + block.getBlockNr() + "]";
-            displayDetails = block.getDirector() + " " + block.getPlace();
+
         }
         holder.time.setText(blockTime[block.getTimeBlockNr()-1] + "   ");
         holder.description.setText(displayDescription);

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.wat.student.adkoch.wattable"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -29,9 +29,12 @@ dependencies {
     //firebase firestore
     implementation 'com.google.firebase:firebase-core:16.0.6'
     implementation 'com.google.firebase:firebase-firestore:17.1.5'
+    implementation 'com.firebaseui:firebase-ui-firestore:4.1.0'
     //firebase auth
     implementation 'com.google.firebase:firebase-auth:16.1.0'
     implementation 'com.firebaseui:firebase-ui-auth:4.1.0'
+
+
 
 }
 

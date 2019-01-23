@@ -1,6 +1,8 @@
 package com.wat.student.adkoch.wattable.db.activities;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
@@ -40,9 +43,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //createSignInIntent();
-        Intent intent = new Intent(this, DayActivity.class);
-        startActivity(intent);
+
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setTimestampsInSnapshotsEnabled(true)
+                .build();
+        firestore.setFirestoreSettings(settings);
+         createSignInIntent();
+        //Intent intent = new Intent(this, DayActivity.class);
+        //startActivity(intent);
+
     }
 
     public void createSignInIntent() {
