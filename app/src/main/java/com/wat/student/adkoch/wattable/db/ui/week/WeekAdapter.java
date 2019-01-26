@@ -44,7 +44,7 @@ public class WeekAdapter extends RecyclerView.Adapter<WeekAdapter.WeekViewHolder
         String displayDescription;
         String displayDetails;
         String displayLocation;
-        if(block.getPlace() == null || block.getBlockNr() == -1 || block.getType() == null || block.getDate() == null || block.getDirector() == null || block.getSubjectName() == null || block.getSubjectNameShort() == null || block.getTimeBlockNr() == -1){
+        if(block.getPlace() == null || block.getBlockNr() == -1 || block.getType() == null || block.getDirector() == null || block.getSubjectName() == null || block.getSubjectNameShort() == null || block.getTimeBlockNr() == -1){
             displayDescription = " ";
             displayDetails = " ";
             displayLocation = " ";
