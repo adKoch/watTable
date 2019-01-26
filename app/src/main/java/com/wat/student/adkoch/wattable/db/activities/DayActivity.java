@@ -44,7 +44,7 @@ public class DayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myData= new DayBlocklistContainer();
+
         setContentView(R.layout.activity_day);
         Toolbar toolbar = (Toolbar) findViewById(R.id.day_toolbar);
         setSupportActionBar(toolbar);
@@ -54,7 +54,10 @@ public class DayActivity extends AppCompatActivity {
         currentDate=new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(currentDate);
-        setTitle(daysOfTheWeek[cal.get(Calendar.DAY_OF_WEEK)-1]+" - "+cal.get(Calendar.DAY_OF_MONTH)+" "+months[cal.get(Calendar.MONTH)]);
+        int month=cal.get(Calendar.MONTH);
+        int day=cal.get(Calendar.DAY_OF_MONTH);
+        setTitle(daysOfTheWeek[cal.get(Calendar.DAY_OF_WEEK)-1]+" - "+cal.get(Calendar.DAY_OF_MONTH)+" "+months[month]);
+        myData= new DayBlocklistContainer(month+1,day);
         Query myQuery = DataAccess.getDayQuery(currentDate);
 
         myQuery.addSnapshotListener(this,new EventListener<QuerySnapshot>() {
@@ -66,9 +69,10 @@ public class DayActivity extends AppCompatActivity {
                 }
                 for(QueryDocumentSnapshot doc: queryDS){
                     Log.d("dodawanie do Day block",doc.getId());
-                    myData.put(doc.toObject(Block.class));
+                    myData.put(doc.toObject(Block.class),doc.getId());
                     dayAdapter.notifyDataSetChanged();
-                    noBlocksTextView.setVisibility(View.GONE);
+                    if(!myData.isEmpty()) noBlocksTextView.setVisibility(View.GONE);
+                    else noBlocksTextView.setVisibility(View.VISIBLE);
                 }
             }
         });
