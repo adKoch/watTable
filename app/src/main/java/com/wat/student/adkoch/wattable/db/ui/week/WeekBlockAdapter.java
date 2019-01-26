@@ -11,14 +11,14 @@ import com.wat.student.adkoch.wattable.db.data.entities.Block;
 
 import java.util.List;
 
-public class WeekAdapter extends RecyclerView.Adapter<WeekAdapter.WeekViewHolder>  {
+public class WeekBlockAdapter extends RecyclerView.Adapter<WeekBlockAdapter.WeekBlockViewHolder>  {
     private List<Block> mDataset;
 
     private final String[] blockTime= {"8:00  ", "9:50  ", "11:40", "13:30", "15:45", "17:35", "19:25"};
 
-    public static class WeekViewHolder extends RecyclerView.ViewHolder{
+    public static class WeekBlockViewHolder extends RecyclerView.ViewHolder{
         public TextView description, details, location;
-        public WeekViewHolder(View v){
+        public WeekBlockViewHolder(View v){
             super(v);
             description = (TextView) v.findViewById(R.id.subject_description);
             details = (TextView) v.findViewById(R.id.subject_details);
@@ -26,20 +26,20 @@ public class WeekAdapter extends RecyclerView.Adapter<WeekAdapter.WeekViewHolder
         }
     }
 
-    public WeekAdapter(List<Block> dataset){
+    public WeekBlockAdapter(List<Block> dataset){
         mDataset = dataset;
     }
 
     @Override
-    public WeekAdapter.WeekViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public WeekBlockViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.week_item, parent, false);
+                .inflate(R.layout.week_block_item, parent, false);
 
-        return new WeekAdapter.WeekViewHolder(v);
+        return new WeekBlockViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(WeekAdapter.WeekViewHolder holder, int position){
+    public void onBindViewHolder(WeekBlockViewHolder holder, int position){
         Block block = mDataset.get(position);
         String displayDescription;
         String displayDetails;

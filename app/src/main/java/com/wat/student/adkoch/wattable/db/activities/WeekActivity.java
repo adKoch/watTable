@@ -1,7 +1,6 @@
 package com.wat.student.adkoch.wattable.db.activities;
 
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,15 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.google.firebase.Timestamp;
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import com.wat.student.adkoch.wattable.db.ui.ListRecyclerTouchListener;
-import com.wat.student.adkoch.wattable.db.ui.week.WeekAdapter;
+import com.wat.student.adkoch.wattable.db.ui.week.WeekBlockAdapter;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class WeekActivity extends AppCompatActivity {
@@ -50,7 +46,7 @@ public class WeekActivity extends AppCompatActivity {
 
         final List<Block> myData = DataAccess.getWeek();
 
-        WeekAdapter = new WeekAdapter(myData);
+        WeekAdapter = new WeekBlockAdapter(myData);
         weekRecyclerView.addOnItemTouchListener(new ListRecyclerTouchListener(getApplicationContext(), weekRecyclerView, new ListRecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
