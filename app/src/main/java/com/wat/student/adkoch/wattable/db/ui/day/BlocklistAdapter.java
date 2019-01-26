@@ -8,10 +8,6 @@ import android.widget.TextView;
 
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
-import com.wat.student.adkoch.wattable.db.data.entities.Subscription;
-import com.wat.student.adkoch.wattable.db.ui.sublist.SublistAdapter;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -37,7 +33,7 @@ public class BlocklistAdapter extends RecyclerView.Adapter<BlocklistAdapter.Bloc
     @Override
     public BlocklistAdapter.BlocklistViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.day_item, parent, false);
+                .inflate(R.layout.day_block_item, parent, false);
 
         return new BlocklistAdapter.BlocklistViewHolder(v);
     }
@@ -45,9 +41,10 @@ public class BlocklistAdapter extends RecyclerView.Adapter<BlocklistAdapter.Bloc
     @Override
     public void onBindViewHolder(BlocklistAdapter.BlocklistViewHolder holder, int position){
         Block block = mDataset.get(position);
-        String displayDescription;
-        String displayDetails;
-        if(block.getPlace() == null || block.getBlockNr() == -1 || block.getType() == null || block.getDate() == null || block.getSubjectName() == null || block.getSubjectNameShort() == null || block.getTimeBlockNr() == -1){
+        String displayDescription="";
+        String displayDetails="";
+        String displayTime="";
+        if(block.getPlace() == null || block.getBlockNr() == -1 || block.getType() == null || block.getSubjectName() == null || block.getSubjectNameShort() == null || block.getTimeBlockNr() == -1){
             displayDescription = " ";
             displayDetails = " ";
         } else {
@@ -60,7 +57,8 @@ public class BlocklistAdapter extends RecyclerView.Adapter<BlocklistAdapter.Bloc
             displayDescription = block.getSubjectName() + " (" + block.getType() + ") [" + block.getBlockNr() + "]";
 
         }
-        holder.time.setText(blockTime[block.getTimeBlockNr()-1] + "   ");
+        if(block.getTimeBlockNr()>=1 && block.getTimeBlockNr()<=7) displayTime = blockTime[block.getTimeBlockNr()-1] + "   ";
+        holder.time.setText(displayTime);
         holder.description.setText(displayDescription);
         holder.details.setText(displayDetails);
     }

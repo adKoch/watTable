@@ -28,4 +28,11 @@
         android:scrollbars="vertical"
         android:paddingTop="?attr/actionBarSize"/>
 
+    <TextView
+        android:id="@+id/no_blocks_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/day_no_blocks_text" />
+
 </android.support.design.widget.CoordinatorLayout>

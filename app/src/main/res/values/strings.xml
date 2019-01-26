@@ -8,4 +8,5 @@
     <string name="sub_token_hint">Token</string>
     <string name="clear_button_text">Wyczyść</string>
     <string name="add_sub_button_text">Dodaj</string>
+    <string name="day_no_blocks_text">Brak zajęć!</string>
 </resources>

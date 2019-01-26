@@ -24,12 +24,15 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -49,10 +52,9 @@ public class MainActivity extends AppCompatActivity {
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
         firestore.setFirestoreSettings(settings);
-         createSignInIntent();
-        //Intent intent = new Intent(this, DayActivity.class);
-        //startActivity(intent);
-
+        //createSignInIntent();
+        Intent intent = new Intent(this, DayActivity.class);
+        startActivity(intent);
     }
 
     public void createSignInIntent() {

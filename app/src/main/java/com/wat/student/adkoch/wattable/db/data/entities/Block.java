@@ -2,9 +2,7 @@ package com.wat.student.adkoch.wattable.db.data.entities;
 
 import com.google.firebase.Timestamp;
 
-import java.sql.Time;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public final class Block {
     private int timeBlockNr;
@@ -14,7 +12,9 @@ public final class Block {
     private int blockNr;
     private String place;
     private String type;
-    private Timestamp date;
+    private int part;
+    private int month;
+    private int day;
 
     public int getTimeBlockNr() {
         return timeBlockNr;
@@ -44,11 +44,13 @@ public final class Block {
         return type;
     }
 
-    public Timestamp getDate() {
-        return date;
-    }
+    public int getPart(){ return part;}
 
-    public Block(int timeBlockNr, String subjectName, String subjectNameShort, String director, int blockNr, String place, String type, Timestamp date) {
+    public int getMonth() { return month;}
+
+    public int getDay() { return day;}
+
+    /*public Block(int timeBlockNr, String subjectName, String subjectNameShort, String director, int blockNr, String place, String type, Timestamp date) {
         this.timeBlockNr = timeBlockNr;
         this.subjectName = subjectName;
         this.subjectNameShort = subjectNameShort;
@@ -57,18 +59,27 @@ public final class Block {
         this.place = place;
         this.type = type;
         this.date = date;
+    }*/
+
+    public Block(int timeBlockNr, int blockNr, int part, int month, int day, String director, String place, String subjectName, String subjectNameShort, String type) {
+        this.timeBlockNr = timeBlockNr;
+        this.subjectName = subjectName;
+        this.subjectNameShort = subjectNameShort;
+        this.director = director;
+        this.blockNr = blockNr;
+        this.place = place;
+        this.type = type;
+        this.part=part;
+        this.month=month;
+        this.day=day;
     }
-    public Block(int timeBlockNr, Timestamp date){
+   /* public Block(int timeBlockNr, Timestamp date){
         this.timeBlockNr = timeBlockNr;
         this.date = date;
         blockNr=-1;
         timeBlockNr=-1;
-    }
-    public String getReadableDate(){
-        SimpleDateFormat sfd = new SimpleDateFormat("yyyy-MM-dd");
-        return sfd.format(date.toDate());
-    }
-    public Block(String subjectName, String type, int blockNr, String place, Timestamp date,int timeBlockNr){
+    }*/
+    public Block(String subjectName, String type, int blockNr, String place, int month, int day,int timeBlockNr){
 
         String shortName="";
         String[] part = subjectName.split(" ");
@@ -81,8 +92,12 @@ public final class Block {
         this.type=type;
         this.blockNr=blockNr;
         this.place=place;
-        this.date=date;
+        this.month=month;
+        this.day=day;
         this.timeBlockNr=timeBlockNr;
+        this.director="";
+        if(month<9) this.part=2;
+        else { this.part=1; }
     }
 
 
