@@ -168,10 +168,12 @@ public final class DataAccess {
         Calendar cal = Calendar.getInstance();
         cal.setTime(day);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        return db.collection("group/"+userGroup+"/"+semester)
+        return db.collection("semester/"+semester+"/"+userGroup)
                 .whereEqualTo("month",cal.get(Calendar.MONTH)+1)
                 .whereEqualTo("day",cal.get(Calendar.DAY_OF_MONTH));
     }
+
+
 
     public static List<Note> getNotes(Block block){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -236,7 +238,7 @@ public final class DataAccess {
         bl.put("month",block.getMonth());
         bl.put("day",block.getDay());
 
-        db.document("group/I6B2S1/2018Zima/"+ block.getPart()+"-"+block.getMonth() +"-"+block.getDay()+"-" +block.getTimeBlockNr()).set(bl).addOnSuccessListener(new OnSuccessListener<Void>() {
+        db.document("semester/2018Zima/I6B2S1/"+ block.getPart()+"-"+block.getMonth() +"-"+block.getDay()+"-" +block.getTimeBlockNr()).set(bl).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 Log.d("BlockAdd","Block added");
@@ -275,6 +277,14 @@ public final class DataAccess {
             Log.w(grouplistRetrievalTAG,"Fetching subscription list fail:" + e);
         }
         return grouplist;
+    }
+
+    public static String getUserGroup(){
+        return userGroup;
+    }
+
+    public static String getSemester(){
+        return semester;
     }
 
 }
