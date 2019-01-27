@@ -11,11 +11,11 @@ import com.wat.student.adkoch.wattable.db.data.entities.Note;
 
 import java.util.List;
 
-public class NotelistAdapter extends RecyclerView.Adapter<NotelistAdapter.NotelistViewHolder>  {
+public class NotelistAdapter extends RecyclerView.Adapter<NotelistAdapter.NotelistViewHolder> {
     private List<Note> mDataset;
 
     public static class NotelistViewHolder extends RecyclerView.ViewHolder{
-        public TextView title,author,description;
+        public TextView title, author, description;
         public NotelistViewHolder(View v){
             super(v);
             title = (TextView) v.findViewById(R.id.title);
@@ -33,11 +33,11 @@ public class NotelistAdapter extends RecyclerView.Adapter<NotelistAdapter.Noteli
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.note_item, parent, false);
 
-        return new NotelistAdapter.NotelistViewHolder(v);
+        return new NotelistViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(NotelistAdapter.NotelistViewHolder holder, int position){
+    public void onBindViewHolder(NotelistViewHolder holder, int position){
         Note note = mDataset.get(position);
         holder.title.setText(note.getTitle());
         holder.author.setText(note.getAuthor());

@@ -10,7 +10,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -216,29 +215,6 @@ public final class DataAccess {
         return notelist;
     }
 
-    public static void putNote(Block block, Note note){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-            //public Note(String title, String description, String author, boolean isPublic) {
-        Map<String, Object> newNote = new HashMap<>();
-        newNote.put("title",note.getTitle());
-        newNote.put("author",note.getAuthor());
-        newNote.put("description",note.getDescription());
-
-            db.document("group/"+userGroup+"day/"+"/table/"+block.getSubjectName()+"-"+block.getType()+block.getBlockNr()+"note/"+note.getAuthor()+note.getTitle())
-                    .set(newNote).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d(noteAddTAG,"Note added");
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(noteAddTAG,"Adding Note failed :: ", e);
-                }
-            });
-    }
-
     public static void putBlock(Block block){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -319,6 +295,51 @@ public final class DataAccess {
                 }
             }
         });
+    }
+
+    public static Query getNoteQuery(Block b){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        return db.collection("semester")
+                .document(semester)
+                .collection(userGroup)
+                .document(b.getPart()+"-"+b.getMonth()+"-"+b.getDay()+"-"+b.getTimeBlockNr())
+                .collection("notes");
+    }
+    public static void putNote(Block b,Note n){
+        final Block block = b;
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final HashMap<String,Object> note = new HashMap<>();
+        note.put("subjectName",n.getTitle());
+        note.put("subjectNameShort",n.getAuthor());
+        note.put("part",n.getDescription());
+
+
+                db.collection("semester")
+                .document(semester)
+                .collection(userGroup)
+                .document(b.getPart()+"-"+b.getMonth()+"-"+b.getDay()+"-"+b.getTimeBlockNr()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if(task.isSuccessful()){
+                            int index=(int) task.getResult().get("noteIndex");
+                            FirebaseFirestore.getInstance().collection("semester")
+                                    .document(semester)
+                                    .collection(userGroup)
+                                    .document(block.getPart()+"-"+block.getMonth()+"-"+block.getDay()+"-"+block.getTimeBlockNr())
+                                    .collection("notes")
+                                    .document("note-"+index).set(note).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Log.d("NotePut","Note added successfuly");
+                                    }
+                                }
+                            });
+                        }else {
+                            Log.w("NotePut","Fetching note index fail");
+                        }
+                    }
+                });
     }
 
 }

@@ -2,11 +2,12 @@ package com.wat.student.adkoch.wattable.db.data.entities;
 
 import com.google.firebase.Timestamp;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Block {
+public final class Block implements Serializable {
     private int timeBlockNr;
     private String subjectName;
     private String subjectNameShort;
