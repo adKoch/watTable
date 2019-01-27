@@ -22,6 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
+import com.wat.student.adkoch.wattable.db.ui.ListRecyclerTouchListener;
 import com.wat.student.adkoch.wattable.db.ui.day.BlocklistAdapter;
 import com.wat.student.adkoch.wattable.db.ui.day.DayBlocklistContainer;
 
@@ -40,6 +41,7 @@ public class DayActivity extends AppCompatActivity {
     private DayBlocklistContainer dayBlocklistContainer;
     private Date currentDate;
     private TextView noBlocksTextView;
+    private final AppCompatActivity thisActivity=this;
 
     private String TAG="DayActivity";
 
@@ -97,6 +99,23 @@ public class DayActivity extends AppCompatActivity {
         dayAdapter = new BlocklistAdapter(dayBlocklistContainer.getBlocklist());
 
         dayRecyclerView.setAdapter(dayAdapter);
+
+        dayRecyclerView.addOnItemTouchListener( new ListRecyclerTouchListener(this, dayRecyclerView, new ListRecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Block b = dayBlocklistContainer.getBlock(position);
+                if(null!=b){
+                    Intent intent = new Intent(thisActivity, BlockActivity.class);
+                    intent.putExtra("block",b);
+                    startActivity(intent);
+                }
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
     }
 
 

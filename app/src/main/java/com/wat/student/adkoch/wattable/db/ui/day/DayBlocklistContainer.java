@@ -56,6 +56,9 @@ public class DayBlocklistContainer {
         return 0;
     }
 
+    public Block getBlock(int index){
+        return blocklist.get(index);
+    }
     public ArrayList<Block> getBlocklist(){
         return blocklist;
     }

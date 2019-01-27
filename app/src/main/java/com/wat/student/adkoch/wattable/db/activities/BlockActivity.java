@@ -2,6 +2,7 @@ package com.wat.student.adkoch.wattable.db.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -26,6 +27,7 @@ import com.wat.student.adkoch.wattable.db.data.entities.Note;
 import com.wat.student.adkoch.wattable.db.ui.block.NotelistAdapter;
 import com.wat.student.adkoch.wattable.db.ui.day.BlocklistAdapter;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -52,9 +54,18 @@ public class BlockActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.block_toolbar);
         setSupportActionBar(toolbar);
 
+        notes=new ArrayList<>();
         block =(Block) getIntent().getSerializableExtra("block");
         description=findViewById(R.id.description);
         details=findViewById(R.id.details);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.block_page_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToAddNote();
+            }
+        });
 
         String displayDescription="";
         String displayDetails="";
@@ -66,7 +77,7 @@ public class BlockActivity extends AppCompatActivity {
 
         displayDescription = block.getSubjectName() + " (" + block.getType() + ") [" + block.getBlockNr() + "]";
 
-        setTitle(getCurrentDayOfTheWeek()+" - "+block.getDay()+" "+months[block.getMonth()-1]+" - "+blockTime[block.getTimeBlockNr()-1]);
+        setTitle(getCurrentDayOfTheWeek()+" - "+block.getDay()+" "+months[block.getMonth()-1]+" - "+blockTime[block.getTimeBlockNr()-1]+"("+ block.getTimeBlockNr()+")");
         description.setText(displayDescription);
         details.setText(displayDetails);
 
@@ -105,6 +116,11 @@ public class BlockActivity extends AppCompatActivity {
         noteAdapter = new NotelistAdapter(notes);
 
         noteRecyclerView.setAdapter(noteAdapter);
+    }
+
+    private void goToAddNote() {
+        Intent intent = new Intent(this, AddNoteActivity.class);
+        startActivity(intent);
     }
 
     @Override

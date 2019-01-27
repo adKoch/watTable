@@ -17,29 +17,50 @@ android:theme="@style/AppTheme.AppBarOverlay">
     android:layout_height="?attr/actionBarSize"
     android:background="@color/colorPrimary"
     app:popupTheme="@style/AppTheme.PopupOverlay" />
+</android.support.design.widget.AppBarLayout>
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="match_parent"
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/title"
-        android:textStyle="bold"/>
+        android:paddingTop="?attr/actionBarSize">
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/title"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:paddingStart="10sp"
+            android:paddingEnd="10sp"/>
 
-    <TextView
-        android:id="@+id/details"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/subject_description"
-        android:textColor="@color/token"/>
+        <TextView
+            android:id="@+id/details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/description"
+            android:textColor="@color/token"
+            android:textSize="20sp"
+            android:paddingStart="10sp"
+            android:paddingEnd="10sp"/>
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/note_list_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
-        android:paddingTop="50dp"
+        android:paddingTop="80dp"
         android:paddingStart="30dp"
-        android:paddingEnd="30dp"/>
+        android:paddingEnd="30dp"
+        />
 
-</android.support.design.widget.AppBarLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/block_page_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:backgroundTint="@color/common_google_signin_btn_text_dark_default"
+        app:elevation="5dp"
+        app:srcCompat="@android:drawable/ic_input_add" />
 </android.support.design.widget.CoordinatorLayout>
