@@ -313,8 +313,6 @@ public final class DataAccess {
         note.put("subjectName",n.getTitle());
         note.put("subjectNameShort",n.getAuthor());
         note.put("part",n.getDescription());
-
-
                 db.collection("semester")
                 .document(semester)
                 .collection(userGroup)
@@ -336,6 +334,12 @@ public final class DataAccess {
                                     }
                                 }
                             });
+                            FirebaseFirestore.getInstance().collection("semester")
+                                    .document(semester)
+                                    .collection(userGroup)
+                                    .document(block.getPart()+"-"+block.getMonth()+"-"+block.getDay()+"-"+block.getTimeBlockNr())
+                                    .update("noteIndex",++index);
+
                         }else {
                             Log.w("NotePut","Fetching note index fail");
                         }
