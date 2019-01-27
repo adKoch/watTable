@@ -31,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
                 .build();
         firestore.setFirestoreSettings(settings);
         DataAccess.setSemesterRanges();
-        //createSignInIntent();
-        Intent intent = new Intent(this, DayActivity.class);
-        startActivity(intent);
+        createSignInIntent();
+        //Intent intent = new Intent(this, DayActivity.class);
+        //startActivity(intent);
     }
 
     public void createSignInIntent() {

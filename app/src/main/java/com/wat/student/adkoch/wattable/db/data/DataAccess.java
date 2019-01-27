@@ -305,6 +305,7 @@ public final class DataAccess {
                 .document(b.getPart()+"-"+b.getMonth()+"-"+b.getDay()+"-"+b.getTimeBlockNr())
                 .collection("notes");
     }
+
     public static void putNote(Block b,Note n){
         final Block block = b;
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -341,5 +342,17 @@ public final class DataAccess {
                     }
                 });
     }
+
+    public static String getUserToken(){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid="";
+        try{
+            uid = user.getUid();
+        }catch (Exception e){
+            Log.w("getUid","failed fetching uid: "+e);
+        }
+        return uid.substring(0,12);
+    }
+
 
 }

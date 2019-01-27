@@ -9,4 +9,7 @@
     <string name="clear_button_text">Wyczyść</string>
     <string name="add_sub_button_text">Dodaj</string>
     <string name="day_no_blocks_text">Brak zajęć!</string>
+    <string name="add_note_button_text">dodaj</string>
+    <string name="note_title_hint">Tytuł notatki</string>
+    <string name="note_description_hint_text">Tutaj wpisz treść...</string>
 </resources>

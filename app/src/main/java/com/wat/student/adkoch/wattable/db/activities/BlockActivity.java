@@ -120,6 +120,7 @@ public class BlockActivity extends AppCompatActivity {
 
     private void goToAddNote() {
         Intent intent = new Intent(this, AddNoteActivity.class);
+        intent.putExtra("block",block);
         startActivity(intent);
     }
 
