@@ -17,12 +17,13 @@ public class BlocklistAdapter extends RecyclerView.Adapter<BlocklistAdapter.Bloc
     private final String[] blockTime= {"8:00  ", "9:50  ", "11:40", "13:30", "15:45", "17:35", "19:25"};
 
     public static class BlocklistViewHolder extends RecyclerView.ViewHolder{
-        public TextView time, description, details;
+        public TextView time, description, details, noteCount;
         public BlocklistViewHolder(View v){
             super(v);
             time = (TextView) v.findViewById(R.id.time);
             description = (TextView) v.findViewById(R.id.subject_description);
             details = (TextView) v.findViewById(R.id.subject_details);
+            noteCount = (TextView) v.findViewById(R.id.note_count);
         }
     }
 
@@ -44,6 +45,7 @@ public class BlocklistAdapter extends RecyclerView.Adapter<BlocklistAdapter.Bloc
         String displayDescription="";
         String displayDetails="";
         String displayTime="";
+        String displayNoteCount="";
         if(block.getPlace() == null || block.getBlockNr() == -1 || block.getType() == null || block.getSubjectName() == null || block.getSubjectNameShort() == null || block.getTimeBlockNr() == -1){
             displayDescription = " ";
             displayDetails = " ";
@@ -57,10 +59,17 @@ public class BlocklistAdapter extends RecyclerView.Adapter<BlocklistAdapter.Bloc
             displayDescription = block.getSubjectName() + " (" + block.getType() + ") [" + block.getBlockNr() + "]";
 
         }
+        if(block.getNoteCount()>0){
+            displayNoteCount= ""+block.getNoteCount();
+            holder.noteCount.setVisibility(View.VISIBLE);
+        } else {
+            holder.noteCount.setVisibility(View.INVISIBLE);
+        }
         if(block.getTimeBlockNr()>=1 && block.getTimeBlockNr()<=7) displayTime = blockTime[block.getTimeBlockNr()-1] + "   ";
         holder.time.setText(displayTime);
         holder.description.setText(displayDescription);
         holder.details.setText(displayDetails);
+        holder.noteCount.setText(displayNoteCount);
     }
 
     @Override
