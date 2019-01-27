@@ -168,6 +168,8 @@ public class WeekActivity extends AppCompatActivity{
 
                         weekBlockAdapter.notifyDataSetChanged();
                         weekDateAdapter.notifyDataSetChanged();
+                        weekBlockLayoutManager.scrollToPosition(weekBlocklistContainer.getDayIndex(new Date())*7);
+                        weekDateLayoutManager.scrollToPosition(weekBlocklistContainer.getDayIndex(new Date()));
                     } else {
                         Log.w(TAG,"Failure fetching days for the given day");
                     }

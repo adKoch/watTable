@@ -96,4 +96,10 @@ public class WeekBlocklistContainer {
         return (int) ((d2.getTime()-d1.getTime())/(1000*60*60*24));
     }
 
+    public int getDayIndex(Date date){
+        int days=getDaysCountBetween(startDate.getTime(),date);
+        if(days+7<count) days+=7;
+        return days;
+    }
+
 }
