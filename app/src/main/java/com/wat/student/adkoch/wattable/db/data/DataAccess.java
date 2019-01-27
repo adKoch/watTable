@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -41,6 +42,17 @@ public final class DataAccess {
     private static String notelistRetrievalTAG = "NotelistRetrieval";
     private static String subAddTAG = "SubAddition";
     private static String noteAddTAG = "NoteAddition";
+
+    private static Timestamp semesterStart;
+    private static Timestamp semesterEnd;
+
+    public static Timestamp getSemesterStart(){
+        return semesterStart;
+    }
+    public static Timestamp getSemesterEnd(){
+        return semesterEnd;
+    }
+
 
     public static void putSub(Subscription sub){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -164,6 +176,10 @@ public final class DataAccess {
         return blocklist;
     }
 
+    public static Query getTimetableQuery(){
+        return FirebaseFirestore.getInstance().collection("semester").document(semester).collection(userGroup);
+    }
+
     public static Query getDayQuery(Date day){
         Calendar cal = Calendar.getInstance();
         cal.setTime(day);
@@ -285,6 +301,24 @@ public final class DataAccess {
 
     public static String getSemester(){
         return semester;
+    }
+
+    public static void setSemesterRanges(){
+        DocumentReference doc = FirebaseFirestore.getInstance().document("semester/"+DataAccess.getSemester());
+        doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot ds = task.getResult();
+                    semesterStart=(Timestamp) ds.get("semesterStart");
+                    semesterEnd=(Timestamp) ds.get("semesterEnd");
+
+                    Log.d("WeekFetch","Fetch week ranges successful start: "+new SimpleDateFormat("dd/MM/yyyy").format(semesterStart.toDate()) +", end: "+new SimpleDateFormat("dd/MM/yyyy").format(semesterEnd.toDate()));
+                }else {
+                    Log.w("WeekFetch","Fetchind week ranges unsuccessful");
+                }
+            }
+        });
     }
 
 }

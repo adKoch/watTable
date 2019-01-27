@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,8 +25,10 @@ import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import com.wat.student.adkoch.wattable.db.ui.day.BlocklistAdapter;
 import com.wat.student.adkoch.wattable.db.ui.day.DayBlocklistContainer;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -34,9 +37,11 @@ public class DayActivity extends AppCompatActivity {
     private RecyclerView dayRecyclerView;
     private RecyclerView.Adapter dayAdapter;
     private RecyclerView.LayoutManager dayLayoutManager;
-    private DayBlocklistContainer myData;
+    private DayBlocklistContainer dayBlocklistContainer;
     private Date currentDate;
     private TextView noBlocksTextView;
+
+    private String TAG="DayActivity";
 
     private static final String[] months = {"Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"};
     private static final String[] daysOfTheWeek = { "Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"};
@@ -57,23 +62,23 @@ public class DayActivity extends AppCompatActivity {
         int month=cal.get(Calendar.MONTH);
         int day=cal.get(Calendar.DAY_OF_MONTH);
         setTitle(daysOfTheWeek[cal.get(Calendar.DAY_OF_WEEK)-1]+" - "+cal.get(Calendar.DAY_OF_MONTH)+" "+months[month]);
-        myData= new DayBlocklistContainer(month+1,day);
+        dayBlocklistContainer = new DayBlocklistContainer(month+1,day);
         Query myQuery = DataAccess.getDayQuery(currentDate);
 
         myQuery.addSnapshotListener(this,new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDS, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
-                    Log.w("OChuj", "Listen failed.", e);
+                    Log.w(TAG, "Listen failed.", e);
                     return;
                 }
                 for(QueryDocumentSnapshot doc: queryDS){
-                    Log.d("dodawanie do Day block",doc.getId());
-                    myData.put(doc.toObject(Block.class),doc.getId());
-                    dayAdapter.notifyDataSetChanged();
-                    if(!myData.isEmpty()) noBlocksTextView.setVisibility(View.GONE);
-                    else noBlocksTextView.setVisibility(View.VISIBLE);
+                    Log.d(TAG,"dodawanie do Day block: "+doc.getId());
+                    dayBlocklistContainer.put(doc.toObject(Block.class),doc.getId());
                 }
+                dayAdapter.notifyDataSetChanged();
+                if(!dayBlocklistContainer.isEmpty()) noBlocksTextView.setVisibility(View.GONE);
+                else noBlocksTextView.setVisibility(View.VISIBLE);
             }
         });
 
@@ -89,7 +94,7 @@ public class DayActivity extends AppCompatActivity {
         dayRecyclerView.setLayoutManager(dayLayoutManager);
         dayRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        dayAdapter = new BlocklistAdapter(myData.getBlocklist());
+        dayAdapter = new BlocklistAdapter(dayBlocklistContainer.getBlocklist());
 
         dayRecyclerView.setAdapter(dayAdapter);
     }

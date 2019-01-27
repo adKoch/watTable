@@ -5,4 +5,5 @@
     <color name="colorAccent">#D81B60</color>
     <color name="token">#999999</color>
     <color name="title">#222222</color>
+    <color name="weekDate">#989898</color>
 </resources>

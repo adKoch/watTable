@@ -20,12 +20,20 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
-
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/week_recycler_view"
-        android:layout_width="match_parent"
+        android:id="@+id/week_date_recycler_view"
+        android:layout_width="40dp"
         android:layout_height="wrap_content"
         android:paddingTop="?attr/actionBarSize"
-        android:scrollbars="vertical" />
+        android:background="@color/weekDate"
+        android:scrollbars="none" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/week_block_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_marginStart="40dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="?attr/actionBarSize"
+        android:scrollbars="none" />
+
 
 </android.support.design.widget.CoordinatorLayout>

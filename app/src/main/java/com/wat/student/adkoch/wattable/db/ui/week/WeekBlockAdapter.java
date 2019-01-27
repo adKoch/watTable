@@ -55,6 +55,9 @@ public class WeekBlockAdapter extends RecyclerView.Adapter<WeekBlockAdapter.Week
         }
         holder.description.setText(displayDescription);
         holder.details.setText(displayDetails);
+        if(displayLocation.length()>5){
+            displayLocation=displayLocation.substring(0,5)+"...";
+        }
         holder.location.setText(displayLocation);
     }
 
