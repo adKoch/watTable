@@ -41,6 +41,7 @@ public class SubListActivity extends AppCompatActivity {
     private FirestoreRecyclerAdapter<Subscription, SublistViewHolder> recyclerAdapter;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
+    private final AppCompatActivity thisActivity=this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +88,10 @@ public class SubListActivity extends AppCompatActivity {
         mRecyclerView.addOnItemTouchListener(new ListRecyclerTouchListener(getApplicationContext(), mRecyclerView, new ListRecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
-                //Subscription sub = myData.get(position);
-                //Toast.makeText(getApplicationContext(), sub.getTitle() + "is selected!", Toast.LENGTH_SHORT).show();
+                Subscription sub = recyclerAdapter.getItem(position);
+                Intent intent = new Intent(thisActivity, AddSubActivity.class);
+                intent.putExtra("sub",sub);
+                startActivity(intent);
             }
 
             @Override
@@ -103,11 +106,9 @@ public class SubListActivity extends AppCompatActivity {
 
     private static class SublistViewHolder extends RecyclerView.ViewHolder{
         private TextView title, token;
-        private View view;
 
         SublistViewHolder(View v){
             super(v);
-            view=v;
             title = (TextView) v.findViewById(R.id.title);
             token = (TextView) v.findViewById(R.id.token);
         }

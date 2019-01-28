@@ -1,6 +1,8 @@
 package com.wat.student.adkoch.wattable.db.data.entities;
 
-public final class Subscription {
+import java.io.Serializable;
+
+public final class Subscription implements Serializable {
     private String title;
 
     public void setTitle(String title) {

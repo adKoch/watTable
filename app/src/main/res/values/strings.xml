@@ -12,4 +12,5 @@
     <string name="add_note_button_text">dodaj</string>
     <string name="note_title_hint">Tytuł notatki</string>
     <string name="note_description_hint_text">Tutaj wpisz treść...</string>
+    <string name="delete_sub_button_text">Usuń</string>
 </resources>

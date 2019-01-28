@@ -79,6 +79,27 @@ public final class DataAccess {
         }
     }
 
+    public static void deleteSub(Subscription sub){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        try{
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            String uid = user.getUid();
+            db.document("user/"+uid+"/sublist/"+sub.getToken()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    Log.d(subAddTAG,"Subscription successfully deleted");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.w(subAddTAG, "Deleting Subscription failed : ", e);
+                }
+            });
+        } catch(Exception e){
+            Log.w(subAddTAG,"Fetching uid fail:" + e);
+        }
+    }
+
     public static List<Subscription> getSubs() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final List<Subscription> sublist = new ArrayList<>();

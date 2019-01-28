@@ -9,37 +9,83 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.DataAccess;
+import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import com.wat.student.adkoch.wattable.db.data.entities.Subscription;
 
 public class AddSubActivity extends AppCompatActivity {
-
+    Subscription sub;
+    Button addSubButton, clearButton, deleteButton;
+    EditText subName, subToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_sub);
         Toolbar toolbar = (Toolbar) findViewById(R.id.add_sub_toolbar);
-        final EditText subName = findViewById(R.id.subName);
-        final EditText subToken = findViewById(R.id.subToken);
+
+        subName = findViewById(R.id.subName);
+        subToken = findViewById(R.id.subToken);
+
+        addSubButton = findViewById(R.id.addButton);
+        deleteButton = findViewById(R.id.delete_sub_button);
+        clearButton = findViewById(R.id.clearButton);
+
         setSupportActionBar(toolbar);
-        Button addSubButton = findViewById(R.id.addButton);
+
+        sub =(Subscription) getIntent().getSerializableExtra("sub");
+        checkState();
+
+        final Toast successfullAddToast= Toast.makeText(this,"Pomyślnie dodano subskrypcję!",Toast.LENGTH_SHORT);
+        final Toast successfullDeleteToast= Toast.makeText(this,"Pomyślnie usunięto subskrypcję!",Toast.LENGTH_SHORT);
+        final Toast successfullEditToast= Toast.makeText(this,"Pomyślnie zedytowano subskrypcję!",Toast.LENGTH_SHORT);
+
         addSubButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if(checkFields(subName.getText().toString(), subToken.getText().toString())){
+                    if(null!=sub){
+                        DataAccess.deleteSub(sub);
+                        successfullEditToast.show();
+                    } else {
+                        successfullAddToast.show();
+                    }
+
                     addSub(subName.getText().toString(), subToken.getText().toString());
                     goToSubs();
                 }
             }
         });
-        Button clearButton = findViewById(R.id.clearButton);
+
         clearButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 subName.setText("");
                 subToken.setText("");
             }
         });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataAccess.deleteSub(sub);
+                successfullDeleteToast.show();
+                goToSubs();
+            }
+        });
+    }
+
+    private void checkState(){
+        if(null==sub){
+            deleteButton.setVisibility(View.INVISIBLE);
+            subName.setText("");
+            subToken.setText("");
+        } else {
+            deleteButton.setVisibility(View.VISIBLE);
+            subName.setText(sub.getTitle());
+            subToken.setText(sub.getToken());
+            addSubButton.setText("Edytuj");
+        }
     }
 
     private void addSub(String subName, String subToken){
