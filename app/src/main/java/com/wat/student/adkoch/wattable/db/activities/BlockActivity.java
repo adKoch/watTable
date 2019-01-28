@@ -81,24 +81,6 @@ public class BlockActivity extends AppCompatActivity {
         description.setText(displayDescription);
         details.setText(displayDetails);
 
-        Query myQuery = DataAccess.getNoteQuery(block);
-
-        myQuery.addSnapshotListener(this,new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot queryDS, @Nullable FirebaseFirestoreException e) {
-                if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
-                    return;
-                }
-                for(QueryDocumentSnapshot doc: queryDS){
-                    Log.d(TAG,"dodawanie do Block activity: "+doc.getId());
-                    notes.add(doc.toObject(Note.class));
-                }
-                noteAdapter.notifyDataSetChanged();
-            }
-        });
-
-
         noteRecyclerView = (RecyclerView) findViewById(R.id.note_list_recycler_view);
 
         // use this setting to improve performance if you know that changes
@@ -116,6 +98,23 @@ public class BlockActivity extends AppCompatActivity {
         noteAdapter = new NotelistAdapter(notes);
 
         noteRecyclerView.setAdapter(noteAdapter);
+
+        Query myQuery = DataAccess.getNoteQuery(block);
+
+        myQuery.addSnapshotListener(this,new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDS, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+                for(QueryDocumentSnapshot doc: queryDS){
+                    Log.d(TAG,"dodawanie do Block activity: "+doc.getId());
+                    notes.add(doc.toObject(Note.class));
+                }
+                noteAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private void goToAddNote() {

@@ -20,6 +20,52 @@ public final class Block implements Serializable {
     private int day;
     private int noteCount;
 
+    public void setTimeBlockNr(int timeBlockNr) {
+        this.timeBlockNr = timeBlockNr;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
+
+    public void setSubjectNameShort(String subjectNameShort) {
+        this.subjectNameShort = subjectNameShort;
+    }
+
+    public void setDirector(String director) {
+        this.director = director;
+    }
+
+    public void setBlockNr(int blockNr) {
+        this.blockNr = blockNr;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setPart(int part) {
+        this.part = part;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public void setNoteCount(int noteCount) {
+        this.noteCount = noteCount;
+    }
+
+
+
     public int getTimeBlockNr() {
         return timeBlockNr;
     }

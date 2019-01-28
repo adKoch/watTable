@@ -310,17 +310,25 @@ public final class DataAccess {
         final Block block = b;
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final HashMap<String,Object> note = new HashMap<>();
-        note.put("subjectName",n.getTitle());
-        note.put("subjectNameShort",n.getAuthor());
-        note.put("part",n.getDescription());
+        note.put("title",n.getTitle());
+        note.put("author",n.getAuthor());
+        note.put("description",n.getDescription());
                 db.collection("semester")
                 .document(semester)
                 .collection(userGroup)
-                .document(b.getPart()+"-"+b.getMonth()+"-"+b.getDay()+"-"+b.getTimeBlockNr()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                .document(block.getPart()+"-"+block.getMonth()+"-"+block.getDay()+"-"+block.getTimeBlockNr())
+                        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful()){
-                            int index=(int) task.getResult().get("noteIndex");
+                            long index=0;
+                            try{
+                                index=(long) (task.getResult().get("noteIndex"));
+
+                            }catch (Exception e){
+                                Log.w("NotePut","Fetching note index fail: "+e);
+                            }
+                            index++;
                             FirebaseFirestore.getInstance().collection("semester")
                                     .document(semester)
                                     .collection(userGroup)
@@ -338,10 +346,15 @@ public final class DataAccess {
                                     .document(semester)
                                     .collection(userGroup)
                                     .document(block.getPart()+"-"+block.getMonth()+"-"+block.getDay()+"-"+block.getTimeBlockNr())
-                                    .update("noteIndex",++index);
+                                    .update("noteIndex",index);
+                            FirebaseFirestore.getInstance().collection("semester")
+                                    .document(semester)
+                                    .collection(userGroup)
+                                    .document(block.getPart()+"-"+block.getMonth()+"-"+block.getDay()+"-"+block.getTimeBlockNr())
+                                    .update("noteCount",index);
 
                         }else {
-                            Log.w("NotePut","Fetching note index fail");
+                            Log.w("NotePut","Fetching block notes");
                         }
                     }
                 });

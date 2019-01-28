@@ -15,21 +15,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:textColor="@color/token"
+        android:textColor="@color/title"
         android:gravity="start|top"
-        android:textSize="20sp"/>
+        android:textSize="20sp"
+        android:textStyle="bold"/>
     <TextView
         android:id="@+id/author"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/title"
-        android:gravity="end|top"
-        android:textStyle="bold"/>
+        android:textColor="@color/token"
+        android:gravity="end|top" />
     <TextView
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:layout_marginTop="10dp"
-        android:textColor="@color/token"/>
+        android:textColor="@color/title"/>
 </RelativeLayout>

@@ -2,6 +2,15 @@ package com.wat.student.adkoch.wattable.db.data.entities;
 
 public final class Subscription {
     private String title;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     private String token;
 
 

@@ -104,7 +104,7 @@ public class DayActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
                 Block b = dayBlocklistContainer.getBlock(position);
-                if(null!=b){
+                if(null!=b.getSubjectName()){
                     Intent intent = new Intent(thisActivity, BlockActivity.class);
                     intent.putExtra("block",b);
                     startActivity(intent);
