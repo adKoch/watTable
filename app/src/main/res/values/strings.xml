@@ -13,4 +13,5 @@
     <string name="note_title_hint">Tytuł notatki</string>
     <string name="note_description_hint_text">Tutaj wpisz treść...</string>
     <string name="delete_sub_button_text">Usuń</string>
+    <string name="login_text">Zaloguj</string>
 </resources>
