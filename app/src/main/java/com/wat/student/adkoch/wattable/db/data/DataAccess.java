@@ -100,32 +100,6 @@ public final class DataAccess {
         }
     }
 
-    public static List<Subscription> getSubs() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final List<Subscription> sublist = new ArrayList<>();
-        try{
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            String uid = user.getUid();
-             db.collection("user").document(uid).collection("sublist").get()
-                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                 @Override
-                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                     if(task.isSuccessful()){
-                         for(QueryDocumentSnapshot document: task.getResult()){
-                             sublist.add(new Subscription(document.get("title").toString(),document.get("token").toString()));
-                             Log.d(sublistRetrievalTAG,"Successful retrieval of"+ document.getId());
-                         }
-                     } else {
-                         Log.w(sublistRetrievalTAG,"Failed retrieval of document: "+ task.getException());
-                     }
-                 }
-             });
-        } catch(Exception e){
-            Log.w(sublistRetrievalTAG,"Fetching subscription list fail:" + e);
-        }
-        return sublist;
-    }
-
     public static Query getSublistQuery(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Query query = null;
@@ -140,62 +114,6 @@ public final class DataAccess {
         return query;
     }
 
-    public static List<Block> getWeek(){
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final List<Block> blocklist = new ArrayList<>();
-        try{
-                                        db.collection("group/"+userGroup+"/block/").get()
-                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                        if(task.isSuccessful()){
-                                                            for(QueryDocumentSnapshot document: task.getResult()){
-                                                                Block b =document.toObject(Block.class);
-                                                                blocklist.add(b);
-                                                            }
-                                                        } else {
-                                                            Log.w(weekBlocksRetrievalTAG,"Failed retrieval of block document: "+ task.getException());
-                                                        }
-                                                    }
-                                                });
-
-
-        } catch(Exception e){
-            Log.w(weekBlocksRetrievalTAG,"Fetching week fail:" + e);
-        }
-        return blocklist;
-    }
-
-    public static ArrayList<Block> getDay(Date day){
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(day);
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final ArrayList<Block> blocklist = new ArrayList<>();
-        try{
-         db.collection("group/"+userGroup+"/"+semester)
-                 .whereEqualTo("month",cal.get(Calendar.MONTH))
-                 .whereEqualTo("day",cal.get(Calendar.DAY_OF_MONTH))
-                 .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
-                                for(QueryDocumentSnapshot document: task.getResult()){
-                                    Block b = document.toObject(Block.class);
-                                    blocklist.add(b);
-                                    Log.d(dayBlocksRetrievalTAG,"Successful retrieval of"+ b.getSubjectName()+"-"+b.getType()+b.getBlockNr());
-                                }
-                            } else {
-                                Log.w(dayBlocksRetrievalTAG,"Failed retrieval of document: "+ task.getException());
-                            }
-                        }
-                    });
-        } catch(Exception e){
-            Log.w(dayBlocksRetrievalTAG,"Fetching subscription list fail:" + e);
-        }
-        return blocklist;
-    }
-
     public static Query getTimetableQuery(){
         return FirebaseFirestore.getInstance().collection("semester").document(semester).collection(userGroup);
     }
@@ -207,93 +125,6 @@ public final class DataAccess {
         return db.collection("semester/"+semester+"/"+userGroup)
                 .whereEqualTo("month",cal.get(Calendar.MONTH)+1)
                 .whereEqualTo("day",cal.get(Calendar.DAY_OF_MONTH));
-    }
-
-
-
-    public static List<Note> getNotes(Block block){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        final List<Note> notelist = new ArrayList<>();
-        try{
-            db.collection("group/"+userGroup+"day/"+"/table/"+block.getSubjectName()+"-"+block.getType()+block.getBlockNr()+"note/").get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
-                                for(QueryDocumentSnapshot document: task.getResult()){
-                                    notelist.add(document.toObject(Note.class));
-                                    Log.d(notelistRetrievalTAG,"Successful retrieval of"+ document.getId());
-                                }
-                            } else {
-                                Log.w(notelistRetrievalTAG,"Failed retrieval of document: "+ task.getException());
-                            }
-                        }
-                    });
-        } catch(Exception e){
-            Log.w(notelistRetrievalTAG,"Fetching note list fail:" + e);
-        }
-        return notelist;
-    }
-
-    public static void putBlock(Block block){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        Map<String, Object> bl = new HashMap<>();
-        bl.put("subjectName",block.getSubjectName());
-        bl.put("subjectNameShort",block.getSubjectNameShort());
-        bl.put("part",block.getPart());
-        bl.put("blockNr",block.getBlockNr());
-        bl.put("director",block.getDirector());
-        bl.put("place",block.getPlace());
-        bl.put("timeBlockNr",block.getTimeBlockNr());
-        bl.put("type",block.getType());
-        bl.put("month",block.getMonth());
-        bl.put("day",block.getDay());
-
-        db.document("semester/2018Zima/I6B2S1/"+ block.getPart()+"-"+block.getMonth() +"-"+block.getDay()+"-" +block.getTimeBlockNr()).set(bl).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("BlockAdd","Block added");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w("BlockAdd", "Adding Block failed :: ", e);
-            }
-        });
-    }
-
-    public static void setUserGroup(String group){
-        userGroup=group;
-    }
-
-    public static List<String> getAvailableGroups(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final List<String> grouplist = new ArrayList<>();
-        try{
-            db.collection("group").get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
-                                for(QueryDocumentSnapshot document: task.getResult()){
-                                    grouplist.add(document.getId());
-                                    Log.d(grouplistRetrievalTAG,"Successful retrieval of"+ document.getId());
-                                }
-                            } else {
-                                Log.w(grouplistRetrievalTAG,"Failed retrieval of document: "+ task.getException());
-                            }
-                        }
-                    });
-        } catch(Exception e){
-            Log.w(grouplistRetrievalTAG,"Fetching subscription list fail:" + e);
-        }
-        return grouplist;
-    }
-
-    public static String getUserGroup(){
-        return userGroup;
     }
 
     public static String getSemester(){

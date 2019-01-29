@@ -1,4 +1,4 @@
-package com.wat.student.adkoch.wattable.db.ui.day;
+package com.wat.student.adkoch.wattable.db.handlers.day;
 
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
 

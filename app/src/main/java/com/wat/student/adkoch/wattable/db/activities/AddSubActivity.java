@@ -2,10 +2,7 @@ package com.wat.student.adkoch.wattable.db.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,10 +10,11 @@ import android.widget.Toast;
 
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.DataAccess;
-import com.wat.student.adkoch.wattable.db.data.entities.Block;
+import com.wat.student.adkoch.wattable.db.data.SubscriptionMapper;
 import com.wat.student.adkoch.wattable.db.data.entities.Subscription;
+import com.wat.student.adkoch.wattable.db.handlers.BarCompatActivity;
 
-public class AddSubActivity extends AppCompatActivity {
+public class AddSubActivity extends BarCompatActivity {
     Subscription sub;
     Button addSubButton, clearButton, deleteButton;
     EditText subName, subToken;
@@ -24,7 +22,7 @@ public class AddSubActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_sub);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.add_sub_toolbar);
+        setToolbar((Toolbar) findViewById(R.id.add_sub_toolbar));
 
         subName = findViewById(R.id.subName);
         subToken = findViewById(R.id.subToken);
@@ -33,18 +31,16 @@ public class AddSubActivity extends AppCompatActivity {
         deleteButton = findViewById(R.id.delete_sub_button);
         clearButton = findViewById(R.id.clearButton);
 
-        setSupportActionBar(toolbar);
-
         sub =(Subscription) getIntent().getSerializableExtra("sub");
         checkState();
 
         final Toast successfullAddToast= Toast.makeText(this,"Pomyślnie dodano subskrypcję!",Toast.LENGTH_SHORT);
         final Toast successfullDeleteToast= Toast.makeText(this,"Pomyślnie usunięto subskrypcję!",Toast.LENGTH_SHORT);
         final Toast successfullEditToast= Toast.makeText(this,"Pomyślnie zedytowano subskrypcję!",Toast.LENGTH_SHORT);
-
         addSubButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if(checkFields(subName.getText().toString(), subToken.getText().toString())){
+
                     if(null!=sub){
                         DataAccess.deleteSub(sub);
                         successfullEditToast.show();
@@ -54,6 +50,7 @@ public class AddSubActivity extends AppCompatActivity {
 
                     addSub(subName.getText().toString(), subToken.getText().toString());
                     goToSubs();
+                    SubscriptionMapper.getInstance().setSubs();
                 }
             }
         });
@@ -71,6 +68,7 @@ public class AddSubActivity extends AppCompatActivity {
                 DataAccess.deleteSub(sub);
                 successfullDeleteToast.show();
                 goToSubs();
+                SubscriptionMapper.getInstance().setSubs();
             }
         });
     }
@@ -87,49 +85,19 @@ public class AddSubActivity extends AppCompatActivity {
             addSubButton.setText("Edytuj");
         }
     }
-
     private void addSub(String subName, String subToken){
         DataAccess.putSub(new Subscription(subName, subToken));
     }
     private boolean checkFields(String name, String token){
-        if(name==null || token==null || name==" " || token==" ") return false;
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if(id == R.id.action_day_view){
-            goToDay();
-        } else if(id == R.id.action_week_view){
-            goToWeek();
-        } else if(id == R.id.action_subs){
-            goToSubs();
+        if(!token.matches("[0-9a-zA-Z]{12}") || token.contains(" ")){
+            Toast.makeText(this,"Źle wprowadzono token!",Toast.LENGTH_SHORT).show();
+            return false;
         }
-
-        return super.onOptionsItemSelected(item);
-    }
-    private void goToDay(){
-        Intent intent = new Intent(this, DayActivity.class);
-        startActivity(intent);
-    }
-    private void goToWeek(){
-        Intent intent = new Intent(this, WeekActivity.class);
-        startActivity(intent);
+        if(!name.matches("[0-9a-zA-Z]")){
+            Toast.makeText(this,"Źle wprowadzono nazwę!",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
     private void goToSubs(){
         Intent intent = new Intent(this, SubListActivity.class);

@@ -1,53 +1,49 @@
 package com.wat.student.adkoch.wattable.db.activities;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
-import com.wat.student.adkoch.wattable.db.ui.day.DayBlocklistContainer;
-import com.wat.student.adkoch.wattable.db.ui.week.WeekBlockAdapter;
-import com.wat.student.adkoch.wattable.db.ui.week.WeekBlocklistContainer;
-import com.wat.student.adkoch.wattable.db.ui.week.WeekDateAdapter;
-import com.wat.student.adkoch.wattable.db.ui.week.WeekDateContainer;
+import com.wat.student.adkoch.wattable.db.handlers.BarCompatActivity;
+import com.wat.student.adkoch.wattable.db.handlers.ListRecyclerTouchListener;
+import com.wat.student.adkoch.wattable.db.handlers.week.WeekBlockAdapter;
+import com.wat.student.adkoch.wattable.db.handlers.week.WeekBlocklistContainer;
+import com.wat.student.adkoch.wattable.db.handlers.week.WeekDateAdapter;
+import com.wat.student.adkoch.wattable.db.handlers.week.WeekDateContainer;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class WeekActivity extends AppCompatActivity{
+public class WeekActivity extends BarCompatActivity {
 
+    private ProgressBar spinner;
     private RecyclerView weekBlockRecyclerView;
     private RecyclerView.Adapter weekBlockAdapter;
     private RecyclerView.LayoutManager weekBlockLayoutManager;
-    private List<Block> blocks;
 
     private RecyclerView weekDateRecyclerView;
     private RecyclerView.Adapter weekDateAdapter;
     private RecyclerView.LayoutManager weekDateLayoutManager;
     private List<WeekDateContainer> dates;
+
+    private final AppCompatActivity thisActivity=this;
 
     private String TAG = "WeekActivity";
 
@@ -60,13 +56,11 @@ public class WeekActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_week);
 
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.week_toolbar);
-        setSupportActionBar(toolbar);
+        spinner=(ProgressBar) findViewById(R.id.week_spinner);
+        setToolbar((Toolbar) findViewById(R.id.week_toolbar));
 
         weekBlocklistContainer=new WeekBlocklistContainer(DataAccess.getSemesterStart().toDate(),DataAccess.getSemesterEnd().toDate());
         loadData(DataAccess.getTimetableQuery());
-        //new LoadDataTask().execute();
         weekBlockRecyclerView = (RecyclerView) findViewById(R.id.week_block_recycler_view);
         weekBlockRecyclerView.setHasFixedSize(true);
         weekBlockLayoutManager = new GridLayoutManager(this, 7);
@@ -112,47 +106,23 @@ public class WeekActivity extends AppCompatActivity{
         };
         weekDateRecyclerView.addOnScrollListener(scrollListeners[0]);
         weekBlockRecyclerView.addOnScrollListener(scrollListeners[1]);
-    }
 
+        weekBlockRecyclerView.addOnItemTouchListener( new ListRecyclerTouchListener(this, weekBlockRecyclerView, new ListRecyclerTouchListener.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Block b = weekBlocklistContainer.getBlocks().get(position);
+                if(null!=b.getSubjectName()){
+                    Intent intent = new Intent(thisActivity, BlockActivity.class);
+                    intent.putExtra("block",b);
+                    startActivity(intent);
+                }
+            }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
-        return true;
-    }
+            @Override
+            public void onLongClick(View view, int position) {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if(id == R.id.action_day_view){
-            goToDay();
-        } else if(id == R.id.action_week_view){
-            goToWeek();
-        } else if(id == R.id.action_subs){
-            goToSubs();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-    private void goToDay(){
-        Intent intent = new Intent(this, DayActivity.class);
-        startActivity(intent);
-    }
-    private void goToWeek(){
-        Intent intent = new Intent(this, WeekActivity.class);
-        startActivity(intent);
-    }
-    private void goToSubs(){
-        Intent intent = new Intent(this, SubListActivity.class);
-        startActivity(intent);
+            }
+        }));
     }
 
     private void loadData(Query timetableQuery){
@@ -165,11 +135,13 @@ public class WeekActivity extends AppCompatActivity{
                             weekBlocklistContainer.put(doc.toObject(Block.class));
                             Log.d(TAG,"Successfuly retrieved document: " +doc.getId());
                         }
-
                         weekBlockAdapter.notifyDataSetChanged();
                         weekDateAdapter.notifyDataSetChanged();
                         weekBlockLayoutManager.scrollToPosition(weekBlocklistContainer.getDayIndex(new Date())*7);
                         weekDateLayoutManager.scrollToPosition(weekBlocklistContainer.getDayIndex(new Date()));
+                        spinner.setVisibility(View.GONE);
+                        weekBlockRecyclerView.setVisibility(View.VISIBLE);
+                        weekDateRecyclerView.setVisibility(View.VISIBLE);
                     } else {
                         Log.w(TAG,"Failure fetching days for the given day");
                     }

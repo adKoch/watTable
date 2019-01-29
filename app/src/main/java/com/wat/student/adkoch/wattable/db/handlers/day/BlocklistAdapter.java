@@ -1,4 +1,4 @@
-package com.wat.student.adkoch.wattable.db.ui.day;
+package com.wat.student.adkoch.wattable.db.handlers.day;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

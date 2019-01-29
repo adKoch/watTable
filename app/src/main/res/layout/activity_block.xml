@@ -49,9 +49,10 @@ android:theme="@style/AppTheme.AppBarOverlay">
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
-        android:paddingTop="130dp"
+        android:paddingTop="140dp"
         android:paddingStart="30dp"
         android:paddingEnd="30dp"
+        android:visibility="invisible"
         />
 
     <android.support.design.widget.FloatingActionButton
@@ -63,4 +64,17 @@ android:theme="@style/AppTheme.AppBarOverlay">
         app:backgroundTint="@color/common_google_signin_btn_text_dark_default"
         app:elevation="5dp"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <ProgressBar
+        android:id="@+id/notes_spinner"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75"/>
 </android.support.design.widget.CoordinatorLayout>

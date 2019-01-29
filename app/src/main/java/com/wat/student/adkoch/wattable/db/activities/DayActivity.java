@@ -4,36 +4,34 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.MetadataChanges;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
-import com.wat.student.adkoch.wattable.db.ui.ListRecyclerTouchListener;
-import com.wat.student.adkoch.wattable.db.ui.day.BlocklistAdapter;
-import com.wat.student.adkoch.wattable.db.ui.day.DayBlocklistContainer;
+import com.wat.student.adkoch.wattable.db.handlers.BarCompatActivity;
+import com.wat.student.adkoch.wattable.db.handlers.ListRecyclerTouchListener;
+import com.wat.student.adkoch.wattable.db.handlers.day.BlocklistAdapter;
+import com.wat.student.adkoch.wattable.db.handlers.day.DayBlocklistContainer;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.Nullable;
 
-public class DayActivity extends AppCompatActivity {
+public class DayActivity extends BarCompatActivity {
 
     private RecyclerView dayRecyclerView;
     private RecyclerView.Adapter dayAdapter;
@@ -44,6 +42,7 @@ public class DayActivity extends AppCompatActivity {
     private final AppCompatActivity thisActivity=this;
 
     private String TAG="DayActivity";
+    private ProgressBar spinner;
 
     private static final String[] months = {"Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"};
     private static final String[] daysOfTheWeek = { "Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"};
@@ -51,23 +50,18 @@ public class DayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_day);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.day_toolbar);
-        setSupportActionBar(toolbar);
+
+        spinner=(ProgressBar) findViewById(R.id.day_spinner);
+        setToolbar((Toolbar) findViewById(R.id.day_toolbar));
 
         noBlocksTextView = (TextView) findViewById(R.id.no_blocks_text_view);
 
-        currentDate=new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(currentDate);
-        int month=cal.get(Calendar.MONTH);
-        int day=cal.get(Calendar.DAY_OF_MONTH);
-        setTitle(daysOfTheWeek[cal.get(Calendar.DAY_OF_WEEK)-1]+" - "+cal.get(Calendar.DAY_OF_MONTH)+" "+months[month]);
-        dayBlocklistContainer = new DayBlocklistContainer(month+1,day);
+        setView();
+
         Query myQuery = DataAccess.getDayQuery(currentDate);
 
-        myQuery.addSnapshotListener(this,new EventListener<QuerySnapshot>() {
+        myQuery.addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDS, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
@@ -78,6 +72,7 @@ public class DayActivity extends AppCompatActivity {
                     Log.d(TAG,"dodawanie do Day block: "+doc.getId());
                     dayBlocklistContainer.put(doc.toObject(Block.class),doc.getId());
                 }
+                spinner.setVisibility(View.INVISIBLE);
                 dayAdapter.notifyDataSetChanged();
                 if(!dayBlocklistContainer.isEmpty()) noBlocksTextView.setVisibility(View.GONE);
                 else noBlocksTextView.setVisibility(View.VISIBLE);
@@ -118,44 +113,13 @@ public class DayActivity extends AppCompatActivity {
         }));
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if(id == R.id.action_day_view){
-            goToDay();
-        } else if(id == R.id.action_week_view){
-            goToWeek();
-        } else if(id == R.id.action_subs){
-            goToSubs();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-    private void goToDay(){
-        Intent intent = new Intent(this, DayActivity.class);
-        startActivity(intent);
-    }
-    private void goToWeek(){
-        Intent intent = new Intent(this, WeekActivity.class);
-        startActivity(intent);
-    }
-    private void goToSubs(){
-        Intent intent = new Intent(this, SubListActivity.class);
-        startActivity(intent);
+    private void setView(){
+        currentDate=new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(currentDate);
+        int month=cal.get(Calendar.MONTH);
+        int day=cal.get(Calendar.DAY_OF_MONTH);
+        setTitle(daysOfTheWeek[cal.get(Calendar.DAY_OF_WEEK)-1]+" - "+cal.get(Calendar.DAY_OF_MONTH)+" "+months[month]);
+        dayBlocklistContainer = new DayBlocklistContainer(month+1,day);
     }
 }

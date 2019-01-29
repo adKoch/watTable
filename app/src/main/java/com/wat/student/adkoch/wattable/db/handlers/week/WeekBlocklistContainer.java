@@ -1,16 +1,8 @@
-package com.wat.student.adkoch.wattable.db.ui.week;
+package com.wat.student.adkoch.wattable.db.handlers.week;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
-import com.wat.student.adkoch.wattable.db.ui.day.DayBlocklistContainer;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

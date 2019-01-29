@@ -1,4 +1,4 @@
-package com.wat.student.adkoch.wattable.db.ui;
+package com.wat.student.adkoch.wattable.db.handlers;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

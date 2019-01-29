@@ -2,27 +2,36 @@ package com.wat.student.adkoch.wattable.db.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.DataAccess;
+import com.wat.student.adkoch.wattable.db.data.Settings;
+import com.wat.student.adkoch.wattable.db.data.SubscriptionMapper;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     Button loginButton;
 
+    private static String TAG="Main/loginActivity";
     private static final int RC_SIGN_IN = 123;
 
     @Override
@@ -39,15 +48,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
-        firestore.setFirestoreSettings(settings);
         DataAccess.setSemesterRanges();
         createSignInIntent();
-        //Intent intent = new Intent(this, DayActivity.class);
-        //startActivity(intent);
     }
 
     public void createSignInIntent() {
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                setSettings();
                 Intent intent = new Intent(this, DayActivity.class);
                 Toast.makeText(this,"Pomyślnie zalogowano!",Toast.LENGTH_SHORT).show();
                 startActivity(intent);
@@ -89,11 +91,54 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(this,"Błąd logowania",Toast.LENGTH_SHORT).show();
                 }
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
             }
         }
     }
+
+    private void setSettings(){
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setTimestampsInSnapshotsEnabled(true)
+                .build();
+        firestore.setFirestoreSettings(settings);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        SubscriptionMapper.getInstance().setSubs();
+        String uid="";
+        try{
+            uid = user.getUid();
+        }catch (Exception e){
+            Log.w(TAG,"failed fetching uid: "+e);
+        }
+            try{
+                db.collection("user")
+                        .document(uid)
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()){
+                                    Map<String,Object> fields = ((DocumentSnapshot) task.getResult()).getData();
+                                    if(null==fields){
+                                        Settings.setInstance("I6B2S1","2018Zima");
+                                    } else {
+                                        if(null==fields.get("semester")||null==fields.get("semester")){
+                                            Settings.setInstance("I6B2S1","2018Zima");
+                                        } else {
+                                            String semester= (String) fields.get("semester");
+                                            String group= (String) fields.get("semester");
+                                            Settings.setInstance(group, semester);
+                                        }
+                                    }
+                                    Log.d(TAG,"Successful retrieval of"+ task.getResult().getId());
+                                } else {
+                                    Settings.setInstance("I6B2S1","2018Zima");
+                                    Log.w(TAG,"Failed retrieval of document: "+ task.getException());
+                                }
+                            }
+                        });
+            } catch(Exception e){
+                Log.w(TAG,"Fetching group list fail:" + e);
+            }
+        }
 }

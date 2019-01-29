@@ -1,4 +1,4 @@
-package com.wat.student.adkoch.wattable.db.ui.block;
+package com.wat.student.adkoch.wattable.db.handlers.block;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wat.student.adkoch.wattable.R;
+import com.wat.student.adkoch.wattable.db.data.SubscriptionMapper;
 import com.wat.student.adkoch.wattable.db.data.entities.Note;
 
 import java.util.List;
@@ -40,7 +41,7 @@ public class NotelistAdapter extends RecyclerView.Adapter<NotelistAdapter.Noteli
     public void onBindViewHolder(NotelistViewHolder holder, int position){
         Note note = mDataset.get(position);
         holder.title.setText(note.getTitle());
-        holder.author.setText(note.getAuthor());
+        holder.author.setText(SubscriptionMapper.getInstance().getSubTitle(note.getAuthor()));
         holder.description.setText(note.getDescription());
     }
 

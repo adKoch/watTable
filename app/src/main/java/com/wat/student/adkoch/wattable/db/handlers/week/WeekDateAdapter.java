@@ -1,4 +1,4 @@
-package com.wat.student.adkoch.wattable.db.ui.week;
+package com.wat.student.adkoch.wattable.db.handlers.week;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,9 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wat.student.adkoch.wattable.R;
-import com.wat.student.adkoch.wattable.db.data.entities.Block;
 
-import java.util.Date;
 import java.util.List;
 
 public class WeekDateAdapter extends RecyclerView.Adapter<WeekDateAdapter.WeekDateViewHolder>  {
