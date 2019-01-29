@@ -14,18 +14,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import com.wat.student.adkoch.wattable.db.data.entities.Note;
 import com.wat.student.adkoch.wattable.db.data.entities.Subscription;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public final class DataAccess {
@@ -35,12 +31,7 @@ public final class DataAccess {
     private static String semester="2018Zima";
 
     private static String sublistRetrievalTAG = "SublistRetrieval";
-    private static String weekBlocksRetrievalTAG = "WeekBlocklistRetrieval";
-    private static String dayBlocksRetrievalTAG = "DayBlocklistRetrieval";
-    private static String grouplistRetrievalTAG = "GrouplistRetrieval";
-    private static String notelistRetrievalTAG = "NotelistRetrieval";
     private static String subAddTAG = "SubAddition";
-    private static String noteAddTAG = "NoteAddition";
 
     private static Timestamp semesterStart;
     private static Timestamp semesterEnd;

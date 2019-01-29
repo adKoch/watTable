@@ -201,7 +201,7 @@ public class SettingsActivity extends BarCompatActivity {
         BaseFont myFont;
         Document document = new Document();
         try {
-            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),"Subskrypcje.pdf");
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),"Subskrypcje.pdf");
             if(!file.mkdirs()){
                 Toast.makeText(this,"Błąd otwierania pliku",Toast.LENGTH_SHORT).show();
                 return;

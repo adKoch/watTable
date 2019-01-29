@@ -92,8 +92,8 @@ public class BlockActivity extends BarCompatActivity {
                 }
                 notes.clear();
                 for(QueryDocumentSnapshot doc: queryDS){
-                    Log.d(TAG,"dodawanie do Day block: "+doc.getId());
-                    if(SubscriptionMapper.getInstance().contains((String)doc.get("token"))){
+                    Log.d(TAG,"dodawanie do block: "+doc.getId());
+                    if(SubscriptionMapper.getInstance().contains((String)doc.get("author"))){
                         notes.add(doc.toObject(Note.class));
                     }
                 }
