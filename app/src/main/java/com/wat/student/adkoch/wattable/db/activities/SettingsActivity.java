@@ -44,6 +44,8 @@ import com.wat.student.adkoch.wattable.db.handlers.BarCompatActivity;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -197,50 +199,20 @@ public class SettingsActivity extends BarCompatActivity {
                         MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
             }
         }
-        Map<String,String> subs = SubscriptionMapper.getInstance().getSubs();
-        BaseFont myFont;
-        Document document = new Document();
-        try {
-            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),"Subskrypcje.pdf");
-            if(!file.mkdirs()){
-                Toast.makeText(this,"Błąd otwierania pliku",Toast.LENGTH_SHORT).show();
-                return;
-            }
-            PdfWriter.getInstance(document, new FileOutputStream(file));
+        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+        File file = new File(dir, "sub.txt");
 
-            myFont = BaseFont.createFont();
-
-            document.open();
-            document.setPageSize(PageSize.A4);
-            document.addCreationDate();
-            document.addCreator("WAT Rozkład");
-
-            LineSeparator lineSeparator = new LineSeparator();
-            lineSeparator.setLineColor(new BaseColor(0, 0, 0, 68));
-
-            Font mSublistDetailsTitleFont = new Font(myFont, 36.0f, Font.NORMAL, BaseColor.BLACK);
-            Chunk mSublistDetailsTitleChunk = new Chunk("Lista subskrypcji", mSublistDetailsTitleFont);
-            Paragraph mSublistDetailsTitleParagraph = new Paragraph(mSublistDetailsTitleChunk);
-            mSublistDetailsTitleParagraph.setAlignment(Element.ALIGN_CENTER);
-
-            document.add(mSublistDetailsTitleParagraph);
-
-
+        //Write to file
+        try (FileWriter fileWriter = new FileWriter(file)) {
             Map<String,String> sublist =  SubscriptionMapper.getInstance().getSubs();
             Iterator it = sublist.entrySet().iterator();
             while(it.hasNext()){
                 Map.Entry pair = (Map.Entry) it.next();
-                document.add(new Chunk(lineSeparator));
-                document.add(new Paragraph(pair.getValue() +" - "+pair.getKey()));
+                fileWriter.append(pair.getValue() +" - "+pair.getKey()+"/n");
             }
 
-            document.close();
             Toast.makeText(this,"Pomyślnie wygenerowano dokument!",Toast.LENGTH_SHORT).show();
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch(java.io.IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
