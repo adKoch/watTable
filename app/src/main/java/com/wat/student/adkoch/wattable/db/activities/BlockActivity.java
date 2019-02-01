@@ -89,12 +89,12 @@ public class BlockActivity extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDS, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
+                    Log.w(TAG, getString(R.string.listen_failed_text), e);
                     return;
                 }
                 notes.clear();
                 for(QueryDocumentSnapshot doc: queryDS){
-                    Log.d(TAG,"dodawanie do block: "+doc.getId());
+                    Log.d(TAG,getString(R.string.Block_log_adding_block_doc)+doc.getId());
                     if(SubscriptionMapper.getInstance().contains((String)doc.get("author"))){
                         notes.add(doc.toObject(Note.class));
                     }

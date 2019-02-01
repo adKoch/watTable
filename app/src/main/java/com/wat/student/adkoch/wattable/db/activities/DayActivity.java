@@ -43,17 +43,19 @@ public class DayActivity extends AppCompatActivity {
     private TextView noBlocksTextView;
     private final AppCompatActivity thisActivity=this;
 
-    private String TAG="DayActivity";
+    private String TAG;
     private ProgressBar spinner;
 
-    private static final String[] months = {"Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"};
-    private static final String[] daysOfTheWeek = { "Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"};
+    private String[] months;
+    private String[] daysOfTheWeek;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day);
-
+        TAG=getString(R.string.DayActivityLogTAG);
+        months = getResources().getStringArray(R.array.months);
+        daysOfTheWeek = getResources().getStringArray(R.array.daysOfTheWeek);
         spinner= findViewById(R.id.day_spinner);
         setSupportActionBar((Toolbar) findViewById(R.id.day_toolbar));
 
@@ -67,11 +69,11 @@ public class DayActivity extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable QuerySnapshot queryDS, @Nullable FirebaseFirestoreException e) {
                 if (e != null) {
-                    Log.w(TAG, "Listen failed.", e);
+                    Log.w(TAG, getString(R.string.listen_failed_text), e);
                     return;
                 }
                 for(QueryDocumentSnapshot doc: queryDS){
-                    Log.d(TAG,"dodawanie do Day block: "+doc.getId());
+                    Log.d(TAG,getString(R.string.day_log_adding_to_day_block_text)+doc.getId());
                     dayBlocklistContainer.put(doc.toObject(Block.class),doc.getId());
                 }
                 spinner.setVisibility(View.INVISIBLE);

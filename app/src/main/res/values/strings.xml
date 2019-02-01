@@ -11,7 +11,7 @@
     <string name="day_no_blocks_text">Brak zajęć!</string>
     <string name="add_note_button_text">dodaj</string>
     <string name="note_title_hint">Tytuł notatki</string>
-    <string name="note_description_hint_text">Tutaj wpisz treść...</string>
+    <string name="note_description_hint_text">Tutaj wpisz treść…</string>
     <string name="delete_sub_button_text">Usuń</string>
     <string name="login_text">Zaloguj</string>
     <string name="action_logout">Wyloguj</string>
@@ -25,5 +25,60 @@
     <string name="week_log_fail_fetching_days">Failure fetching days for the given day</string>
     <string name="week_log_success_retrieved_document">Successfully retrieved document:</string>
     <string name="serializable_block_name">block</string>
-    <string name="adding_note_toast_text">Dodaję notatkę...</string>
+    <string name="adding_note_toast_text">Dodaję notatkę…</string>
+    <string name="Block_log_adding_block_doc">dodawanie do block:</string>
+    <string name="listen_failed_text">Listen failed.</string>
+    <string name="day_log_adding_to_day_block_text">dodawanie do Day block:</string>
+    <string-array name="months">
+        <item>@string/month1</item>
+        <item>@string/month2</item>
+        <item>@string/month3</item>
+        <item>@string/month4</item>
+        <item>@string/month5</item>
+        <item>@string/month6</item>
+        <item>@string/month7</item>
+        <item>@string/month8</item>
+        <item>@string/month9</item>
+        <item>@string/month10</item>
+        <item>@string/month11</item>
+        <item>@string/month12</item>
+    </string-array>
+    <string-array name="daysOfTheWeek">
+        <item>@string/dayOfTheWeek1</item>
+        <item>@string/dayOfTheWeek2</item>
+        <item>@string/dayOfTheWeek3</item>
+        <item>@string/dayOfTheWeek4</item>
+        <item>@string/dayOfTheWeek5</item>
+        <item>@string/dayOfTheWeek6</item>
+        <item>@string/dayOfTheWeek7</item>
+    </string-array>
+    <string-array name="blockTimes">
+        <item>8:00</item>
+        <item>9:50</item>
+        <item>11:40</item>
+        <item>13:30</item>
+        <item>15:45</item>
+        <item>17:35</item>
+        <item>19:25</item>
+    </string-array>
+    <string name="dayOfTheWeek1">Niedziela</string>
+    <string name="dayOfTheWeek2">Poniedziałek</string>
+    <string name="dayOfTheWeek3">Wtorek</string>
+    <string name="dayOfTheWeek4">Środa</string>
+    <string name="dayOfTheWeek5">Czwartek</string>
+    <string name="dayOfTheWeek6">Piątek</string>
+    <string name="dayOfTheWeek7">Sobota</string>
+    <string name="month1">Styczeń</string>
+    <string name="month2">Luty</string>
+    <string name="month3">Marzec</string>
+    <string name="month4">Kwiecień</string>
+    <string name="month5">Maj</string>
+    <string name="month6">Czerwiec</string>
+    <string name="month7">Lipiec</string>
+    <string name="month8">Sierpień</string>
+    <string name="month9">Wrzesień</string>
+    <string name="month10">Październik</string>
+    <string name="month11">Listopad</string>
+    <string name="month12">Grudzień</string>
+    <string name="DayActivityLogTAG">DayActivity</string>
 </resources>

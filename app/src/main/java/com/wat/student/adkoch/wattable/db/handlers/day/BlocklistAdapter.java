@@ -15,7 +15,7 @@ import java.util.List;
 public class BlocklistAdapter extends RecyclerView.Adapter<BlocklistAdapter.BlocklistViewHolder>  {
     private List<Block> mDataset;
 
-    private final String[] blockTime= {"8:00  ", "9:50  ", "11:40", "13:30", "15:45", "17:35", "19:25"};
+    private String[] blockTime;
 
     static class BlocklistViewHolder extends RecyclerView.ViewHolder{
         TextView timeTextView, descriptionTextView, detailsTextView, noteCountTextView;
@@ -37,6 +37,7 @@ public class BlocklistAdapter extends RecyclerView.Adapter<BlocklistAdapter.Bloc
     public BlocklistAdapter.BlocklistViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.day_block_item, parent, false);
+        blockTime=parent.getContext().getResources().getStringArray(R.array.blockTimes);
 
         return new BlocklistAdapter.BlocklistViewHolder(v);
     }
