@@ -98,46 +98,51 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setSettings(){
+    private void setSettings() {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         SubscriptionMapper.getInstance().setSubs();
-        String uid="";
-        try{
+        String uid = "";
+        try {
             uid = user.getUid();
-        }catch (Exception e){
-            Log.w(TAG,"failed fetching uid: "+e);
+        } catch (Exception e) {
+            Log.w(TAG, "failed fetching uid: " + e);
         }
-            try{
-                db.collection("user")
-                        .document(uid)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if(task.isSuccessful()){
-                                    Map<String,Object> fields = (task.getResult()).getData();
-                                    if(null==fields){
-                                        Settings.setInstance("I6B2S1","2018Zima");
-                                    } else {
-                                        if(null==fields.get("semester")||null==fields.get("semester")){
-                                            Settings.setInstance("I6B2S1","2018Zima");
-                                        } else {
-                                            String semester= (String) fields.get("semester");
-                                            String group= (String) fields.get("semester");
-                                            Settings.setInstance(group, semester);
-                                        }
-                                    }
-                                    Log.d(TAG,"Successful retrieval of"+ task.getResult().getId());
+        try {
+            db.collection("user")
+                    .document(uid)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                Map<String, Object> fields = (task.getResult()).getData();
+                                if (null == fields) {
+                                    Settings.setInstance("I6B2S1", "2018Zima");
                                 } else {
-                                    Settings.setInstance("I6B2S1","2018Zima");
-                                    Log.w(TAG,"Failed retrieval of document: "+ task.getException());
+                                    if (null == fields.get("semester") || null == fields.get("semester")) {
+                                        Settings.setInstance("I6B2S1", "2018Zima");
+                                    } else {
+                                        String semester = (String) fields.get("semester");
+                                        String group = (String) fields.get("semester");
+                                        Settings.setInstance(group, semester);
+                                    }
                                 }
+                                Log.d(TAG, "Successful retrieval of" + task.getResult().getId());
+                            } else {
+                                Settings.setInstance("I6B2S1", "2018Zima");
+                                Log.w(TAG, "Failed retrieval of document: " + task.getException());
                             }
-                        });
-            } catch(Exception e){
-                Log.w(TAG,"Fetching group list fail:" + e);
-            }
+                        }
+                    });
+        } catch (Exception e) {
+            Log.w(TAG, "Fetching group list fail:" + e);
         }
+    }
+    @Override
+    protected void onStop(){
+        super.onStop();
+        finish();
+    }
 }
