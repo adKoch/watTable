@@ -1,7 +1,7 @@
 package com.wat.student.adkoch.wattable.db.activities;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,9 +11,8 @@ import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import com.wat.student.adkoch.wattable.db.data.entities.Note;
-import com.wat.student.adkoch.wattable.db.handlers.BarCompatActivity;
 
-public class AddNoteActivity extends BarCompatActivity {
+public class AddNoteActivity extends AppCompatActivity {
 
     private Block block;
     private String token;
@@ -24,7 +23,6 @@ public class AddNoteActivity extends BarCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
         Button addButton, clearButton;
-        setToolbar((Toolbar) findViewById(R.id.add_note_toolbar));
 
         addButton=findViewById(R.id.addNoteButton);
         clearButton=findViewById(R.id.clearNoteButton);

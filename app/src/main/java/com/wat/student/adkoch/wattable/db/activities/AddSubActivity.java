@@ -2,7 +2,7 @@ package com.wat.student.adkoch.wattable.db.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,9 +12,8 @@ import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.SubscriptionMapper;
 import com.wat.student.adkoch.wattable.db.data.entities.Subscription;
-import com.wat.student.adkoch.wattable.db.handlers.BarCompatActivity;
 
-public class AddSubActivity extends BarCompatActivity {
+public class AddSubActivity extends AppCompatActivity {
     private Subscription sub;
     private Button addSubButton, deleteButton;
     private EditText subName, subToken;
@@ -23,7 +22,6 @@ public class AddSubActivity extends BarCompatActivity {
         Button clearButton;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_sub);
-        setToolbar((Toolbar) findViewById(R.id.add_sub_toolbar));
 
         subName = findViewById(R.id.subName);
         subToken = findViewById(R.id.subToken);

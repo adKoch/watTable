@@ -11,21 +11,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.Query;
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.entities.Subscription;
-import com.wat.student.adkoch.wattable.db.handlers.BarCompatActivity;
 import com.wat.student.adkoch.wattable.db.handlers.ListRecyclerTouchListener;
 
 
-public class SubListActivity extends BarCompatActivity {
+public class SubListActivity extends AppCompatActivity {
 
     private FirestoreRecyclerAdapter<Subscription, SublistViewHolder> recyclerAdapter;
     private final AppCompatActivity thisActivity=this;
@@ -37,7 +39,7 @@ public class SubListActivity extends BarCompatActivity {
         RecyclerView.LayoutManager mLayoutManager;
         setContentView(R.layout.activity_sub_list);
 
-        setToolbar((Toolbar) findViewById(R.id.sub_list_toolbar));
+        setSupportActionBar((Toolbar) findViewById(R.id.sub_list_toolbar));
         FloatingActionButton fab =findViewById(R.id.sub_page_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,4 +128,34 @@ public class SubListActivity extends BarCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_day_view){
+            Intent intent = new Intent(this, DayActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_week_view){
+            Intent intent = new Intent(this, WeekActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_subs){
+            Intent intent = new Intent(this, SubListActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_logout){
+            Intent intent = new Intent(this, MainActivity.class);
+            AuthUI.getInstance().signOut(this);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -1,13 +1,17 @@
 package com.wat.student.adkoch.wattable.db.activities;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,7 +41,6 @@ import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.Settings;
 import com.wat.student.adkoch.wattable.db.data.SubscriptionMapper;
-import com.wat.student.adkoch.wattable.db.handlers.BarCompatActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -45,7 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class SettingsActivity extends BarCompatActivity {
+public class SettingsActivity extends AppCompatActivity{
 
     private static String TAG="SettingsActivity";
 
@@ -71,7 +75,7 @@ public class SettingsActivity extends BarCompatActivity {
         loadSemesters();
         setToken();
 
-        setToolbar((Toolbar) findViewById(R.id.settings_toolbar));
+        setSupportActionBar((Toolbar) findViewById(R.id.settings_toolbar));
 
         setButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,5 +237,35 @@ public class SettingsActivity extends BarCompatActivity {
             Toast.makeText(this,"Błąd otwierania pliku",Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_day_view){
+            Intent intent = new Intent(this, DayActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_week_view){
+            Intent intent = new Intent(this, WeekActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_subs){
+            Intent intent = new Intent(this, SubListActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_logout){
+            Intent intent = new Intent(this, MainActivity.class);
+            AuthUI.getInstance().signOut(this);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

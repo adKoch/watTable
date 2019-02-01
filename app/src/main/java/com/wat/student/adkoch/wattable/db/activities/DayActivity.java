@@ -8,10 +8,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.MetadataChanges;
@@ -21,7 +24,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
-import com.wat.student.adkoch.wattable.db.handlers.BarCompatActivity;
 import com.wat.student.adkoch.wattable.db.handlers.ListRecyclerTouchListener;
 import com.wat.student.adkoch.wattable.db.handlers.day.BlocklistAdapter;
 import com.wat.student.adkoch.wattable.db.handlers.day.DayBlocklistContainer;
@@ -31,7 +33,7 @@ import java.util.Date;
 
 import javax.annotation.Nullable;
 
-public class DayActivity extends BarCompatActivity {
+public class DayActivity extends AppCompatActivity {
 
     private RecyclerView dayRecyclerView;
     private RecyclerView.Adapter dayAdapter;
@@ -53,7 +55,7 @@ public class DayActivity extends BarCompatActivity {
         setContentView(R.layout.activity_day);
 
         spinner= findViewById(R.id.day_spinner);
-        setToolbar((Toolbar) findViewById(R.id.day_toolbar));
+        setSupportActionBar((Toolbar) findViewById(R.id.day_toolbar));
 
         noBlocksTextView = findViewById(R.id.no_blocks_text_view);
 
@@ -121,5 +123,35 @@ public class DayActivity extends BarCompatActivity {
         int day=cal.get(Calendar.DAY_OF_MONTH);
         setTitle(daysOfTheWeek[cal.get(Calendar.DAY_OF_WEEK)-1]+" - "+cal.get(Calendar.DAY_OF_MONTH)+" "+months[month]);
         dayBlocklistContainer = new DayBlocklistContainer(month+1,day);
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_day_view){
+            Intent intent = new Intent(this, DayActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_week_view){
+            Intent intent = new Intent(this, WeekActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_subs){
+            Intent intent = new Intent(this, SubListActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_logout){
+            Intent intent = new Intent(this, MainActivity.class);
+            AuthUI.getInstance().signOut(this);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

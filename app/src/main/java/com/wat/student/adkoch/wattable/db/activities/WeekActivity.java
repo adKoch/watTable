@@ -10,9 +10,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -21,17 +24,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
-import com.wat.student.adkoch.wattable.db.handlers.BarCompatActivity;
 import com.wat.student.adkoch.wattable.db.handlers.ListRecyclerTouchListener;
 import com.wat.student.adkoch.wattable.db.handlers.week.WeekBlockAdapter;
 import com.wat.student.adkoch.wattable.db.handlers.week.WeekBlocklistContainer;
 import com.wat.student.adkoch.wattable.db.handlers.week.WeekDateAdapter;
-import com.wat.student.adkoch.wattable.db.handlers.week.WeekDateContainer;
 
 import java.util.Date;
-import java.util.List;
 
-public class WeekActivity extends BarCompatActivity {
+public class WeekActivity extends AppCompatActivity {
 
     private ProgressBar spinner;
     private RecyclerView weekBlockRecyclerView;
@@ -56,7 +56,7 @@ public class WeekActivity extends BarCompatActivity {
         setContentView(R.layout.activity_week);
 
         spinner=findViewById(R.id.week_spinner);
-        setToolbar((Toolbar) findViewById(R.id.week_toolbar));
+        setSupportActionBar((Toolbar) findViewById(R.id.week_toolbar));
 
         weekBlocklistContainer=new WeekBlocklistContainer(DataAccess.getSemesterStart().toDate(),DataAccess.getSemesterEnd().toDate());
         loadData(DataAccess.getTimetableQuery());
@@ -146,6 +146,36 @@ public class WeekActivity extends BarCompatActivity {
                     }
                 }
         });
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_day_view){
+            Intent intent = new Intent(this, DayActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_week_view){
+            Intent intent = new Intent(this, WeekActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_subs){
+            Intent intent = new Intent(this, SubListActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_logout){
+            Intent intent = new Intent(this, MainActivity.class);
+            AuthUI.getInstance().signOut(this);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 

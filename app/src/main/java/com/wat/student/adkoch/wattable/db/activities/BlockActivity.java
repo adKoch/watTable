@@ -3,16 +3,20 @@ package com.wat.student.adkoch.wattable.db.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
@@ -23,7 +27,6 @@ import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.SubscriptionMapper;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import com.wat.student.adkoch.wattable.db.data.entities.Note;
-import com.wat.student.adkoch.wattable.db.handlers.BarCompatActivity;
 import com.wat.student.adkoch.wattable.db.handlers.block.NotelistAdapter;
 
 import java.util.ArrayList;
@@ -32,7 +35,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-public class BlockActivity extends BarCompatActivity {
+public class BlockActivity extends AppCompatActivity {
 
     private TextView descriptionTextView, detailsTextView;
     private Block block;
@@ -45,12 +48,11 @@ public class BlockActivity extends BarCompatActivity {
     private NotelistAdapter notelistAdapter;
     private ProgressBar blockProgressBar;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block);
-        setToolbar((Toolbar) findViewById(R.id.block_toolbar));
+        setSupportActionBar((Toolbar) findViewById(R.id.block_toolbar));
 
         RecyclerView.LayoutManager noteLayoutManager;
         notes=new ArrayList<>();
@@ -142,5 +144,34 @@ public class BlockActivity extends BarCompatActivity {
         descriptionTextView.setText(displayDescription);
         detailsTextView.setText(displayDetails);
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_toolbar, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_day_view){
+            Intent intent = new Intent(this, DayActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_week_view){
+            Intent intent = new Intent(this, WeekActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_subs){
+            Intent intent = new Intent(this, SubListActivity.class);
+            startActivity(intent);
+        } else if(id == R.id.action_logout){
+            Intent intent = new Intent(this, MainActivity.class);
+            AuthUI.getInstance().signOut(this);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
