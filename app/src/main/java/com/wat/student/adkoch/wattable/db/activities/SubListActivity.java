@@ -93,17 +93,17 @@ public class SubListActivity extends BarCompatActivity {
 
 
     private static class SublistViewHolder extends RecyclerView.ViewHolder{
-        private TextView title, token;
+        private TextView titleTextView, tokenTextView;
 
         SublistViewHolder(View v){
             super(v);
-            title = (TextView) v.findViewById(R.id.title);
-            token = (TextView) v.findViewById(R.id.token);
+            titleTextView = v.findViewById(R.id.title);
+            tokenTextView = v.findViewById(R.id.token);
         }
 
         void setFields(Subscription sub){
-            title.setText(sub.getTitle());
-            token.setText(sub.getToken());
+            titleTextView.setText(sub.getTitle());
+            tokenTextView.setText(sub.getToken());
         }
     }
 
