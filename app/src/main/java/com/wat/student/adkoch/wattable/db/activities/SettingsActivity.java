@@ -3,7 +3,6 @@ package com.wat.student.adkoch.wattable.db.activities;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -29,11 +28,9 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.wat.student.adkoch.wattable.R;
@@ -44,10 +41,7 @@ import com.wat.student.adkoch.wattable.db.handlers.BarCompatActivity;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -56,23 +50,23 @@ public class SettingsActivity extends BarCompatActivity {
     private static String TAG="SettingsActivity";
 
     private Spinner groupSpinner, semesterSpinner;
-    private TextView token, tokenText, semesterText, groupText;
-    private Button downloadSubs, setButton;
-    private ProgressBar settingsSpinner;
+    private TextView tokenTextView, yourTokenTextView, semesterTextView, groupTextView;
+    private Button downloadSubsButton, setButton;
+    private ProgressBar settingsProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        settingsSpinner=(ProgressBar) findViewById(R.id.settings_spinner);
-        groupSpinner = (Spinner) findViewById(R.id.group_spinner);
-        semesterSpinner=(Spinner) findViewById(R.id.semester_spinner);
-        token=(TextView) findViewById(R.id.your_token);
-        downloadSubs=(Button) findViewById(R.id.download_sub_list_button);
-        tokenText=(TextView) findViewById(R.id.your_token_text);
-        setButton=(Button) findViewById(R.id.set_button);
-        semesterText=(TextView) findViewById(R.id.semester_text);
-        groupText=(TextView) findViewById(R.id.group_text);
+        settingsProgressBar =findViewById(R.id.settings_spinner);
+        groupSpinner = findViewById(R.id.group_spinner);
+        semesterSpinner= findViewById(R.id.semester_spinner);
+        tokenTextView = findViewById(R.id.your_token);
+        downloadSubsButton = findViewById(R.id.download_sub_list_button);
+        yourTokenTextView = findViewById(R.id.your_token_text);
+        setButton= findViewById(R.id.set_button);
+        semesterTextView = findViewById(R.id.semester_text);
+        groupTextView =findViewById(R.id.group_text);
 
         loadSemesters();
         setToken();
@@ -86,7 +80,7 @@ public class SettingsActivity extends BarCompatActivity {
             }
         });
 
-        downloadSubs.setOnClickListener(new View.OnClickListener() {
+        downloadSubsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 printPdf();
@@ -106,16 +100,16 @@ public class SettingsActivity extends BarCompatActivity {
 
     private void switchVisibility(){
 
-        settingsSpinner.setVisibility(View.VISIBLE);
+        settingsProgressBar.setVisibility(View.VISIBLE);
         groupSpinner.setVisibility(View.VISIBLE);
         semesterSpinner.setVisibility(View.VISIBLE);
-        token.setVisibility(View.VISIBLE);
-        downloadSubs.setVisibility(View.VISIBLE);
-        tokenText.setVisibility(View.VISIBLE);
+        tokenTextView.setVisibility(View.VISIBLE);
+        downloadSubsButton.setVisibility(View.VISIBLE);
+        yourTokenTextView.setVisibility(View.VISIBLE);
         setButton.setVisibility(View.VISIBLE);
-        semesterText.setVisibility(View.VISIBLE);
-        groupText.setVisibility(View.VISIBLE);
-        settingsSpinner.setVisibility(View.INVISIBLE);
+        semesterTextView.setVisibility(View.VISIBLE);
+        groupTextView.setVisibility(View.VISIBLE);
+        settingsProgressBar.setVisibility(View.INVISIBLE);
     }
 
     private void loadGroups(){
@@ -181,16 +175,15 @@ public class SettingsActivity extends BarCompatActivity {
         } catch (Exception e) {
             Log.w(TAG, "failed fetching uid: " + e);
         }
-        token.setText(uid.substring(0,12));
+        tokenTextView.setText(uid.substring(0,12));
     }
 
-    private void printPdf(){
+
+    private boolean checkWritePermission(){
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
 
-            // Permission is not granted
-            // Should we show an explanation?
             if (!ActivityCompat.shouldShowRequestPermissionRationale(this,
                     Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE=124;
@@ -198,23 +191,47 @@ public class SettingsActivity extends BarCompatActivity {
                         new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
             }
+            return false;
+        } else {
+            return true;
         }
-        File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
-        File file = new File(dir, "sub.txt");
+    }
 
-        //Write to file
-        try (FileWriter fileWriter = new FileWriter(file)) {
-            Map<String,String> sublist =  SubscriptionMapper.getInstance().getSubs();
-            Iterator it = sublist.entrySet().iterator();
-            while(it.hasNext()){
-                Map.Entry pair = (Map.Entry) it.next();
-                fileWriter.append(pair.getValue() +" - "+pair.getKey()+"/n");
+    private void printPdf(){
+
+        File file = new File("sdcard/Subscriptions.pdf");
+
+        if(!checkWritePermission()){
+            return;
+        }
+        Document document = new Document();
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream(file));
+
+            document.open();
+
+            document.setPageSize(PageSize.A5);
+            document.addCreationDate();
+            document.addCreator("WAT Rozkład");
+
+            LineSeparator lineSeparator = new LineSeparator();
+            lineSeparator.setLineColor(new BaseColor(0, 0, 0, 68));
+
+            Chunk mOrderIdChunk = new Chunk("Subscription list\n", new Font());
+            Paragraph mOrderIdParagraph = new Paragraph(mOrderIdChunk);
+            document.add(mOrderIdParagraph);
+            for(Map.Entry<String,String> entry:SubscriptionMapper.getInstance().getSubs().entrySet()){
+                document.add(new Chunk(lineSeparator));
+                document.add(new Paragraph(entry.getKey()+"-"+entry.getValue()));
             }
-
-            Toast.makeText(this,"Pomyślnie wygenerowano dokument!",Toast.LENGTH_SHORT).show();
-        } catch (IOException e) {
+            document.close();
+            Toast.makeText(this,"Dokument wygenerowany pomyślnie!",Toast.LENGTH_SHORT).show();
+        } catch (DocumentException e) {
+            Toast.makeText(this,"Błąd zapisywania dokumentu",Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            Toast.makeText(this,"Błąd otwierania pliku",Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
-
     }
 }
