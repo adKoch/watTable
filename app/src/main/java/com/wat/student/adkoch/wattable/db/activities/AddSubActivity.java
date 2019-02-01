@@ -93,7 +93,7 @@ public class AddSubActivity extends BarCompatActivity {
             Toast.makeText(this,"Źle wprowadzono token!",Toast.LENGTH_SHORT).show();
             return false;
         }
-        if(!name.matches("[0-9a-zA-Z]")){
+        if(!name.matches("[0-9a-zA-Z]+")){
             Toast.makeText(this,"Źle wprowadzono nazwę!",Toast.LENGTH_SHORT).show();
             return false;
         }
