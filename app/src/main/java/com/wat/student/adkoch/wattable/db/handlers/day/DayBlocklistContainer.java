@@ -24,8 +24,10 @@ public class DayBlocklistContainer {
     }
 
     public boolean isEmpty(){
-        for(int i=0;i<titles.length;i++){
-            if(!Objects.equals("",titles[i])) return false;
+        for(String title:titles){
+            if(Objects.equals("",title)){
+                return false;
+            }
         }
         return true;
     }

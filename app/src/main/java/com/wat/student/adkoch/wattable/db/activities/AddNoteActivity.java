@@ -15,16 +15,15 @@ import com.wat.student.adkoch.wattable.db.handlers.BarCompatActivity;
 
 public class AddNoteActivity extends BarCompatActivity {
 
-    Block block;
-    String token;
-    Button addButton, clearButton;
-    EditText titleInput, descriptionInput;
+    private Block block;
+    private String token;
+    private EditText titleInput, descriptionInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
-
+        Button addButton, clearButton;
         setToolbar((Toolbar) findViewById(R.id.add_note_toolbar));
 
         addButton=findViewById(R.id.addNoteButton);

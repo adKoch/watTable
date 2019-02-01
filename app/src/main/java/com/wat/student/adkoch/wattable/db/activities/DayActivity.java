@@ -52,10 +52,10 @@ public class DayActivity extends BarCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day);
 
-        spinner=(ProgressBar) findViewById(R.id.day_spinner);
+        spinner= findViewById(R.id.day_spinner);
         setToolbar((Toolbar) findViewById(R.id.day_toolbar));
 
-        noBlocksTextView = (TextView) findViewById(R.id.no_blocks_text_view);
+        noBlocksTextView = findViewById(R.id.no_blocks_text_view);
 
         setView();
 
@@ -80,7 +80,7 @@ public class DayActivity extends BarCompatActivity {
         });
 
 
-        dayRecyclerView = (RecyclerView) findViewById(R.id.day_block_list_recycler_view);
+        dayRecyclerView = findViewById(R.id.day_block_list_recycler_view);
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView

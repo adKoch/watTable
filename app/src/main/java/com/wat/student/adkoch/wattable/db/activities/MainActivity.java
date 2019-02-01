@@ -29,8 +29,6 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button loginButton;
-
     private static String TAG="Main/loginActivity";
     private static final int RC_SIGN_IN = 123;
 
@@ -38,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Button loginButton;
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setTimestampsInSnapshotsEnabled(true)
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         createSignInIntent();
     }
 
-    public void createSignInIntent() {
+    private void createSignInIntent() {
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.GoogleBuilder().build());
 
@@ -118,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if(task.isSuccessful()){
-                                    Map<String,Object> fields = ((DocumentSnapshot) task.getResult()).getData();
+                                    Map<String,Object> fields = (task.getResult()).getData();
                                     if(null==fields){
                                         Settings.setInstance("I6B2S1","2018Zima");
                                     } else {

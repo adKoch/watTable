@@ -1,5 +1,6 @@
 package com.wat.student.adkoch.wattable.db.handlers.week;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +14,9 @@ import java.util.List;
 public class WeekDateAdapter extends RecyclerView.Adapter<WeekDateAdapter.WeekDateViewHolder>  {
     private List<WeekDateContainer> mDataset;
 
-    public static class WeekDateViewHolder extends RecyclerView.ViewHolder{
-        public TextView dateTextView,dayoftwTextView;
-        public WeekDateViewHolder(View v){
+    static class WeekDateViewHolder extends RecyclerView.ViewHolder{
+        TextView dateTextView,dayoftwTextView;
+        WeekDateViewHolder(View v){
             super(v);
             dateTextView = v.findViewById(R.id.date_text_view);
             dayoftwTextView = v.findViewById(R.id.day_of_the_week_text_view);
@@ -26,8 +27,9 @@ public class WeekDateAdapter extends RecyclerView.Adapter<WeekDateAdapter.WeekDa
         mDataset = dataset;
     }
 
+    @NonNull
     @Override
-    public WeekDateAdapter.WeekDateViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public WeekDateAdapter.WeekDateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.week_date_item, parent, false);
 
@@ -35,7 +37,7 @@ public class WeekDateAdapter extends RecyclerView.Adapter<WeekDateAdapter.WeekDa
     }
 
     @Override
-    public void onBindViewHolder(WeekDateAdapter.WeekDateViewHolder holder, int position){
+    public void onBindViewHolder(@NonNull WeekDateAdapter.WeekDateViewHolder holder, int position){
         WeekDateContainer weekDate = mDataset.get(position);
 
         String displayDate=weekDate.getDay()+"."+weekDate.getMonth();

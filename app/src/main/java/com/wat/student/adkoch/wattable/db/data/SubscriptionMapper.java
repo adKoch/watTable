@@ -36,8 +36,7 @@ public class SubscriptionMapper {
     }
 
     public boolean contains(String s){
-        if(instance.subMapper.containsKey(s)) return true;
-        return false;
+        return instance.subMapper.containsKey(s);
     }
 
     public Map<String,String> getSubs(){

@@ -39,10 +39,9 @@ public class BlockActivity extends BarCompatActivity {
     private static final String[] months = {"Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"};
     private static final String[] daysOfTheWeek = { "Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"};
     private final String[] blockTime= {"8:00  ", "9:50  ", "11:40", "13:30", "15:45", "17:35", "19:25"};
-    private String TAG="BlockActivity";
+    private final String TAG="BlockActivity";
     private List<Note> notes;
     private RecyclerView noteRecyclerView;
-    private RecyclerView.LayoutManager noteLayoutManager;
     private NotelistAdapter notelistAdapter;
     private ProgressBar blockProgressBar;
 
@@ -53,6 +52,7 @@ public class BlockActivity extends BarCompatActivity {
         setContentView(R.layout.activity_block);
         setToolbar((Toolbar) findViewById(R.id.block_toolbar));
 
+        RecyclerView.LayoutManager noteLayoutManager;
         notes=new ArrayList<>();
         block =(Block) getIntent().getSerializableExtra("block");
         descriptionTextView= findViewById(R.id.description);
@@ -70,7 +70,7 @@ public class BlockActivity extends BarCompatActivity {
             }
         });
 
-        noteRecyclerView = (RecyclerView) findViewById(R.id.note_list_recycler_view);
+        noteRecyclerView = findViewById(R.id.note_list_recycler_view);
 
         noteRecyclerView.setHasFixedSize(true);
 
@@ -128,8 +128,8 @@ public class BlockActivity extends BarCompatActivity {
     }
 
     private void setFields(){
-        String displayDescription="";
-        String displayDetails="";
+        String displayDetails;
+        String displayDescription;
         if(null!=block.getDirector()){
             displayDetails = block.getDirector() + " " + block.getPlace();
         } else {

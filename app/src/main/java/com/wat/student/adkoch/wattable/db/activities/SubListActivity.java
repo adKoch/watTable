@@ -28,17 +28,17 @@ import com.wat.student.adkoch.wattable.db.handlers.ListRecyclerTouchListener;
 public class SubListActivity extends BarCompatActivity {
 
     private FirestoreRecyclerAdapter<Subscription, SublistViewHolder> recyclerAdapter;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
     private final AppCompatActivity thisActivity=this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        RecyclerView mRecyclerView;
+        RecyclerView.LayoutManager mLayoutManager;
         setContentView(R.layout.activity_sub_list);
 
         setToolbar((Toolbar) findViewById(R.id.sub_list_toolbar));
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.sub_page_fab);
+        FloatingActionButton fab =findViewById(R.id.sub_page_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,7 +46,7 @@ public class SubListActivity extends BarCompatActivity {
             }
         });
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.sub_list_recycler_view);
+        mRecyclerView = findViewById(R.id.sub_list_recycler_view);
 
         Query query = DataAccess.getSublistQuery();
 

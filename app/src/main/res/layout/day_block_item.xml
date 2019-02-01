@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:background="@drawable/circle"
+        android:background="@drawable/day_block_item_note_count_background"
         android:layout_below="@+id/time"
         android:gravity="center"/>
     <TextView

@@ -1,5 +1,6 @@
 package com.wat.student.adkoch.wattable.db.handlers.day;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,9 @@ public class BlocklistAdapter extends RecyclerView.Adapter<BlocklistAdapter.Bloc
 
     private final String[] blockTime= {"8:00  ", "9:50  ", "11:40", "13:30", "15:45", "17:35", "19:25"};
 
-    public static class BlocklistViewHolder extends RecyclerView.ViewHolder{
-        public TextView timeTextView, descriptionTextView, detailsTextView, noteCountTextView;
-        public BlocklistViewHolder(View v){
+    static class BlocklistViewHolder extends RecyclerView.ViewHolder{
+        TextView timeTextView, descriptionTextView, detailsTextView, noteCountTextView;
+        BlocklistViewHolder(View v){
             super(v);
             timeTextView = v.findViewById(R.id.time);
             descriptionTextView = v.findViewById(R.id.subject_description);
@@ -31,8 +32,9 @@ public class BlocklistAdapter extends RecyclerView.Adapter<BlocklistAdapter.Bloc
         mDataset = dataset;
     }
 
+    @NonNull
     @Override
-    public BlocklistAdapter.BlocklistViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public BlocklistAdapter.BlocklistViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.day_block_item, parent, false);
 
@@ -40,10 +42,10 @@ public class BlocklistAdapter extends RecyclerView.Adapter<BlocklistAdapter.Bloc
     }
 
     @Override
-    public void onBindViewHolder(BlocklistAdapter.BlocklistViewHolder holder, int position){
+    public void onBindViewHolder(@NonNull BlocklistAdapter.BlocklistViewHolder holder, int position){
         Block block = mDataset.get(position);
-        String displayDescription="";
-        String displayDetails="";
+        String displayDescription;
+        String displayDetails;
         String displayTime="";
         String displayNoteCount="";
         if(block.getPlace() == null || block.getBlockNr() == -1 || block.getType() == null || block.getSubjectName() == null || block.getSubjectNameShort() == null || block.getTimeBlockNr() == -1){

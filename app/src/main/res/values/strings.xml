@@ -20,4 +20,5 @@
     <string name="set_button_text">Ustaw</string>
     <string name="semester_text">Semestr</string>
     <string name="group_text">Grupa</string>
+    <string name="addSubButtonEditText">Edytuj</string>
 </resources>

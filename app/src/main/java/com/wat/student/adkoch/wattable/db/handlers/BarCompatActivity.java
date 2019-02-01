@@ -15,10 +15,8 @@ import com.wat.student.adkoch.wattable.db.activities.SubListActivity;
 import com.wat.student.adkoch.wattable.db.activities.WeekActivity;
 
 public abstract class BarCompatActivity extends AppCompatActivity {
-    Toolbar toolbar;
 
     protected void setToolbar(Toolbar toolbar){
-        this.toolbar=toolbar;
         setSupportActionBar(toolbar);
     }
 

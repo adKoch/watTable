@@ -41,13 +41,12 @@ public class WeekActivity extends BarCompatActivity {
     private RecyclerView weekDateRecyclerView;
     private RecyclerView.Adapter weekDateAdapter;
     private RecyclerView.LayoutManager weekDateLayoutManager;
-    private List<WeekDateContainer> dates;
 
     private final AppCompatActivity thisActivity=this;
 
     private String TAG = "WeekActivity";
 
-    WeekBlocklistContainer weekBlocklistContainer;
+    private WeekBlocklistContainer weekBlocklistContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,12 +55,12 @@ public class WeekActivity extends BarCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_week);
 
-        spinner=(ProgressBar) findViewById(R.id.week_spinner);
+        spinner=findViewById(R.id.week_spinner);
         setToolbar((Toolbar) findViewById(R.id.week_toolbar));
 
         weekBlocklistContainer=new WeekBlocklistContainer(DataAccess.getSemesterStart().toDate(),DataAccess.getSemesterEnd().toDate());
         loadData(DataAccess.getTimetableQuery());
-        weekBlockRecyclerView = (RecyclerView) findViewById(R.id.week_block_recycler_view);
+        weekBlockRecyclerView = findViewById(R.id.week_block_recycler_view);
         weekBlockRecyclerView.setHasFixedSize(true);
         weekBlockLayoutManager = new GridLayoutManager(this, 7);
         weekBlockRecyclerView.setLayoutManager(weekBlockLayoutManager);
@@ -70,7 +69,7 @@ public class WeekActivity extends BarCompatActivity {
 
         weekBlockAdapter = new WeekBlockAdapter(weekBlocklistContainer.getBlocks());
 
-        weekDateRecyclerView = (RecyclerView) findViewById(R.id.week_date_recycler_view);
+        weekDateRecyclerView = findViewById(R.id.week_date_recycler_view);
         weekDateRecyclerView.setHasFixedSize(true);
         weekDateLayoutManager = new LinearLayoutManager(this);
         weekDateRecyclerView.setLayoutManager(weekDateLayoutManager);
@@ -85,7 +84,7 @@ public class WeekActivity extends BarCompatActivity {
         scrollListeners[0] = new RecyclerView.OnScrollListener( )
         {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy)
             {
                 super.onScrolled(recyclerView, dx, dy);
                 weekBlockRecyclerView.removeOnScrollListener(scrollListeners[1]);
@@ -96,7 +95,7 @@ public class WeekActivity extends BarCompatActivity {
         scrollListeners[1] = new RecyclerView.OnScrollListener( )
         {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy)
             {
                 super.onScrolled(recyclerView, dx, dy);
                 weekDateRecyclerView.removeOnScrollListener(scrollListeners[0]);

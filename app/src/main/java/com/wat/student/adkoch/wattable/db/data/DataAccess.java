@@ -129,8 +129,10 @@ public final class DataAccess {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     DocumentSnapshot ds = task.getResult();
-                    semesterStart=(Timestamp) ds.get("semesterStart");
-                    semesterEnd=(Timestamp) ds.get("semesterEnd");
+                    if (ds != null) {
+                        semesterStart=(Timestamp) ds.get("semesterStart");
+                        semesterEnd=(Timestamp) ds.get("semesterEnd");
+                    }
 
                     Log.d("WeekFetch","Fetch week ranges successful start: "+new SimpleDateFormat("dd/MM/yyyy").format(semesterStart.toDate()) +", end: "+new SimpleDateFormat("dd/MM/yyyy").format(semesterEnd.toDate()));
                 }else {

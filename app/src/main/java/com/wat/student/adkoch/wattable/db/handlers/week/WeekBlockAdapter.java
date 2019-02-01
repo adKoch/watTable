@@ -1,5 +1,6 @@
 package com.wat.student.adkoch.wattable.db.handlers.week;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +15,9 @@ import java.util.List;
 public class WeekBlockAdapter extends RecyclerView.Adapter<WeekBlockAdapter.WeekBlockViewHolder>  {
     private List<Block> mDataset;
 
-    private final String[] blockTime= {"8:00  ", "9:50  ", "11:40", "13:30", "15:45", "17:35", "19:25"};
-
-    public static class WeekBlockViewHolder extends RecyclerView.ViewHolder{
-        public TextView descriptionTextView, detailsTextView, locationTextView;
-        public WeekBlockViewHolder(View v){
+    static class WeekBlockViewHolder extends RecyclerView.ViewHolder{
+        TextView descriptionTextView, detailsTextView, locationTextView;
+        WeekBlockViewHolder(View v){
             super(v);
             descriptionTextView = v.findViewById(R.id.subject_description);
             detailsTextView = v.findViewById(R.id.subject_details);
@@ -30,8 +29,9 @@ public class WeekBlockAdapter extends RecyclerView.Adapter<WeekBlockAdapter.Week
         mDataset = dataset;
     }
 
+    @NonNull
     @Override
-    public WeekBlockViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public WeekBlockViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.week_block_item, parent, false);
 
@@ -39,7 +39,7 @@ public class WeekBlockAdapter extends RecyclerView.Adapter<WeekBlockAdapter.Week
     }
 
     @Override
-    public void onBindViewHolder(WeekBlockViewHolder holder, int position){
+    public void onBindViewHolder(@NonNull WeekBlockViewHolder holder, int position){
         Block block = mDataset.get(position);
         String displayDescription;
         String displayDetails;

@@ -1,11 +1,6 @@
 package com.wat.student.adkoch.wattable.db.data.entities;
 
-import com.google.firebase.Timestamp;
-
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 public final class Block implements Serializable {
     private int timeBlockNr;
@@ -139,10 +134,11 @@ public final class Block implements Serializable {
 
         String shortName="";
         String[] part = subjectName.split(" ");
-        for (int i = 0; i < part.length; i++) {
-            String s = part[i];
-            shortName=shortName+s.charAt(0);
+        StringBuilder sBuilder = new StringBuilder();
+        for (String s:part){
+            sBuilder.append(s.charAt(0));
         }
+        shortName=sBuilder.toString();
         this.subjectNameShort=shortName;
         this.subjectName=subjectName;
         this.type=type;

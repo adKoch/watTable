@@ -21,10 +21,6 @@ public class WeekDateContainer {
         return day;
     }
 
-    public int getDayOfTheWeekNumber() {
-        return dayOfTheWeek;
-    }
-
     public String getDayOfTheWeek(){
         return daysOfTheWeek[dayOfTheWeek];
     }

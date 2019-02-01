@@ -1,5 +1,6 @@
 package com.wat.student.adkoch.wattable.db.handlers.block;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +16,9 @@ import java.util.List;
 public class NotelistAdapter extends RecyclerView.Adapter<NotelistAdapter.NotelistViewHolder> {
     private List<Note> mDataset;
 
-    public static class NotelistViewHolder extends RecyclerView.ViewHolder{
-        public TextView titleTextView, authorTextView, descriptionTextView;
-        public NotelistViewHolder(View v){
+    static class NotelistViewHolder extends RecyclerView.ViewHolder{
+        TextView titleTextView, authorTextView, descriptionTextView;
+        NotelistViewHolder(View v){
             super(v);
             titleTextView = v.findViewById(R.id.title);
             authorTextView = v.findViewById(R.id.author);
@@ -29,8 +30,9 @@ public class NotelistAdapter extends RecyclerView.Adapter<NotelistAdapter.Noteli
         mDataset = dataset;
     }
 
+    @NonNull
     @Override
-    public NotelistAdapter.NotelistViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public NotelistAdapter.NotelistViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.note_item, parent, false);
 
@@ -38,7 +40,7 @@ public class NotelistAdapter extends RecyclerView.Adapter<NotelistAdapter.Noteli
     }
 
     @Override
-    public void onBindViewHolder(NotelistViewHolder holder, int position){
+    public void onBindViewHolder(@NonNull NotelistViewHolder holder, int position){
         Note note = mDataset.get(position);
         holder.titleTextView.setText(note.getTitle());
         holder.authorTextView.setText(SubscriptionMapper.getInstance().getSubTitle(note.getAuthor()));

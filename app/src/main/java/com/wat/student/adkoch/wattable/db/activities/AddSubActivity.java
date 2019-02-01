@@ -15,11 +15,12 @@ import com.wat.student.adkoch.wattable.db.data.entities.Subscription;
 import com.wat.student.adkoch.wattable.db.handlers.BarCompatActivity;
 
 public class AddSubActivity extends BarCompatActivity {
-    Subscription sub;
-    Button addSubButton, clearButton, deleteButton;
-    EditText subName, subToken;
+    private Subscription sub;
+    private Button addSubButton, deleteButton;
+    private EditText subName, subToken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Button clearButton;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_sub);
         setToolbar((Toolbar) findViewById(R.id.add_sub_toolbar));
@@ -34,18 +35,18 @@ public class AddSubActivity extends BarCompatActivity {
         sub =(Subscription) getIntent().getSerializableExtra("sub");
         checkState();
 
-        final Toast successfullAddToast= Toast.makeText(this,"Pomyślnie dodano subskrypcję!",Toast.LENGTH_SHORT);
-        final Toast successfullDeleteToast= Toast.makeText(this,"Pomyślnie usunięto subskrypcję!",Toast.LENGTH_SHORT);
-        final Toast successfullEditToast= Toast.makeText(this,"Pomyślnie zedytowano subskrypcję!",Toast.LENGTH_SHORT);
+        final Toast successfulAddToast= Toast.makeText(this,"Pomyślnie dodano subskrypcję!",Toast.LENGTH_SHORT);
+        final Toast successfulDeleteToast= Toast.makeText(this,"Pomyślnie usunięto subskrypcję!",Toast.LENGTH_SHORT);
+        final Toast successfulEditToast= Toast.makeText(this,"Pomyślnie zedytowano subskrypcję!",Toast.LENGTH_SHORT);
         addSubButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if(checkFields(subName.getText().toString(), subToken.getText().toString())){
 
                     if(null!=sub){
                         DataAccess.deleteSub(sub);
-                        successfullEditToast.show();
+                        successfulEditToast.show();
                     } else {
-                        successfullAddToast.show();
+                        successfulAddToast.show();
                     }
 
                     addSub(subName.getText().toString(), subToken.getText().toString());
@@ -66,7 +67,7 @@ public class AddSubActivity extends BarCompatActivity {
             @Override
             public void onClick(View v) {
                 DataAccess.deleteSub(sub);
-                successfullDeleteToast.show();
+                successfulDeleteToast.show();
                 goToSubs();
                 SubscriptionMapper.getInstance().setSubs();
             }
@@ -82,7 +83,7 @@ public class AddSubActivity extends BarCompatActivity {
             deleteButton.setVisibility(View.VISIBLE);
             subName.setText(sub.getTitle());
             subToken.setText(sub.getToken());
-            addSubButton.setText("Edytuj");
+            addSubButton.setText(getString(R.string.addSubButtonEditText));
         }
     }
     private void addSub(String subName, String subToken){
