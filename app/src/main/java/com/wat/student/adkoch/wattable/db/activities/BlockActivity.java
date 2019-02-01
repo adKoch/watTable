@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
 
 public class BlockActivity extends BarCompatActivity {
 
-    private TextView description, details;
+    private TextView descriptionTextView, detailsTextView;
     private Block block;
     private static final String[] months = {"Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"};
     private static final String[] daysOfTheWeek = { "Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"};
@@ -44,7 +44,7 @@ public class BlockActivity extends BarCompatActivity {
     private RecyclerView noteRecyclerView;
     private RecyclerView.LayoutManager noteLayoutManager;
     private NotelistAdapter notelistAdapter;
-    private ProgressBar spinner;
+    private ProgressBar blockProgressBar;
 
 
     @Override
@@ -55,14 +55,14 @@ public class BlockActivity extends BarCompatActivity {
 
         notes=new ArrayList<>();
         block =(Block) getIntent().getSerializableExtra("block");
-        description=findViewById(R.id.description);
-        details=findViewById(R.id.details);
-        spinner= (ProgressBar) findViewById(R.id.notes_spinner);
+        descriptionTextView= findViewById(R.id.description);
+        detailsTextView= findViewById(R.id.details);
+        blockProgressBar = findViewById(R.id.notes_spinner);
 
         setFields();
         notelistAdapter = new NotelistAdapter(notes);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.block_page_fab);
+        FloatingActionButton fab = findViewById(R.id.block_page_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,7 +97,7 @@ public class BlockActivity extends BarCompatActivity {
                         notes.add(doc.toObject(Note.class));
                     }
                 }
-                spinner.setVisibility(View.INVISIBLE);
+                blockProgressBar.setVisibility(View.INVISIBLE);
                 notelistAdapter.notifyDataSetChanged();
                 noteRecyclerView.setVisibility(View.VISIBLE);
             }
@@ -139,8 +139,8 @@ public class BlockActivity extends BarCompatActivity {
         displayDescription = block.getSubjectName() + " (" + block.getType() + ") [" + block.getBlockNr() + "]";
 
         setTitle(getCurrentDayOfTheWeek()+" - "+block.getDay()+" "+months[block.getMonth()-1]+" - "+blockTime[block.getTimeBlockNr()-1]+"("+ block.getTimeBlockNr()+")");
-        description.setText(displayDescription);
-        details.setText(displayDetails);
+        descriptionTextView.setText(displayDescription);
+        detailsTextView.setText(displayDetails);
     }
 
 }

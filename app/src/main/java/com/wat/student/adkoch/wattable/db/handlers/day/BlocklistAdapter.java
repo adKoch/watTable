@@ -17,13 +17,13 @@ public class BlocklistAdapter extends RecyclerView.Adapter<BlocklistAdapter.Bloc
     private final String[] blockTime= {"8:00  ", "9:50  ", "11:40", "13:30", "15:45", "17:35", "19:25"};
 
     public static class BlocklistViewHolder extends RecyclerView.ViewHolder{
-        public TextView time, description, details, noteCount;
+        public TextView timeTextView, descriptionTextView, detailsTextView, noteCountTextView;
         public BlocklistViewHolder(View v){
             super(v);
-            time = (TextView) v.findViewById(R.id.time);
-            description = (TextView) v.findViewById(R.id.subject_description);
-            details = (TextView) v.findViewById(R.id.subject_details);
-            noteCount = (TextView) v.findViewById(R.id.note_count);
+            timeTextView = v.findViewById(R.id.time);
+            descriptionTextView = v.findViewById(R.id.subject_description);
+            detailsTextView = v.findViewById(R.id.subject_details);
+            noteCountTextView = v.findViewById(R.id.note_count);
         }
     }
 
@@ -61,15 +61,15 @@ public class BlocklistAdapter extends RecyclerView.Adapter<BlocklistAdapter.Bloc
         }
         if(block.getNoteCount()>0){
             displayNoteCount= ""+block.getNoteCount();
-            holder.noteCount.setVisibility(View.VISIBLE);
+            holder.noteCountTextView.setVisibility(View.VISIBLE);
         } else {
-            holder.noteCount.setVisibility(View.INVISIBLE);
+            holder.noteCountTextView.setVisibility(View.INVISIBLE);
         }
         if(block.getTimeBlockNr()>=1 && block.getTimeBlockNr()<=7) displayTime = blockTime[block.getTimeBlockNr()-1] + "   ";
-        holder.time.setText(displayTime);
-        holder.description.setText(displayDescription);
-        holder.details.setText(displayDetails);
-        holder.noteCount.setText(displayNoteCount);
+        holder.timeTextView.setText(displayTime);
+        holder.descriptionTextView.setText(displayDescription);
+        holder.detailsTextView.setText(displayDetails);
+        holder.noteCountTextView.setText(displayNoteCount);
     }
 
     @Override

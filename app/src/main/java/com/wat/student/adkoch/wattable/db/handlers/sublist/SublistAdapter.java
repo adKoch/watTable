@@ -15,11 +15,11 @@ public class SublistAdapter extends RecyclerView.Adapter<SublistAdapter.SublistV
     private List<Subscription> mDataset;
 
     public static class SublistViewHolder extends RecyclerView.ViewHolder{
-        public TextView title, token;
+        public TextView titleTextView, tokenTextView;
         public SublistViewHolder(View v){
             super(v);
-            title = (TextView) v.findViewById(R.id.title);
-            token = (TextView) v.findViewById(R.id.token);
+            titleTextView = v.findViewById(R.id.title);
+            tokenTextView = v.findViewById(R.id.token);
         }
     }
 
@@ -38,8 +38,8 @@ public class SublistAdapter extends RecyclerView.Adapter<SublistAdapter.SublistV
     @Override
     public void onBindViewHolder(SublistViewHolder holder, int position){
         Subscription sub = mDataset.get(position);
-        holder.title.setText(sub.getTitle());
-        holder.token.setText(sub.getToken());
+        holder.titleTextView.setText(sub.getTitle());
+        holder.tokenTextView.setText(sub.getToken());
     }
 
     @Override

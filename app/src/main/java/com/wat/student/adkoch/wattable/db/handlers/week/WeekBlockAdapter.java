@@ -17,12 +17,12 @@ public class WeekBlockAdapter extends RecyclerView.Adapter<WeekBlockAdapter.Week
     private final String[] blockTime= {"8:00  ", "9:50  ", "11:40", "13:30", "15:45", "17:35", "19:25"};
 
     public static class WeekBlockViewHolder extends RecyclerView.ViewHolder{
-        public TextView description, details, location;
+        public TextView descriptionTextView, detailsTextView, locationTextView;
         public WeekBlockViewHolder(View v){
             super(v);
-            description = (TextView) v.findViewById(R.id.subject_description);
-            details = (TextView) v.findViewById(R.id.subject_details);
-            location = (TextView) v.findViewById(R.id.subject_location);
+            descriptionTextView = v.findViewById(R.id.subject_description);
+            detailsTextView = v.findViewById(R.id.subject_details);
+            locationTextView = v.findViewById(R.id.subject_location);
         }
     }
 
@@ -53,12 +53,12 @@ public class WeekBlockAdapter extends RecyclerView.Adapter<WeekBlockAdapter.Week
             displayDetails = "(" + block.getType() + ") [" + block.getBlockNr() + "]";
             displayLocation = block.getPlace();
         }
-        holder.description.setText(displayDescription);
-        holder.details.setText(displayDetails);
+        holder.descriptionTextView.setText(displayDescription);
+        holder.detailsTextView.setText(displayDetails);
         if(displayLocation.length()>5){
             displayLocation=displayLocation.substring(0,5)+"...";
         }
-        holder.location.setText(displayLocation);
+        holder.locationTextView.setText(displayLocation);
     }
 
     @Override

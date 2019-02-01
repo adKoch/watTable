@@ -14,11 +14,11 @@ public class WeekDateAdapter extends RecyclerView.Adapter<WeekDateAdapter.WeekDa
     private List<WeekDateContainer> mDataset;
 
     public static class WeekDateViewHolder extends RecyclerView.ViewHolder{
-        public TextView date,dayoftw;
+        public TextView dateTextView,dayoftwTextView;
         public WeekDateViewHolder(View v){
             super(v);
-            date = (TextView) v.findViewById(R.id.date_text_view);
-            dayoftw = (TextView) v.findViewById(R.id.day_of_the_week_text_view);
+            dateTextView = v.findViewById(R.id.date_text_view);
+            dayoftwTextView = v.findViewById(R.id.day_of_the_week_text_view);
         }
     }
 
@@ -41,8 +41,8 @@ public class WeekDateAdapter extends RecyclerView.Adapter<WeekDateAdapter.WeekDa
         String displayDate=weekDate.getDay()+"."+weekDate.getMonth();
         String displayDayOfTheWeek=weekDate.getDayOfTheWeek();
 
-        holder.date.setText(displayDate);
-        holder.dayoftw.setText(displayDayOfTheWeek);
+        holder.dateTextView.setText(displayDate);
+        holder.dayoftwTextView.setText(displayDayOfTheWeek);
     }
 
     @Override

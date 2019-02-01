@@ -16,12 +16,12 @@ public class NotelistAdapter extends RecyclerView.Adapter<NotelistAdapter.Noteli
     private List<Note> mDataset;
 
     public static class NotelistViewHolder extends RecyclerView.ViewHolder{
-        public TextView title, author, description;
+        public TextView titleTextView, authorTextView, descriptionTextView;
         public NotelistViewHolder(View v){
             super(v);
-            title = (TextView) v.findViewById(R.id.title);
-            author = (TextView) v.findViewById(R.id.author);
-            description = (TextView) v.findViewById(R.id.description);
+            titleTextView = v.findViewById(R.id.title);
+            authorTextView = v.findViewById(R.id.author);
+            descriptionTextView = v.findViewById(R.id.description);
         }
     }
 
@@ -40,9 +40,9 @@ public class NotelistAdapter extends RecyclerView.Adapter<NotelistAdapter.Noteli
     @Override
     public void onBindViewHolder(NotelistViewHolder holder, int position){
         Note note = mDataset.get(position);
-        holder.title.setText(note.getTitle());
-        holder.author.setText(SubscriptionMapper.getInstance().getSubTitle(note.getAuthor()));
-        holder.description.setText(note.getDescription());
+        holder.titleTextView.setText(note.getTitle());
+        holder.authorTextView.setText(SubscriptionMapper.getInstance().getSubTitle(note.getAuthor()));
+        holder.descriptionTextView.setText(note.getDescription());
     }
 
     @Override
