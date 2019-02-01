@@ -32,7 +32,7 @@ public class AddNoteActivity extends AppCompatActivity {
         token= DataAccess.getUserToken();
         block =(Block) getIntent().getSerializableExtra("block");
 
-        final Toast addToast = Toast.makeText(this,"Dodaję notatkę...",Toast.LENGTH_SHORT);
+        final Toast addToast = Toast.makeText(this,getString(R.string.adding_note_toast_text),Toast.LENGTH_SHORT);
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override

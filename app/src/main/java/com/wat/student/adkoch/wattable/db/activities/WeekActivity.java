@@ -112,7 +112,7 @@ public class WeekActivity extends AppCompatActivity {
                 Block b = weekBlocklistContainer.getBlocks().get(position);
                 if(null!=b.getSubjectName()){
                     Intent intent = new Intent(thisActivity, BlockActivity.class);
-                    intent.putExtra("block",b);
+                    intent.putExtra(getString(R.string.serializable_block_name),b);
                     startActivity(intent);
                 }
             }
@@ -132,7 +132,7 @@ public class WeekActivity extends AppCompatActivity {
                     if(task.isSuccessful()){
                         for(DocumentSnapshot doc:task.getResult()){
                             weekBlocklistContainer.put(doc.toObject(Block.class));
-                            Log.d(TAG,"Successfuly retrieved document: " +doc.getId());
+                            Log.d(TAG,getString(R.string.week_log_success_retrieved_document) +doc.getId());
                         }
                         weekBlockAdapter.notifyDataSetChanged();
                         weekDateAdapter.notifyDataSetChanged();
@@ -142,7 +142,7 @@ public class WeekActivity extends AppCompatActivity {
                         weekBlockRecyclerView.setVisibility(View.VISIBLE);
                         weekDateRecyclerView.setVisibility(View.VISIBLE);
                     } else {
-                        Log.w(TAG,"Failure fetching days for the given day");
+                        Log.w(TAG,getString(R.string.week_log_fail_fetching_days));
                     }
                 }
         });

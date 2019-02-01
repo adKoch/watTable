@@ -56,7 +56,7 @@ public class BlockActivity extends AppCompatActivity {
 
         RecyclerView.LayoutManager noteLayoutManager;
         notes=new ArrayList<>();
-        block =(Block) getIntent().getSerializableExtra("block");
+        block =(Block) getIntent().getSerializableExtra(getString(R.string.serializable_block_name));
         descriptionTextView= findViewById(R.id.description);
         detailsTextView= findViewById(R.id.details);
         blockProgressBar = findViewById(R.id.notes_spinner);

@@ -30,7 +30,7 @@ public class AddSubActivity extends AppCompatActivity {
         deleteButton = findViewById(R.id.delete_sub_button);
         clearButton = findViewById(R.id.clearButton);
 
-        sub =(Subscription) getIntent().getSerializableExtra("sub");
+        sub =(Subscription) getIntent().getSerializableExtra(getString(R.string.serializable_subscription_name));
         checkState();
 
         final Toast successfulAddToast= Toast.makeText(this,"Pomyślnie dodano subskrypcję!",Toast.LENGTH_SHORT);

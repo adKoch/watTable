@@ -21,4 +21,9 @@
     <string name="semester_text">Semestr</string>
     <string name="group_text">Grupa</string>
     <string name="addSubButtonEditText">Edytuj</string>
+    <string name="serializable_subscription_name">sub</string>
+    <string name="week_log_fail_fetching_days">Failure fetching days for the given day</string>
+    <string name="week_log_success_retrieved_document">Successfully retrieved document:</string>
+    <string name="serializable_block_name">block</string>
+    <string name="adding_note_toast_text">Dodaję notatkę...</string>
 </resources>

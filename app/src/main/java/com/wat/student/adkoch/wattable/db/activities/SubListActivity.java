@@ -80,7 +80,7 @@ public class SubListActivity extends AppCompatActivity {
             public void onClick(View view, int position) {
                 Subscription sub = recyclerAdapter.getItem(position);
                 Intent intent = new Intent(thisActivity, AddSubActivity.class);
-                intent.putExtra("sub",sub);
+                intent.putExtra(getString(R.string.serializable_subscription_name),sub);
                 startActivity(intent);
             }
 

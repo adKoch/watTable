@@ -103,7 +103,7 @@ public class DayActivity extends AppCompatActivity {
                 Block b = dayBlocklistContainer.getBlock(position);
                 if(null!=b.getSubjectName()){
                     Intent intent = new Intent(thisActivity, BlockActivity.class);
-                    intent.putExtra("block",b);
+                    intent.putExtra(getString(R.string.serializable_block_name),b);
                     startActivity(intent);
                 }
             }
