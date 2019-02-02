@@ -98,18 +98,13 @@ public class DayActivity extends AppCompatActivity {
 
         dayRecyclerView.addOnItemTouchListener( new ListRecyclerTouchListener(this, dayRecyclerView, new ListRecyclerTouchListener.ClickListener() {
             @Override
-            public void onClick(View view, int position) {
+            public void onClick(int position) {
                 Block b = dayBlocklistContainer.getBlock(position);
                 if(null!=b.getSubjectName()){
                     Intent intent = new Intent(thisActivity, BlockActivity.class);
                     intent.putExtra(getString(R.string.serializable_block_name),b);
                     startActivity(intent);
                 }
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
             }
         }));
     }

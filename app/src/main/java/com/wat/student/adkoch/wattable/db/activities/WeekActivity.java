@@ -42,8 +42,6 @@ public class WeekActivity extends AppCompatActivity {
     private RecyclerView.Adapter weekDateAdapter;
     private RecyclerView.LayoutManager weekDateLayoutManager;
 
-    private final AppCompatActivity thisActivity=this;
-
     private String TAG;
 
     private WeekBlocklistContainer weekBlocklistContainer;
@@ -60,7 +58,7 @@ public class WeekActivity extends AppCompatActivity {
 
         TAG = getString(R.string.Week_log_TAG);
 
-        weekBlocklistContainer=new WeekBlocklistContainer(Settings.getInstance().getSemesterStart().toDate(),Settings.getInstance().getSemesterEnd().toDate());
+        weekBlocklistContainer=new WeekBlocklistContainer(Settings.getInstance().getSemesterStart().toDate(),Settings.getInstance().getSemesterEnd().toDate(),this);
         loadData(Settings.getInstance().getTimetableQuery());
         weekBlockRecyclerView = findViewById(R.id.week_block_recycler_view);
         weekBlockRecyclerView.setHasFixedSize(true);
@@ -110,18 +108,13 @@ public class WeekActivity extends AppCompatActivity {
 
         weekBlockRecyclerView.addOnItemTouchListener( new ListRecyclerTouchListener(this, weekBlockRecyclerView, new ListRecyclerTouchListener.ClickListener() {
             @Override
-            public void onClick(View view, int position) {
+            public void onClick(int position) {
                 Block b = weekBlocklistContainer.getBlocks().get(position);
                 if(null!=b.getSubjectName()){
-                    Intent intent = new Intent(thisActivity, BlockActivity.class);
+                    Intent intent = new Intent(getParent(), BlockActivity.class);
                     intent.putExtra(getString(R.string.serializable_block_name),b);
                     startActivity(intent);
                 }
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
             }
         }));
     }

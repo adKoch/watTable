@@ -52,6 +52,15 @@
         <item>@string/dayOfTheWeek6</item>
         <item>@string/dayOfTheWeek7</item>
     </string-array>
+    <string-array name="daysOfTheWeekShort">
+        <item>@string/dayOfTheWeekShort1</item>
+        <item>@string/dayOfTheWeekShort2</item>
+        <item>@string/dayOfTheWeekShort3</item>
+        <item>@string/dayOfTheWeekShort4</item>
+        <item>@string/dayOfTheWeekShort5</item>
+        <item>@string/dayOfTheWeekShort6</item>
+        <item>@string/dayOfTheWeekShort7</item>
+    </string-array>
     <string-array name="blockTimes">
         <item>8:00</item>
         <item>9:50</item>
@@ -68,6 +77,13 @@
     <string name="dayOfTheWeek5">Czwartek</string>
     <string name="dayOfTheWeek6">Piątek</string>
     <string name="dayOfTheWeek7">Sobota</string>
+    <string name="dayOfTheWeekShort1">Nd</string>
+    <string name="dayOfTheWeekShort2">Pon</string>
+    <string name="dayOfTheWeekShort3">Wt</string>
+    <string name="dayOfTheWeekShort4">Śr</string>
+    <string name="dayOfTheWeekShort5">Czw</string>
+    <string name="dayOfTheWeekShort6">Pt</string>
+    <string name="dayOfTheWeekShort7">Sb</string>
     <string name="month1">Styczeń</string>
     <string name="month2">Luty</string>
     <string name="month3">Marzec</string>

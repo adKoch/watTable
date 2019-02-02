@@ -1,19 +1,15 @@
 package com.wat.student.adkoch.wattable.db.handlers.week;
 
-import android.util.Log;
+import android.content.Context;
 
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class WeekBlocklistContainer {
-
-    private String TAG="WeekBlocklistContainer";
 
     private List<Block> blocks;
     private List<WeekDateContainer> days;
@@ -28,13 +24,12 @@ public class WeekBlocklistContainer {
     }
 
 
-    public WeekBlocklistContainer(Date startDate, Date endDate){
+    public WeekBlocklistContainer(Date startDate, Date endDate, Context context){
 
         Calendar start = Calendar.getInstance();
         start.setTime(startDate);
         Calendar end = Calendar.getInstance();
         end.setTime(endDate);
-
 
         Calendar startCal = Calendar.getInstance();
         startCal.setTime(startDate);
@@ -42,12 +37,6 @@ public class WeekBlocklistContainer {
         this.startDate=startCal;
 
         count=getDaysCountBetween(startDate,endDate)+1;
-
-        Log.d(TAG,"Init for WeekBlocklistContainer with start: "
-                +new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(startDate)
-                +", end: "+new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(endDate)
-                + " with :"+getDaysCountBetween(startDate,endDate));
-        Log.d(TAG,"Initiated blocklist for index count: "+count);
 
         blocks=new ArrayList<>(count*7);
         days=new ArrayList<>(count);
@@ -59,7 +48,7 @@ public class WeekBlocklistContainer {
         while(!start.after(end)){
             int month=start.get(Calendar.MONTH)+1;
             int day=start.get(Calendar.DAY_OF_MONTH);
-            days.add(new WeekDateContainer(month,day,start.get(Calendar.DAY_OF_WEEK)-1));
+            days.add(new WeekDateContainer(month,day,start.get(Calendar.DAY_OF_WEEK)-1, context));
             start.add(Calendar.DATE,1);
         }
 
@@ -67,7 +56,6 @@ public class WeekBlocklistContainer {
 
     public void put(Block b){
         blocks.set(getBlockDayIndex(b)*7+b.getTimeBlockNr()-1,b);
-        Log.d(TAG,"block set to index:"+(getBlockDayIndex(b)*7+b.getTimeBlockNr()-1));
     }
 
     private int getBlockDayIndex(Block b){

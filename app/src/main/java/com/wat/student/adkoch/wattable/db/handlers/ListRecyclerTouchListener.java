@@ -21,10 +21,6 @@ public class ListRecyclerTouchListener implements RecyclerView.OnItemTouchListen
 
             @Override
             public void onLongPress(MotionEvent e){
-                View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-                if(child != null && clickListener != null){
-                    clickListener.onLongClick(child, recyclerView.getChildAdapterPosition(child));
-                }
             }
         });
     }
@@ -33,7 +29,7 @@ public class ListRecyclerTouchListener implements RecyclerView.OnItemTouchListen
 
         View child = rv.findChildViewUnder(e.getX(), e.getY());
         if(child != null && clickListener != null && gestureDetector.onTouchEvent(e)){
-            clickListener.onClick(child, rv.getChildAdapterPosition(child));
+            clickListener.onClick(rv.getChildAdapterPosition(child));
         }
         return false;
     }
@@ -49,8 +45,6 @@ public class ListRecyclerTouchListener implements RecyclerView.OnItemTouchListen
     }
 
     public interface ClickListener{
-        void onClick(View view, int position);
-
-        void onLongClick(View view, int position);
+        void onClick(int position);
     }
 }

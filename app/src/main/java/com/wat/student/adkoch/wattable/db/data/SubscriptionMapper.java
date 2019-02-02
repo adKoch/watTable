@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class SubscriptionMapper {
     private Map<String,String> subMapper;
-    private static String TAG="SubscriptionMapper";
+    private String TAG="SubscriptionMapper";
 
     private static SubscriptionMapper instance;
 
@@ -31,9 +31,13 @@ public class SubscriptionMapper {
         return instance;
     }
 
+
+
     public String getSubTitle(String token){
         return subMapper.get(token);
     }
+
+
 
     public boolean contains(String s){
         return instance.subMapper.containsKey(s);

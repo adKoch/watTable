@@ -83,16 +83,11 @@ public class SubListActivity extends AppCompatActivity {
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         mRecyclerView.addOnItemTouchListener(new ListRecyclerTouchListener(getApplicationContext(), mRecyclerView, new ListRecyclerTouchListener.ClickListener() {
             @Override
-            public void onClick(View view, int position) {
+            public void onClick(int position) {
                 Subscription sub = recyclerAdapter.getItem(position);
                 Intent intent = new Intent(thisActivity, AddSubActivity.class);
                 intent.putExtra(getString(R.string.serializable_subscription_name),sub);
                 startActivity(intent);
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
             }
         }));
         mRecyclerView.setAdapter(recyclerAdapter);
