@@ -129,4 +129,9 @@ public class AddNoteActivity extends AppCompatActivity {
         }
         return uid.substring(0,12);
     }
+    @Override
+    protected void onStop(){
+        super.onStop();
+        finish();
+    }
 }

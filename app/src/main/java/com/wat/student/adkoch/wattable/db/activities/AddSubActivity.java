@@ -170,4 +170,9 @@ public class AddSubActivity extends AppCompatActivity {
             Log.w(TAG,"Fetching uid fail:" + e);
         }
     }
+    @Override
+    protected void onStop(){
+        super.onStop();
+        finish();
+    }
 }
