@@ -18,12 +18,12 @@ import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.wat.student.adkoch.wattable.R;
-import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.Settings;
 import com.wat.student.adkoch.wattable.db.data.SubscriptionMapper;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
@@ -88,7 +88,7 @@ public class BlockActivity extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
         noteRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        Query query = DataAccess.getNoteQuery(block);
+        Query query = getNoteQuery(block);
 
         query.addSnapshotListener( new EventListener<QuerySnapshot>() {
             @Override
@@ -110,6 +110,15 @@ public class BlockActivity extends AppCompatActivity {
             }
         });
         noteRecyclerView.setAdapter(notelistAdapter);
+    }
+
+    private Query getNoteQuery(Block b){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        return db.collection(getString(R.string.collection_semester))
+                .document(Settings.getInstance().getSemester())
+                .collection(Settings.getInstance().getGroup())
+                .document(b.getPart()+"-"+b.getMonth()+"-"+b.getDay()+"-"+b.getTimeBlockNr())
+                .collection(getString(R.string.collection_notes));
     }
 
     private void goToAddNote() {

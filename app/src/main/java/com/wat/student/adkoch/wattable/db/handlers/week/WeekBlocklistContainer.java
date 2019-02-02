@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class WeekBlocklistContainer {
 
@@ -43,8 +44,8 @@ public class WeekBlocklistContainer {
         count=getDaysCountBetween(startDate,endDate)+1;
 
         Log.d(TAG,"Init for WeekBlocklistContainer with start: "
-                +new SimpleDateFormat("dd/MM/yyyy").format(startDate)
-                +", end: "+new SimpleDateFormat("dd/MM/yyyy").format(endDate)
+                +new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(startDate)
+                +", end: "+new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(endDate)
                 + " with :"+getDaysCountBetween(startDate,endDate));
         Log.d(TAG,"Initiated blocklist for index count: "+count);
 

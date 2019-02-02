@@ -106,4 +106,11 @@
     <string name="SubListActivity_log_TAG">SubListActivity</string>
     <string name="collection_user">user</string>
     <string name="collection_sublist">sublist</string>
+    <string name="collection_notes">notes</string>
+    <string name="entity_note_title">title</string>
+    <string name="entity_note_author">author</string>
+    <string name="entity_note_description">description</string>
+    <string name="document_attribute_noteIndex">noteIndex</string>
+    <string name="document_attribute_noteCount">noteCount</string>
+    <string name="google_logo_description">Google logo</string>
 </resources>

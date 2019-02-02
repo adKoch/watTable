@@ -23,15 +23,14 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.wat.student.adkoch.wattable.R;
-import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.Settings;
 import com.wat.student.adkoch.wattable.db.data.SubscriptionMapper;
 
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -149,7 +148,8 @@ public class MainActivity extends AppCompatActivity {
                                                         Timestamp semesterStart=(Timestamp) ds.get("semesterStart");
                                                         Timestamp semesterEnd=(Timestamp) ds.get("semesterEnd");
                                                         Settings.setInstance(group, semester,semesterStart, semesterEnd);
-                                                        Log.d("WeekFetch","Fetch week ranges successful start: "+new SimpleDateFormat("dd/MM/yyyy").format(semesterStart.toDate()) +", end: "+new SimpleDateFormat("dd/MM/yyyy").format(semesterEnd.toDate()));
+                                                        Log.d("WeekFetch","Fetch week ranges successful start: "
+                                                                +new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(semesterStart.toDate()) +", end: "+new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(semesterEnd.toDate()));
                                                     }
                                                 }else {
                                                     Log.w("WeekFetch","Fetching week ranges unsuccessful");
