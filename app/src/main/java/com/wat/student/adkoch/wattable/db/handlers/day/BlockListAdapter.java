@@ -12,14 +12,14 @@ import com.wat.student.adkoch.wattable.db.data.entities.Block;
 
 import java.util.List;
 
-public class BlocklistAdapter extends RecyclerView.Adapter<BlocklistAdapter.BlocklistViewHolder>  {
+public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.BlockListViewHolder>  {
     private List<Block> mDataset;
 
     private String[] blockTime;
 
-    static class BlocklistViewHolder extends RecyclerView.ViewHolder{
+    static class BlockListViewHolder extends RecyclerView.ViewHolder{
         TextView timeTextView, descriptionTextView, detailsTextView, noteCountTextView;
-        BlocklistViewHolder(View v){
+        BlockListViewHolder(View v){
             super(v);
             timeTextView = v.findViewById(R.id.time);
             descriptionTextView = v.findViewById(R.id.subject_description);
@@ -28,22 +28,22 @@ public class BlocklistAdapter extends RecyclerView.Adapter<BlocklistAdapter.Bloc
         }
     }
 
-    public BlocklistAdapter(List<Block> dataset){
+    public BlockListAdapter(List<Block> dataset){
         mDataset = dataset;
     }
 
     @NonNull
     @Override
-    public BlocklistAdapter.BlocklistViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
+    public BlockListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.day_block_item, parent, false);
         blockTime=parent.getContext().getResources().getStringArray(R.array.blockTimes);
 
-        return new BlocklistAdapter.BlocklistViewHolder(v);
+        return new BlockListViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BlocklistAdapter.BlocklistViewHolder holder, int position){
+    public void onBindViewHolder(@NonNull BlockListViewHolder holder, int position){
         Block block = mDataset.get(position);
         String displayDescription;
         String displayDetails;

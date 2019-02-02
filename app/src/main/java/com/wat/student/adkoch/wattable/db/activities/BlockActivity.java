@@ -27,7 +27,7 @@ import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.SubscriptionMapper;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import com.wat.student.adkoch.wattable.db.data.entities.Note;
-import com.wat.student.adkoch.wattable.db.handlers.block.NotelistAdapter;
+import com.wat.student.adkoch.wattable.db.handlers.block.NoteListAdapter;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,13 +39,13 @@ public class BlockActivity extends AppCompatActivity {
 
     private TextView descriptionTextView, detailsTextView;
     private Block block;
-    private static final String[] months = {"Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"};
-    private static final String[] daysOfTheWeek = { "Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"};
-    private final String[] blockTime= {"8:00  ", "9:50  ", "11:40", "13:30", "15:45", "17:35", "19:25"};
-    private final String TAG="BlockActivity";
+    private String[] months;
+    private String[] daysOfTheWeek;
+    private String[] blockTime;
+    private String TAG;
     private List<Note> notes;
     private RecyclerView noteRecyclerView;
-    private NotelistAdapter notelistAdapter;
+    private NoteListAdapter notelistAdapter;
     private ProgressBar blockProgressBar;
 
     @Override
@@ -53,6 +53,10 @@ public class BlockActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_block);
         setSupportActionBar((Toolbar) findViewById(R.id.block_toolbar));
+        months = getResources().getStringArray(R.array.months);
+        daysOfTheWeek = getResources().getStringArray(R.array.daysOfTheWeek);
+        blockTime = getResources().getStringArray(R.array.blockTimes);
+        TAG=getString(R.string.BlockActivity_log_TAG);
 
         RecyclerView.LayoutManager noteLayoutManager;
         notes=new ArrayList<>();
@@ -62,7 +66,7 @@ public class BlockActivity extends AppCompatActivity {
         blockProgressBar = findViewById(R.id.notes_spinner);
 
         setFields();
-        notelistAdapter = new NotelistAdapter(notes);
+        notelistAdapter = new NoteListAdapter(notes);
 
         FloatingActionButton fab = findViewById(R.id.block_page_fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -95,7 +99,7 @@ public class BlockActivity extends AppCompatActivity {
                 notes.clear();
                 for(QueryDocumentSnapshot doc: queryDS){
                     Log.d(TAG,getString(R.string.Block_log_adding_block_doc)+doc.getId());
-                    if(SubscriptionMapper.getInstance().contains((String)doc.get("author"))){
+                    if(SubscriptionMapper.getInstance().contains((String)doc.get(getString(R.string.subscription_mapper_contains_author)))){
                         notes.add(doc.toObject(Note.class));
                     }
                 }
@@ -109,7 +113,7 @@ public class BlockActivity extends AppCompatActivity {
 
     private void goToAddNote() {
         Intent intent = new Intent(this, AddNoteActivity.class);
-        intent.putExtra("block",block);
+        intent.putExtra(getString(R.string.serializable_block_name),block);
         startActivity(intent);
     }
 

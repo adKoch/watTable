@@ -51,7 +51,7 @@ import java.util.Map;
 
 public class SettingsActivity extends AppCompatActivity{
 
-    private static String TAG="SettingsActivity";
+    private String TAG;
 
     private Spinner groupSpinner, semesterSpinner;
     private TextView tokenTextView, yourTokenTextView, semesterTextView, groupTextView;
@@ -62,6 +62,9 @@ public class SettingsActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        TAG=getResources().getString(R.string.SettingsActivity_log_TAG);
+
         settingsProgressBar =findViewById(R.id.settings_spinner);
         groupSpinner = findViewById(R.id.group_spinner);
         semesterSpinner= findViewById(R.id.semester_spinner);
@@ -118,9 +121,9 @@ public class SettingsActivity extends AppCompatActivity{
 
     private void loadGroups(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final List<String> grouplist = new ArrayList<>();
+        final List<String> groupList = new ArrayList<>();
         try{
-            db.collection("groups")
+            db.collection(getString(R.string.collection_groups))
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -128,10 +131,10 @@ public class SettingsActivity extends AppCompatActivity{
                             if(task.isSuccessful()){
 
                                 for(DocumentSnapshot doc : task.getResult()){
-                                    grouplist.add(doc.getId());
+                                    groupList.add(doc.getId());
                                     Log.d(TAG,"Successful retrieval of: "+ doc.getId());
                                 }
-                                setGroups(groupSpinner, grouplist);
+                                setGroups(groupSpinner, groupList);
                                 switchVisibility();
                             } else {
                                 Log.w(TAG,"Failed retrieval of document: "+ task.getException());
@@ -139,15 +142,15 @@ public class SettingsActivity extends AppCompatActivity{
                         }
                     });
         } catch(Exception e){
-            Log.w(TAG,"Fetching group list fail:" + e);
+            Log.w(TAG,getString(R.string.Settings_log_group_list_fail) + e);
         }
     }
 
     private void loadSemesters(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        final List<String> semesterlist = new ArrayList<>();
+        final List<String> semesterList = new ArrayList<>();
         try{
-            db.collection("semester")
+            db.collection(getString(R.string.collection_semester))
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -155,9 +158,9 @@ public class SettingsActivity extends AppCompatActivity{
                             if(task.isSuccessful()){
                                 for(QueryDocumentSnapshot document: task.getResult()){
                                     String id=document.getId();
-                                    semesterlist.add(id);
+                                    semesterList.add(id);
                                     Log.d(TAG,"Successful retrieval of"+ document.getId());
-                                    setSemesters(semesterSpinner,semesterlist);
+                                    setSemesters(semesterSpinner,semesterList);
                                     loadGroups();
                                     setToken();
                                 }
@@ -177,7 +180,7 @@ public class SettingsActivity extends AppCompatActivity{
         try {
             uid = user.getUid();
         } catch (Exception e) {
-            Log.w(TAG, "failed fetching uid: " + e);
+            Log.w(TAG, getString(R.string.Settings_log_failed_fetching_uid) + e);
         }
         tokenTextView.setText(uid.substring(0,12));
     }
@@ -203,7 +206,7 @@ public class SettingsActivity extends AppCompatActivity{
 
     private void printPdf(){
 
-        File file = new File("sdcard/Subscriptions.pdf");
+        File file = new File(getString(R.string.pdf_directory));
 
         if(!checkWritePermission()){
             return;
@@ -216,12 +219,12 @@ public class SettingsActivity extends AppCompatActivity{
 
             document.setPageSize(PageSize.A5);
             document.addCreationDate();
-            document.addCreator("WAT Rozkład");
+            document.addCreator(getString(R.string.pdf_creator));
 
             LineSeparator lineSeparator = new LineSeparator();
             lineSeparator.setLineColor(new BaseColor(0, 0, 0, 68));
 
-            Chunk mOrderIdChunk = new Chunk("Subscription list\n", new Font());
+            Chunk mOrderIdChunk = new Chunk(getString(R.string.pdf_title), new Font());
             Paragraph mOrderIdParagraph = new Paragraph(mOrderIdChunk);
             document.add(mOrderIdParagraph);
             for(Map.Entry<String,String> entry:SubscriptionMapper.getInstance().getSubs().entrySet()){
@@ -229,12 +232,12 @@ public class SettingsActivity extends AppCompatActivity{
                 document.add(new Paragraph(entry.getKey()+"-"+entry.getValue()));
             }
             document.close();
-            Toast.makeText(this,"Dokument wygenerowany pomyślnie!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.toast_pdf_generation_success),Toast.LENGTH_SHORT).show();
         } catch (DocumentException e) {
-            Toast.makeText(this,"Błąd zapisywania dokumentu",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.toast_pdf_saving_document_fail),Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         } catch (FileNotFoundException e) {
-            Toast.makeText(this,"Błąd otwierania pliku",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,getString(R.string.toast_pdf_opening_file_fail),Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }

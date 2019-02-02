@@ -25,8 +25,8 @@ import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import com.wat.student.adkoch.wattable.db.handlers.ListRecyclerTouchListener;
-import com.wat.student.adkoch.wattable.db.handlers.day.BlocklistAdapter;
-import com.wat.student.adkoch.wattable.db.handlers.day.DayBlocklistContainer;
+import com.wat.student.adkoch.wattable.db.handlers.day.BlockListAdapter;
+import com.wat.student.adkoch.wattable.db.handlers.day.DayBlockListContainer;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -38,7 +38,7 @@ public class DayActivity extends AppCompatActivity {
     private RecyclerView dayRecyclerView;
     private RecyclerView.Adapter dayAdapter;
     private RecyclerView.LayoutManager dayLayoutManager;
-    private DayBlocklistContainer dayBlocklistContainer;
+    private DayBlockListContainer dayBlocklistContainer;
     private Date currentDate;
     private TextView noBlocksTextView;
     private final AppCompatActivity thisActivity=this;
@@ -86,16 +86,13 @@ public class DayActivity extends AppCompatActivity {
 
         dayRecyclerView = findViewById(R.id.day_block_list_recycler_view);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
         dayRecyclerView.setHasFixedSize(true);
 
-        // use a linear layout manager
         dayLayoutManager = new LinearLayoutManager(this);
         dayRecyclerView.setLayoutManager(dayLayoutManager);
         dayRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        dayAdapter = new BlocklistAdapter(dayBlocklistContainer.getBlocklist());
+        dayAdapter = new BlockListAdapter(dayBlocklistContainer.getBlockList());
 
         dayRecyclerView.setAdapter(dayAdapter);
 
@@ -124,11 +121,10 @@ public class DayActivity extends AppCompatActivity {
         int month=cal.get(Calendar.MONTH);
         int day=cal.get(Calendar.DAY_OF_MONTH);
         setTitle(daysOfTheWeek[cal.get(Calendar.DAY_OF_WEEK)-1]+" - "+cal.get(Calendar.DAY_OF_MONTH)+" "+months[month]);
-        dayBlocklistContainer = new DayBlocklistContainer(month+1,day);
+        dayBlocklistContainer = new DayBlockListContainer(month+1,day);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         return true;
     }

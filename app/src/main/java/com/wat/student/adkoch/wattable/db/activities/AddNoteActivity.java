@@ -30,7 +30,7 @@ public class AddNoteActivity extends AppCompatActivity {
         descriptionInput=findViewById(R.id.note_description);
 
         token= DataAccess.getUserToken();
-        block =(Block) getIntent().getSerializableExtra("block");
+        block =(Block) getIntent().getSerializableExtra(getString(R.string.serializable_block_name));
 
         final Toast addToast = Toast.makeText(this,getString(R.string.adding_note_toast_text),Toast.LENGTH_SHORT);
 

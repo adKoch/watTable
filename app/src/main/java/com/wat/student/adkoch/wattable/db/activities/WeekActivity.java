@@ -44,7 +44,7 @@ public class WeekActivity extends AppCompatActivity {
 
     private final AppCompatActivity thisActivity=this;
 
-    private String TAG = "WeekActivity";
+    private String TAG;
 
     private WeekBlocklistContainer weekBlocklistContainer;
 
@@ -57,6 +57,8 @@ public class WeekActivity extends AppCompatActivity {
 
         spinner=findViewById(R.id.week_spinner);
         setSupportActionBar((Toolbar) findViewById(R.id.week_toolbar));
+
+        TAG = getString(R.string.Week_log_TAG);
 
         weekBlocklistContainer=new WeekBlocklistContainer(DataAccess.getSemesterStart().toDate(),DataAccess.getSemesterEnd().toDate());
         loadData(DataAccess.getTimetableQuery());

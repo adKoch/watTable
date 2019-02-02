@@ -5,20 +5,20 @@ import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class DayBlocklistContainer {
+public class DayBlockListContainer {
 
-    private ArrayList<Block> blocklist;
+    private ArrayList<Block> blockList;
     private String[] titles;
     private int month;
     private int day;
 
-    public DayBlocklistContainer(int month, int day){
+    public DayBlockListContainer(int month, int day){
         titles = new String[7];
-        blocklist = new ArrayList<>(7);
+        blockList = new ArrayList<>(7);
         this.month=month;
         this.day=day;
         for(int i=0;i<7;i++){
-            blocklist.add(new Block());
+            blockList.add(new Block());
             titles[i] = "";
         }
     }
@@ -38,7 +38,7 @@ public class DayBlocklistContainer {
         else {
             if(b.getDay()!=day || b.getMonth()!=month){
                 titles[index]="";
-                blocklist.set(index,new Block());
+                blockList.set(index,new Block());
             }
         }
     }
@@ -46,7 +46,7 @@ public class DayBlocklistContainer {
     private void add(Block b, String title){
         if(b.getTimeBlockNr()>7 || b.getTimeBlockNr()<1) return;
         titles[b.getTimeBlockNr()-1] = title;
-        blocklist.set(b.getTimeBlockNr()-1,b);
+        blockList.set(b.getTimeBlockNr()-1,b);
     }
 
     private int checkTitles(String title){
@@ -59,9 +59,9 @@ public class DayBlocklistContainer {
     }
 
     public Block getBlock(int index){
-        return blocklist.get(index);
+        return blockList.get(index);
     }
-    public ArrayList<Block> getBlocklist(){
-        return blocklist;
+    public ArrayList<Block> getBlockList(){
+        return blockList;
     }
 }

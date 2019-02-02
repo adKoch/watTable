@@ -99,18 +99,6 @@ public final class Block implements Serializable {
         return noteCount;
     }
 
-
-    /*public Block(int timeBlockNr, String subjectName, String subjectNameShort, String director, int blockNr, String place, String type, Timestamp date) {
-        this.timeBlockNr = timeBlockNr;
-        this.subjectName = subjectName;
-        this.subjectNameShort = subjectNameShort;
-        this.director = director;
-        this.blockNr = blockNr;
-        this.place = place;
-        this.type = type;
-        this.date = date;
-    }*/
-
     public Block(int timeBlockNr, int blockNr, int part, int month, int day, String director, String place, String subjectName, String subjectNameShort, String type, int noteCount) {
         this.timeBlockNr = timeBlockNr;
         this.subjectName = subjectName;
@@ -124,35 +112,6 @@ public final class Block implements Serializable {
         this.day=day;
         this.noteCount=noteCount;
     }
-   /* public Block(int timeBlockNr, Timestamp date){
-        this.timeBlockNr = timeBlockNr;
-        this.date = date;
-        blockNr=-1;
-        timeBlockNr=-1;
-    }*/
-    public Block(String subjectName, String type, int blockNr, String place, int month, int day,int timeBlockNr){
-
-        String shortName="";
-        String[] part = subjectName.split(" ");
-        StringBuilder sBuilder = new StringBuilder();
-        for (String s:part){
-            sBuilder.append(s.charAt(0));
-        }
-        shortName=sBuilder.toString();
-        this.subjectNameShort=shortName;
-        this.subjectName=subjectName;
-        this.type=type;
-        this.blockNr=blockNr;
-        this.place=place;
-        this.month=month;
-        this.day=day;
-        this.timeBlockNr=timeBlockNr;
-        this.director="";
-        if(month<9) this.part=2;
-        else { this.part=1; }
-    }
-
-
     public Block(){
 
     }
