@@ -27,7 +27,6 @@ public class AddNoteActivity extends AppCompatActivity {
     private Block block;
     private String token;
     private EditText titleInput, descriptionInput;
-    private final AppCompatActivity thisActivity = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +62,7 @@ public class AddNoteActivity extends AppCompatActivity {
             }
         });
     }
-    public void putNote(Block b,Note n){
+    private void putNote(Block b,Note n){
         final String semester = Settings.getInstance().getSemester();
         final String group = Settings.getInstance().getGroup();
         final Block block = b;
@@ -118,7 +117,7 @@ public class AddNoteActivity extends AppCompatActivity {
             }
         });
     }
-    public String getUserToken(){
+    private String getUserToken(){
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid="";
         try{

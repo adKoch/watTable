@@ -35,9 +35,8 @@ import javax.annotation.Nullable;
 
 public class DayActivity extends AppCompatActivity {
 
-    private RecyclerView dayRecyclerView;
+
     private RecyclerView.Adapter dayAdapter;
-    private RecyclerView.LayoutManager dayLayoutManager;
     private DayBlockListContainer dayBlocklistContainer;
     private Date currentDate;
     private TextView noBlocksTextView;
@@ -58,6 +57,7 @@ public class DayActivity extends AppCompatActivity {
         daysOfTheWeek = getResources().getStringArray(R.array.daysOfTheWeek);
         dayProgressBar = findViewById(R.id.day_spinner);
         setSupportActionBar((Toolbar) findViewById(R.id.day_toolbar));
+        RecyclerView dayRecyclerView;
 
         noBlocksTextView = findViewById(R.id.no_blocks_text_view);
 
@@ -78,7 +78,7 @@ public class DayActivity extends AppCompatActivity {
                 }
                 dayProgressBar.setVisibility(View.INVISIBLE);
                 dayAdapter.notifyDataSetChanged();
-                if(!dayBlocklistContainer.isEmpty()) noBlocksTextView.setVisibility(View.GONE);
+                if(dayBlocklistContainer.isFull()) noBlocksTextView.setVisibility(View.GONE);
                 else noBlocksTextView.setVisibility(View.VISIBLE);
             }
         });
@@ -88,7 +88,7 @@ public class DayActivity extends AppCompatActivity {
 
         dayRecyclerView.setHasFixedSize(true);
 
-        dayLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager dayLayoutManager = new LinearLayoutManager(this);
         dayRecyclerView.setLayoutManager(dayLayoutManager);
         dayRecyclerView.setItemAnimator(new DefaultItemAnimator());
 

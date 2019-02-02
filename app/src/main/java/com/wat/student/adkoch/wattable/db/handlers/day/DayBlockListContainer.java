@@ -23,13 +23,13 @@ public class DayBlockListContainer {
         }
     }
 
-    public boolean isEmpty(){
+    public boolean isFull(){
         for(String title:titles){
             if(Objects.equals("",title)){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public void put(Block b, String title){

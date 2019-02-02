@@ -26,7 +26,6 @@ public class Settings {
 
     private String group;
     private String semester;
-    private String token;
 
     private Timestamp semesterStart;
     private Timestamp semesterEnd;
@@ -37,9 +36,7 @@ public class Settings {
     public String getSemester(){
         return semester;
     }
-    public String getToken(){
-        return token;
-    }
+
     public Timestamp getSemesterStart(){
         return semesterStart;
     }
@@ -54,7 +51,7 @@ public class Settings {
     }
 
     private Settings(String group, String semester){
-        token=getUserToken();
+        String token = getUserToken();
         this.group=group;
         this.semester=semester;
     }

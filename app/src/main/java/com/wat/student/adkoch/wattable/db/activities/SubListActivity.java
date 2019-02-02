@@ -164,7 +164,7 @@ public class SubListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public Query getSublistQuery(){
+    private Query getSublistQuery(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Query query = null;
         try{
