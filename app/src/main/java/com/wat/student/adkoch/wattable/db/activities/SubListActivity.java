@@ -10,6 +10,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,9 +21,11 @@ import android.widget.TextView;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.wat.student.adkoch.wattable.R;
-import com.wat.student.adkoch.wattable.db.data.DataAccess;
 import com.wat.student.adkoch.wattable.db.data.entities.Subscription;
 import com.wat.student.adkoch.wattable.db.handlers.ListRecyclerTouchListener;
 
@@ -31,6 +34,7 @@ public class SubListActivity extends AppCompatActivity {
 
     private FirestoreRecyclerAdapter<Subscription, SublistViewHolder> recyclerAdapter;
     private final AppCompatActivity thisActivity=this;
+    private String TAG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,8 @@ public class SubListActivity extends AppCompatActivity {
         RecyclerView mRecyclerView;
         RecyclerView.LayoutManager mLayoutManager;
         setContentView(R.layout.activity_sub_list);
+
+        TAG=getString(R.string.SubListActivity_log_TAG);
 
         setSupportActionBar((Toolbar) findViewById(R.id.sub_list_toolbar));
         FloatingActionButton fab =findViewById(R.id.sub_page_fab);
@@ -50,7 +56,7 @@ public class SubListActivity extends AppCompatActivity {
 
         mRecyclerView = findViewById(R.id.sub_list_recycler_view);
 
-        Query query = DataAccess.getSublistQuery();
+        Query query = getSublistQuery();
 
         FirestoreRecyclerOptions<Subscription> options = new FirestoreRecyclerOptions.Builder<Subscription>()
                 .setQuery(query, Subscription.class)
@@ -156,5 +162,19 @@ public class SubListActivity extends AppCompatActivity {
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public Query getSublistQuery(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Query query = null;
+        try{
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            String uid = user.getUid();
+            query = db.collection(getString(R.string.collection_user)).document(uid).collection(getString(R.string.collection_sublist));
+            Log.d(TAG,"Fetching subscription list success:");
+        } catch(Exception e){
+            Log.w(TAG,"Fetching subscription list fail:" + e);
+        }
+        return query;
     }
 }

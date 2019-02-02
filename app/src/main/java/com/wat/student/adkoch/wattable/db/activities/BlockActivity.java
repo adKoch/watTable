@@ -24,6 +24,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.wat.student.adkoch.wattable.R;
 import com.wat.student.adkoch.wattable.db.data.DataAccess;
+import com.wat.student.adkoch.wattable.db.data.Settings;
 import com.wat.student.adkoch.wattable.db.data.SubscriptionMapper;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import com.wat.student.adkoch.wattable.db.data.entities.Note;
@@ -120,7 +121,7 @@ public class BlockActivity extends AppCompatActivity {
     private String getCurrentDayOfTheWeek(){
         Calendar bDate;
         Calendar startDate = Calendar.getInstance();
-        startDate.setTime(DataAccess.getSemesterStart().toDate());
+        startDate.setTime(Settings.getInstance().getSemesterStart().toDate());
         bDate=Calendar.getInstance();
         if(block.getMonth()<startDate.get(Calendar.MONTH)+1){
             bDate.set(Calendar.YEAR,startDate.get(Calendar.YEAR)+1);
@@ -150,7 +151,6 @@ public class BlockActivity extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         return true;
     }

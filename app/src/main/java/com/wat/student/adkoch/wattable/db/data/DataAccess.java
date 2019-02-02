@@ -30,9 +30,6 @@ public final class DataAccess {
 
     private static String semester="2018Zima";
 
-    private static String sublistRetrievalTAG = "SublistRetrieval";
-    private static String subAddTAG = "SubAddition";
-
     private static Timestamp semesterStart;
     private static Timestamp semesterEnd;
 
@@ -41,68 +38,6 @@ public final class DataAccess {
     }
     public static Timestamp getSemesterEnd(){
         return semesterEnd;
-    }
-
-
-    public static void putSub(Subscription sub){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        Map<String, Object> subscription = new HashMap<>();
-        subscription.put("title",sub.getTitle());
-        subscription.put("token",sub.getToken());
-
-        try{
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            String uid = user.getUid();
-            db.document("user/"+uid+"/sublist/"+sub.getToken()).set(subscription).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d(subAddTAG,"Subscription added");
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(subAddTAG, "Adding Subscription failed :: ", e);
-                }
-            });
-        } catch(Exception e){
-            Log.w(subAddTAG,"Fetching uid fail:" + e);
-        }
-    }
-
-    public static void deleteSub(Subscription sub){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        try{
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            String uid = user.getUid();
-            db.document("user/"+uid+"/sublist/"+sub.getToken()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    Log.d(subAddTAG,"Subscription successfully deleted");
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.w(subAddTAG, "Deleting Subscription failed : ", e);
-                }
-            });
-        } catch(Exception e){
-            Log.w(subAddTAG,"Fetching uid fail:" + e);
-        }
-    }
-
-    public static Query getSublistQuery(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        Query query = null;
-        try{
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            String uid = user.getUid();
-            query = db.collection("user").document(uid).collection("sublist");
-            Log.d(sublistRetrievalTAG,"Fetching subscription list success:");
-        } catch(Exception e){
-            Log.w(sublistRetrievalTAG,"Fetching subscription list fail:" + e);
-        }
-        return query;
     }
 
     public static Query getTimetableQuery(){
@@ -123,7 +58,7 @@ public final class DataAccess {
     }
 
     public static void setSemesterRanges(){
-        DocumentReference doc = FirebaseFirestore.getInstance().document("semester/"+DataAccess.getSemester());
+        DocumentReference doc = FirebaseFirestore.getInstance().document("semester/"+Settings.getInstance().getSemester());
         doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

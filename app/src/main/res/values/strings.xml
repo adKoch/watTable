@@ -102,7 +102,8 @@
     <string name="toast_add_sub_delete_success">Pomyślnie usunięto subskrypcję!</string>
     <string name="toast_add_sub_edit_success">Pomyślnie zedytowano subskrypcję!</string>
     <string name="SubAddActivity_log_TAG">SubAddActivity</string>
+    <string name="entity_subscription_token">token</string>
+    <string name="SubListActivity_log_TAG">SubListActivity</string>
     <string name="collection_user">user</string>
     <string name="collection_sublist">sublist</string>
-    <string name="entity_subscription_token">token</string>
 </resources>

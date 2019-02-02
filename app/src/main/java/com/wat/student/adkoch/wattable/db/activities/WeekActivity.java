@@ -19,10 +19,11 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.wat.student.adkoch.wattable.R;
-import com.wat.student.adkoch.wattable.db.data.DataAccess;
+import com.wat.student.adkoch.wattable.db.data.Settings;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import com.wat.student.adkoch.wattable.db.handlers.ListRecyclerTouchListener;
 import com.wat.student.adkoch.wattable.db.handlers.week.WeekBlockAdapter;
@@ -60,8 +61,8 @@ public class WeekActivity extends AppCompatActivity {
 
         TAG = getString(R.string.Week_log_TAG);
 
-        weekBlocklistContainer=new WeekBlocklistContainer(DataAccess.getSemesterStart().toDate(),DataAccess.getSemesterEnd().toDate());
-        loadData(DataAccess.getTimetableQuery());
+        weekBlocklistContainer=new WeekBlocklistContainer(Settings.getInstance().getSemesterStart().toDate(),Settings.getInstance().getSemesterEnd().toDate());
+        loadData(Settings.getInstance().getTimetableQuery());
         weekBlockRecyclerView = findViewById(R.id.week_block_recycler_view);
         weekBlockRecyclerView.setHasFixedSize(true);
         weekBlockLayoutManager = new GridLayoutManager(this, 7);

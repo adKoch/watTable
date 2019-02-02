@@ -22,7 +22,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.wat.student.adkoch.wattable.R;
-import com.wat.student.adkoch.wattable.db.data.DataAccess;
+import com.wat.student.adkoch.wattable.db.data.Settings;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import com.wat.student.adkoch.wattable.db.handlers.ListRecyclerTouchListener;
 import com.wat.student.adkoch.wattable.db.handlers.day.BlockListAdapter;
@@ -44,7 +44,7 @@ public class DayActivity extends AppCompatActivity {
     private final AppCompatActivity thisActivity=this;
 
     private String TAG;
-    private ProgressBar spinner;
+    private ProgressBar dayProgressBar;
 
     private String[] months;
     private String[] daysOfTheWeek;
@@ -56,14 +56,14 @@ public class DayActivity extends AppCompatActivity {
         TAG=getString(R.string.DayActivityLogTAG);
         months = getResources().getStringArray(R.array.months);
         daysOfTheWeek = getResources().getStringArray(R.array.daysOfTheWeek);
-        spinner= findViewById(R.id.day_spinner);
+        dayProgressBar = findViewById(R.id.day_spinner);
         setSupportActionBar((Toolbar) findViewById(R.id.day_toolbar));
 
         noBlocksTextView = findViewById(R.id.no_blocks_text_view);
 
         setView();
 
-        Query myQuery = DataAccess.getDayQuery(currentDate);
+        Query myQuery = Settings.getInstance().getDayQuery(currentDate);
 
         myQuery.addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
             @Override
@@ -76,7 +76,7 @@ public class DayActivity extends AppCompatActivity {
                     Log.d(TAG,getString(R.string.day_log_adding_to_day_block_text)+doc.getId());
                     dayBlocklistContainer.put(doc.toObject(Block.class),doc.getId());
                 }
-                spinner.setVisibility(View.INVISIBLE);
+                dayProgressBar.setVisibility(View.INVISIBLE);
                 dayAdapter.notifyDataSetChanged();
                 if(!dayBlocklistContainer.isEmpty()) noBlocksTextView.setVisibility(View.GONE);
                 else noBlocksTextView.setVisibility(View.VISIBLE);
