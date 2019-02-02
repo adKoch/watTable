@@ -27,12 +27,14 @@ public class AddNoteActivity extends AppCompatActivity {
     private Block block;
     private String token;
     private EditText titleInput, descriptionInput;
+    private String TAG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
         Button addButton, clearButton;
+        TAG=getString(R.string.addNoteActivity_log_TAG);
 
         addButton=findViewById(R.id.addNoteButton);
         clearButton=findViewById(R.id.clearNoteButton);
@@ -62,7 +64,7 @@ public class AddNoteActivity extends AppCompatActivity {
             }
         });
     }
-    private void putNote(Block b,Note n){
+    private void putNote(Block b, Note n){
         final String semester = Settings.getInstance().getSemester();
         final String group = Settings.getInstance().getGroup();
         final Block block = b;
@@ -84,7 +86,7 @@ public class AddNoteActivity extends AppCompatActivity {
                         index=(long) (task.getResult().get(getString(R.string.document_attribute_noteIndex)));
 
                     }catch (Exception e){
-                        Log.w("NotePut","Fetching note index fail: "+e);
+                        Log.w(TAG,"Fetching note index fail: "+e);
                     }
                     index++;
                     FirebaseFirestore.getInstance().collection(getString(R.string.collection_semester))
@@ -96,7 +98,7 @@ public class AddNoteActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                                Log.d("NotePut","Note added successfuly");
+                                Log.d(TAG,"Note added successfuly");
                             }
                         }
                     });
@@ -112,7 +114,7 @@ public class AddNoteActivity extends AppCompatActivity {
                             .update(getString(R.string.document_attribute_noteCount),index);
 
                 }else {
-                    Log.w("NotePut","Fetching block notes");
+                    Log.w(TAG,"Fetching block notes");
                 }
             }
         });
@@ -123,7 +125,7 @@ public class AddNoteActivity extends AppCompatActivity {
         try{
             uid = user.getUid();
         }catch (Exception e){
-            Log.w("getUid","failed fetching uid: "+e);
+            Log.w(TAG,"failed fetching uid: "+e);
         }
         return uid.substring(0,12);
     }

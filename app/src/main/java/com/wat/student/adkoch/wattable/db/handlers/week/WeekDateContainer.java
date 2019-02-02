@@ -7,21 +7,21 @@ class WeekDateContainer {
     private int day;
     private int dayOfTheWeek;
 
-    public WeekDateContainer(int month, int day, int dayOfTheWeek) {
+    WeekDateContainer(int month, int day, int dayOfTheWeek) {
         this.month = month;
         this.day = day;
         this.dayOfTheWeek = dayOfTheWeek;
     }
 
-    public int getMonth() {
+    int getMonth() {
         return month;
     }
 
-    public int getDay() {
+    int getDay() {
         return day;
     }
 
-    public String getDayOfTheWeek(){
+    String getDayOfTheWeek(){
         return daysOfTheWeek[dayOfTheWeek];
     }
 }

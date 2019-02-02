@@ -26,7 +26,7 @@ public class AddSubActivity extends AppCompatActivity {
     private Subscription sub;
     private Button addSubButton, deleteButton;
     private EditText subName, subToken;
-    private String subAddTAG;
+    private String TAG;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Button clearButton;
@@ -36,7 +36,7 @@ public class AddSubActivity extends AppCompatActivity {
         subName = findViewById(R.id.subName);
         subToken = findViewById(R.id.subToken);
 
-        subAddTAG=getString(R.string.SubAddActivity_log_TAG);
+        TAG =getString(R.string.SubAddActivity_log_TAG);
 
         addSubButton = findViewById(R.id.addButton);
         deleteButton = findViewById(R.id.delete_sub_button);
@@ -133,16 +133,16 @@ public class AddSubActivity extends AppCompatActivity {
                     .set(subscription).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Log.d(subAddTAG,"Subscription added");
+                    Log.d(TAG,"Subscription added");
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.w(subAddTAG, "Adding Subscription failed :: ", e);
+                    Log.w(TAG, "Adding Subscription failed :: ", e);
                 }
             });
         } catch(Exception e){
-            Log.w(subAddTAG,"Fetching uid fail:" + e);
+            Log.w(TAG,"Fetching uid fail:" + e);
         }
     }
 
@@ -158,16 +158,16 @@ public class AddSubActivity extends AppCompatActivity {
                     .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                    Log.d(subAddTAG,"Subscription successfully deleted");
+                    Log.d(TAG,"Subscription successfully deleted");
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.w(subAddTAG, "Deleting Subscription failed : ", e);
+                    Log.w(TAG, "Deleting Subscription failed : ", e);
                 }
             });
         } catch(Exception e){
-            Log.w(subAddTAG,"Fetching uid fail:" + e);
+            Log.w(TAG,"Fetching uid fail:" + e);
         }
     }
 }

@@ -113,4 +113,6 @@
     <string name="document_attribute_noteIndex">noteIndex</string>
     <string name="document_attribute_noteCount">noteCount</string>
     <string name="google_logo_description">Google logo</string>
+    <string name="addNoteActivity_log_TAG">AddNoteActivity</string>
+    <string name="mainActivity_log_TAG">MainLoginActivity</string>
 </resources>

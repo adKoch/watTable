@@ -35,7 +35,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static String TAG="Main/loginActivity";
+    private static String TAG;
     private static final int RC_SIGN_IN = 123;
     private ProgressBar mainProgressBar;
     private Button loginButton;
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
         firestore.setFirestoreSettings(settings);
+        TAG=getString(R.string.mainActivity_log_TAG);
 
         googleImage = findViewById(R.id.googleImage);
         mainProgressBar=findViewById(R.id.main_spinner);
