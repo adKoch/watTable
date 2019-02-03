@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class WeekBlocklistContainer {
+public class WeekBlockListContainer {
 
     private List<Block> blocks;
     private List<WeekDateContainer> days;
@@ -24,7 +24,7 @@ public class WeekBlocklistContainer {
     }
 
 
-    public WeekBlocklistContainer(Date startDate, Date endDate, Context context){
+    public WeekBlockListContainer(Date startDate, Date endDate, Context context){
 
         Calendar start = Calendar.getInstance();
         start.setTime(startDate);

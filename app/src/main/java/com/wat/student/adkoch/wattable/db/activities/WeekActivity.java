@@ -19,6 +19,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.wat.student.adkoch.wattable.R;
@@ -26,7 +27,7 @@ import com.wat.student.adkoch.wattable.db.data.Settings;
 import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import com.wat.student.adkoch.wattable.db.handlers.ListRecyclerTouchListener;
 import com.wat.student.adkoch.wattable.db.handlers.week.WeekBlockAdapter;
-import com.wat.student.adkoch.wattable.db.handlers.week.WeekBlocklistContainer;
+import com.wat.student.adkoch.wattable.db.handlers.week.WeekBlockListContainer;
 import com.wat.student.adkoch.wattable.db.handlers.week.WeekDateAdapter;
 
 import java.util.Date;
@@ -44,7 +45,7 @@ public class WeekActivity extends AppCompatActivity {
 
     private String TAG;
 
-    private WeekBlocklistContainer weekBlocklistContainer;
+    private WeekBlockListContainer weekBlocklistContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -58,8 +59,8 @@ public class WeekActivity extends AppCompatActivity {
 
         TAG = getString(R.string.Week_log_TAG);
 
-        weekBlocklistContainer=new WeekBlocklistContainer(Settings.getInstance().getSemesterStart().toDate(),Settings.getInstance().getSemesterEnd().toDate(),this);
-        loadData(Settings.getInstance().getTimetableQuery());
+        weekBlocklistContainer=new WeekBlockListContainer(Settings.getInstance().getSemesterStart().toDate(),Settings.getInstance().getSemesterEnd().toDate(),this);
+        loadData(getTimetableQuery());
         weekBlockRecyclerView = findViewById(R.id.week_block_recycler_view);
         weekBlockRecyclerView.setHasFixedSize(true);
         weekBlockLayoutManager = new GridLayoutManager(this, 7);
@@ -148,9 +149,14 @@ public class WeekActivity extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         return true;
+    }
+
+    public Query getTimetableQuery(){
+        return FirebaseFirestore.getInstance().collection(getResources().getString(R.string.collection_semester))
+                .document(Settings.getInstance().getSemester())
+                .collection(Settings.getInstance().getGroup());
     }
 
     @Override

@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        SubscriptionMapper.getInstance().setSubs();
+        SubscriptionMapper.getInstance().setSubs(this);
         String uid = "";
         switchVisibility();
         try {
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
                                                     if (ds != null) {
                                                         Timestamp semesterStart=(Timestamp) ds.get("semesterStart");
                                                         Timestamp semesterEnd=(Timestamp) ds.get("semesterEnd");
-                                                        Settings.setInstance(group, semester,semesterStart, semesterEnd);
+                                                        Settings.setInstance(group, semester,semesterStart, semesterEnd,getApplicationContext());
                                                         Log.d("WeekFetch","Fetch week ranges successful start: "
                                                                 +new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(semesterStart.toDate()) +", end: "+new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(semesterEnd.toDate()));
                                                     }
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         final String defaultGroup = "I6B2S1";
         final Timestamp defaultSemesterStart = new Timestamp(new GregorianCalendar(2018,9,1).getTime());
         final Timestamp defaultSemesterEnd= new Timestamp(new GregorianCalendar(2019,2,28).getTime());
-        Settings.setInstance(defaultGroup,defaultSemester,defaultSemesterStart,defaultSemesterEnd);
+        Settings.setInstance(defaultGroup,defaultSemester,defaultSemesterStart,defaultSemesterEnd,getApplicationContext());
     }
 
     private void finishSignIn(){

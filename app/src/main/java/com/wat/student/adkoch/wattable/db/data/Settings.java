@@ -1,5 +1,6 @@
 package com.wat.student.adkoch.wattable.db.data;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -7,15 +8,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
+import com.wat.student.adkoch.wattable.R;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -46,46 +44,36 @@ public class Settings {
 
     private static Settings instance;
 
-    public Query getTimetableQuery(){
-        return FirebaseFirestore.getInstance().collection("semester").document(semester).collection(group);
-    }
-
     private Settings(String group, String semester){
         this.group=group;
         this.semester=semester;
     }
 
-    public Query getDayQuery(Date day){
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(day);
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        return db.collection("semester/"+semester+"/"+group)
-                .whereEqualTo("month",cal.get(Calendar.MONTH)+1)
-                .whereEqualTo("day",cal.get(Calendar.DAY_OF_MONTH));
-    }
-
-    public static void setInstance(String group, String semester, Timestamp semesterStart, Timestamp semesterEnd){
+    public static void setInstance(String group, String semester, Timestamp semesterStart, Timestamp semesterEnd,Context context){
         instance=new Settings(group,semester);
-        instance.putUserInfo(semester,group);
+        instance.putUserInfo(semester,group,context);
         instance.semesterStart=semesterStart;
         instance.semesterEnd=semesterEnd;
     }
 
-    public static void setInstance(String group, String semester){
+    public static void setInstance(String group, String semester, Context context){
         instance=new Settings(group,semester);
-        instance.putUserInfo(semester,group);
-        instance.setSemesterRanges(semester);
+        instance.putUserInfo(semester,group, context);
+        instance.setSemesterRanges(semester, context);
     }
-    private void setSemesterRanges(String semester){
-        DocumentReference doc = FirebaseFirestore.getInstance().document("semester/"+semester);
+    private void setSemesterRanges(String semester, Context context){
+        final Context semContext=context;
+        DocumentReference doc = FirebaseFirestore.getInstance()
+                .collection(context.getString(R.string.collection_semester))
+                .document(semester);
         doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()){
                     DocumentSnapshot ds = task.getResult();
                     if (ds != null) {
-                        semesterStart=(Timestamp) ds.get("semesterStart");
-                        semesterEnd=(Timestamp) ds.get("semesterEnd");
+                        semesterStart=(Timestamp) ds.get(semContext.getString(R.string.semester_ranges_start));
+                        semesterEnd=(Timestamp) ds.get(semContext.getString(R.string.semester_ranges_end));
                     }
 
                     Log.d("WeekFetch","Fetch week ranges successful start: "+new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(semesterStart.toDate()) +", end: "+new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(semesterEnd.toDate()));
@@ -100,15 +88,15 @@ public class Settings {
         return instance;
     }
 
-    private void putUserInfo(String semester, String group){
+    private void putUserInfo(String semester, String group, Context context){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String uid;
         Map<String, Object> info = new HashMap<>();
-        info.put("semester",semester);
-        info.put("group", group);
+        info.put(context.getString(R.string.user_info_semester),semester);
+        info.put(context.getString(R.string.user_info_group), group);
         try{
             uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            db.collection("user")
+            db.collection(context.getString(R.string.collection_user))
                     .document(uid)
                     .set(info).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override

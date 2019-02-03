@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.MetadataChanges;
 import com.google.firebase.firestore.Query;
@@ -63,7 +64,7 @@ public class DayActivity extends AppCompatActivity {
 
         setView();
 
-        Query myQuery = Settings.getInstance().getDayQuery(currentDate);
+        Query myQuery = getDayQuery(currentDate);
 
         myQuery.addSnapshotListener(MetadataChanges.INCLUDE, new EventListener<QuerySnapshot>() {
             @Override
@@ -123,6 +124,18 @@ public class DayActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_toolbar, menu);
         return true;
     }
+
+    public Query getDayQuery(Date day){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(day);
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        return db.collection(getResources().getString(R.string.collection_semester))
+                .document(Settings.getInstance().getSemester())
+                .collection(getResources().getString(R.string.collection_groups))
+                .whereEqualTo(getString(R.string.entity_block_month),cal.get(Calendar.MONTH)+1)
+                .whereEqualTo(getString(R.string.entity_block_day),cal.get(Calendar.DAY_OF_MONTH));
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

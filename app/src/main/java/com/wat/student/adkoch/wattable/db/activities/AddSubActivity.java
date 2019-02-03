@@ -61,7 +61,7 @@ public class AddSubActivity extends AppCompatActivity {
 
                     addSub(subName.getText().toString(), subToken.getText().toString());
                     goToSubs();
-                    SubscriptionMapper.getInstance().setSubs();
+                    SubscriptionMapper.getInstance().setSubs(getApplicationContext());
                 }
             }
         });
@@ -79,7 +79,7 @@ public class AddSubActivity extends AppCompatActivity {
                 deleteSub(sub);
                 successfulDeleteToast.show();
                 goToSubs();
-                SubscriptionMapper.getInstance().setSubs();
+                SubscriptionMapper.getInstance().setSubs(getApplicationContext());
             }
         });
     }

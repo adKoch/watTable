@@ -83,7 +83,7 @@ public class SettingsActivity extends AppCompatActivity{
         setButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Settings.setInstance(groupSpinner.getSelectedItem().toString(),semesterSpinner.getSelectedItem().toString());
+                Settings.setInstance(groupSpinner.getSelectedItem().toString(),semesterSpinner.getSelectedItem().toString(),getApplicationContext());
             }
         });
 

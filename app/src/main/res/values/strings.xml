@@ -131,4 +131,11 @@
     <string name="google_logo_description">Google logo</string>
     <string name="addNoteActivity_log_TAG">AddNoteActivity</string>
     <string name="mainActivity_log_TAG">MainLoginActivity</string>
+    <string name="entity_block_month">month</string>
+    <string name="entity_block_day">day</string>
+    <string name="semester_ranges_start">semesterStart</string>
+    <string name="semester_ranges_end">semesterEnd</string>
+    <string name="user_self">ty</string>
+    <string name="user_info_semester">semester</string>
+    <string name="user_info_group">group</string>
 </resources>
