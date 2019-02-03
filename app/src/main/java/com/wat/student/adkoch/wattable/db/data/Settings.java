@@ -51,7 +51,6 @@ public class Settings {
     }
 
     private Settings(String group, String semester){
-        String token = getUserToken();
         this.group=group;
         this.semester=semester;
     }
@@ -99,17 +98,6 @@ public class Settings {
 
     public static Settings getInstance(){
         return instance;
-    }
-
-    private String getUserToken(){
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid="";
-        try{
-            uid = user.getUid();
-        }catch (Exception e){
-            Log.w("getUid","failed fetching uid: "+e);
-        }
-        return uid.substring(0,12);
     }
 
     private void putUserInfo(String semester, String group){

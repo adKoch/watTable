@@ -111,12 +111,16 @@ public class WeekActivity extends AppCompatActivity {
             public void onClick(int position) {
                 Block b = weekBlocklistContainer.getBlocks().get(position);
                 if(null!=b.getSubjectName()){
-                    Intent intent = new Intent(getParent(), BlockActivity.class);
-                    intent.putExtra(getString(R.string.serializable_block_name),b);
-                    startActivity(intent);
+                    goToBlockView(b);
                 }
             }
         }));
+    }
+
+    private void goToBlockView(Block block){
+        Intent intent = new Intent(this, BlockActivity.class);
+        intent.putExtra(getString(R.string.serializable_block_name),block);
+        startActivity(intent);
     }
 
     private void loadData(Query timetableQuery){

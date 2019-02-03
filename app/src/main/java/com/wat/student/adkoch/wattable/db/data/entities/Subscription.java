@@ -4,15 +4,6 @@ import java.io.Serializable;
 
 public final class Subscription implements Serializable {
     private String title;
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     private String token;
 
 
