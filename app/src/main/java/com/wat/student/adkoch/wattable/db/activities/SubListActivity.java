@@ -34,7 +34,7 @@ public class SubListActivity extends AppCompatActivity {
 
     private FirestoreRecyclerAdapter<Subscription, SublistViewHolder> recyclerAdapter;
     private final AppCompatActivity thisActivity=this;
-    private String TAG;
+    private String TAG="SublistAct";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +42,6 @@ public class SubListActivity extends AppCompatActivity {
         RecyclerView mRecyclerView;
         RecyclerView.LayoutManager mLayoutManager;
         setContentView(R.layout.activity_sub_list);
-
-        TAG=getString(R.string.SubListActivity_log_TAG);
 
         setSupportActionBar((Toolbar) findViewById(R.id.sub_list_toolbar));
         FloatingActionButton fab =findViewById(R.id.sub_page_fab);

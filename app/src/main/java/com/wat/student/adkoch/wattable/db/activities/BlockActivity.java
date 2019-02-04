@@ -43,7 +43,7 @@ public class BlockActivity extends AppCompatActivity {
     private String[] months;
     private String[] daysOfTheWeek;
     private String[] blockTime;
-    private String TAG;
+    private String TAG="BlockAct";
     private List<Note> notes;
     private RecyclerView noteRecyclerView;
     private NoteListAdapter notelistAdapter;
@@ -57,7 +57,6 @@ public class BlockActivity extends AppCompatActivity {
         months = getResources().getStringArray(R.array.months);
         daysOfTheWeek = getResources().getStringArray(R.array.daysOfTheWeek);
         blockTime = getResources().getStringArray(R.array.blockTimes);
-        TAG=getString(R.string.BlockActivity_log_TAG);
 
         RecyclerView.LayoutManager noteLayoutManager;
         notes=new ArrayList<>();

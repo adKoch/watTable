@@ -43,7 +43,7 @@ public class DayActivity extends AppCompatActivity {
     private TextView noBlocksTextView;
     private final AppCompatActivity thisActivity=this;
 
-    private String TAG;
+    private String TAG="DayAct";
     private ProgressBar dayProgressBar;
 
     private String[] months;
@@ -53,7 +53,6 @@ public class DayActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day);
-        TAG=getString(R.string.DayActivityLogTAG);
         months = getResources().getStringArray(R.array.months);
         daysOfTheWeek = getResources().getStringArray(R.array.daysOfTheWeek);
         dayProgressBar = findViewById(R.id.day_spinner);

@@ -26,7 +26,7 @@ public class AddSubActivity extends AppCompatActivity {
     private Subscription sub;
     private Button addSubButton, deleteButton;
     private EditText subName, subToken;
-    private String TAG;
+    private String TAG="AddSubAct";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Button clearButton;
@@ -35,8 +35,6 @@ public class AddSubActivity extends AppCompatActivity {
 
         subName = findViewById(R.id.subName);
         subToken = findViewById(R.id.subToken);
-
-        TAG =getString(R.string.SubAddActivity_log_TAG);
 
         addSubButton = findViewById(R.id.addButton);
         deleteButton = findViewById(R.id.delete_sub_button);

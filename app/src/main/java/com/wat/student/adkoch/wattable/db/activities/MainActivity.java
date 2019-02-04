@@ -35,7 +35,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static String TAG;
+    private static String TAG = "MainLoginAct";
     private static final int RC_SIGN_IN = 123;
     private ProgressBar mainProgressBar;
     private Button loginButton;
@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
                 .setTimestampsInSnapshotsEnabled(true)
                 .build();
         firestore.setFirestoreSettings(settings);
-        TAG=getString(R.string.mainActivity_log_TAG);
 
         googleImage = findViewById(R.id.googleImage);
         mainProgressBar=findViewById(R.id.main_spinner);
@@ -102,9 +101,9 @@ public class MainActivity extends AppCompatActivity {
             } else {
 
                 if(null==response){
-                    Toast.makeText(this,"Logowanie przerwano",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,getString(R.string.toast_login_interrupted),Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(this,"Błąd logowania",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,getString(R.string.toast_login_failed),Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -123,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             Log.w(TAG, "failed fetching uid: " + e);
         }
         try {
-            db.collection("user")
+            db.collection(getString(R.string.collection_user))
                     .document(uid)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -134,26 +133,28 @@ public class MainActivity extends AppCompatActivity {
                                 if (null == fields) {
                                     setDefaultSettings();
                                 } else {
-                                    if (null == fields.get("semester") || null == fields.get("semester")) {
+                                    if (null == fields.get(getString(R.string.user_info_semester)) || null == fields.get(getString(R.string.user_info_group))) {
                                         setDefaultSettings();
                                     } else {
-                                        final String semester = (String) fields.get("semester");
-                                        final String group = (String) fields.get("group");
-                                        DocumentReference doc = FirebaseFirestore.getInstance().document("semester/"+semester);
+                                        final String semester = (String) fields.get(getString(R.string.user_info_semester));
+                                        final String group = (String) fields.get(getString(R.string.user_info_group));
+                                        DocumentReference doc = FirebaseFirestore.getInstance()
+                                                .collection(getString(R.string.collection_semester))
+                                                .document(semester);
                                         doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                             @Override
                                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                                 if(task.isSuccessful()){
                                                     DocumentSnapshot ds = task.getResult();
                                                     if (ds != null) {
-                                                        Timestamp semesterStart=(Timestamp) ds.get("semesterStart");
-                                                        Timestamp semesterEnd=(Timestamp) ds.get("semesterEnd");
+                                                        Timestamp semesterStart=(Timestamp) ds.get(getString(R.string.semester_ranges_start));
+                                                        Timestamp semesterEnd=(Timestamp) ds.get(getString(R.string.semester_ranges_end));
                                                         Settings.setInstance(group, semester,semesterStart, semesterEnd,getApplicationContext());
-                                                        Log.d("WeekFetch","Fetch week ranges successful start: "
+                                                        Log.d(TAG,"Fetch week ranges successful start: "
                                                                 +new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(semesterStart.toDate()) +", end: "+new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(semesterEnd.toDate()));
                                                     }
                                                 }else {
-                                                    Log.w("WeekFetch","Fetching week ranges unsuccessful");
+                                                    Log.w(TAG,"Fetching week ranges unsuccessful");
                                                 }
                                                 finishSignIn();
                                             }
@@ -173,8 +174,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setDefaultSettings(){
-        final String defaultSemester = "2018Zima";
-        final String defaultGroup = "I6B2S1";
+        final String defaultSemester = getString(R.string.default_semester);
+        final String defaultGroup = getString(R.string.default_group);
         final Timestamp defaultSemesterStart = new Timestamp(new GregorianCalendar(2018,9,1).getTime());
         final Timestamp defaultSemesterEnd= new Timestamp(new GregorianCalendar(2019,2,28).getTime());
         Settings.setInstance(defaultGroup,defaultSemester,defaultSemesterStart,defaultSemesterEnd,getApplicationContext());
@@ -182,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void finishSignIn(){
         Intent intent = new Intent(this, DayActivity.class);
-        Toast.makeText(this,"Pomyślnie zalogowano!",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,getString(R.string.toast_successful_login),Toast.LENGTH_SHORT).show();
         startActivity(intent);
     }
 

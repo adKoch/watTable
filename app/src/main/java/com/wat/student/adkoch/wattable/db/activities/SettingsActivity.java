@@ -51,7 +51,7 @@ import java.util.Map;
 
 public class SettingsActivity extends AppCompatActivity{
 
-    private String TAG;
+    private String TAG="SettingsAct";
 
     private Spinner groupSpinner, semesterSpinner;
     private TextView tokenTextView, yourTokenTextView, semesterTextView, groupTextView;
@@ -62,8 +62,6 @@ public class SettingsActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
-        TAG=getResources().getString(R.string.SettingsActivity_log_TAG);
 
         settingsProgressBar =findViewById(R.id.settings_spinner);
         groupSpinner = findViewById(R.id.group_spinner);

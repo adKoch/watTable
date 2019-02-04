@@ -110,7 +110,7 @@ public class Settings {
                 }
             });
         }catch (Exception e){
-            Log.w("getUid","failed fetching uid: "+e);
+            Log.w(TAG,"failed fetching uid: "+e);
         }
     }
 }

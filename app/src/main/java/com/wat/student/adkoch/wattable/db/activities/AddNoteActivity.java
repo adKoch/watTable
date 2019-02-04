@@ -27,14 +27,13 @@ public class AddNoteActivity extends AppCompatActivity {
     private Block block;
     private String token;
     private EditText titleInput, descriptionInput;
-    private String TAG;
+    private String TAG="AddNoteAct";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
         Button addButton, clearButton;
-        TAG=getString(R.string.addNoteActivity_log_TAG);
 
         addButton=findViewById(R.id.addNoteButton);
         clearButton=findViewById(R.id.clearNoteButton);

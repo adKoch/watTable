@@ -138,4 +138,9 @@
     <string name="user_self">ty</string>
     <string name="user_info_semester">semester</string>
     <string name="user_info_group">group</string>
+    <string name="toast_login_interrupted">Logowanie przerwano</string>
+    <string name="toast_login_failed">Błąd logowania</string>
+    <string name="default_semester">2018Zima</string>
+    <string name="default_group">I6B2S1</string>
+    <string name="toast_successful_login">Pomyślnie zalogowano!</string>
 </resources>
