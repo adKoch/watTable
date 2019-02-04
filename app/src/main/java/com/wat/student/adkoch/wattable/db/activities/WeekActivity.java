@@ -66,7 +66,16 @@ public class WeekActivity extends AppCompatActivity {
         weekBlockRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
-        weekBlockAdapter = new WeekBlockAdapter(weekBlocklistContainer.getBlocks());
+        weekBlockAdapter = new WeekBlockAdapter(weekBlocklistContainer.getBlocks(), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = weekBlockRecyclerView.getChildAdapterPosition(v);
+                Block b = weekBlocklistContainer.getBlocks().get(position);
+                if(null!=b.getSubjectName()){
+                    goToBlockView(b);
+                }
+            }
+        });
 
         weekDateRecyclerView = findViewById(R.id.week_date_recycler_view);
         weekDateRecyclerView.setHasFixedSize(true);
@@ -104,16 +113,6 @@ public class WeekActivity extends AppCompatActivity {
         };
         weekDateRecyclerView.addOnScrollListener(scrollListeners[0]);
         weekBlockRecyclerView.addOnScrollListener(scrollListeners[1]);
-
-        weekBlockRecyclerView.addOnItemTouchListener( new ListRecyclerTouchListener(this, new ListRecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(int position) {
-                Block b = weekBlocklistContainer.getBlocks().get(position);
-                if(null!=b.getSubjectName()){
-                    goToBlockView(b);
-                }
-            }
-        }));
     }
 
     private void goToBlockView(Block block){

@@ -15,6 +15,8 @@ import java.util.List;
 public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.BlockListViewHolder>  {
     private final List<Block> mDataset;
 
+    private final View.OnClickListener dayOnClickListener;
+
     private String[] blockTime;
 
     static class BlockListViewHolder extends RecyclerView.ViewHolder{
@@ -22,16 +24,18 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.Bloc
         final TextView descriptionTextView;
         final TextView detailsTextView;
         final TextView noteCountTextView;
-        BlockListViewHolder(View v){
+        BlockListViewHolder(View v, View.OnClickListener onClickListener){
             super(v);
             timeTextView = v.findViewById(R.id.time);
             descriptionTextView = v.findViewById(R.id.subject_description);
             detailsTextView = v.findViewById(R.id.subject_details);
             noteCountTextView = v.findViewById(R.id.note_count);
+            v.setOnClickListener(onClickListener);
         }
     }
 
-    public BlockListAdapter(List<Block> dataset){
+    public BlockListAdapter(List<Block> dataset, View.OnClickListener onClickListener){
+        dayOnClickListener=onClickListener;
         mDataset = dataset;
     }
 
@@ -42,7 +46,7 @@ public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.Bloc
                 .inflate(R.layout.day_block_item, parent, false);
         blockTime=parent.getContext().getResources().getStringArray(R.array.blockTimes);
 
-        return new BlockListViewHolder(v);
+        return new BlockListViewHolder(v,dayOnClickListener);
     }
 
     @Override

@@ -57,7 +57,7 @@ public class DayActivity extends AppCompatActivity {
         daysOfTheWeek = getResources().getStringArray(R.array.daysOfTheWeek);
         dayProgressBar = findViewById(R.id.day_spinner);
         setSupportActionBar((Toolbar) findViewById(R.id.day_toolbar));
-        RecyclerView dayRecyclerView;
+        final RecyclerView dayRecyclerView;
 
         noBlocksTextView = findViewById(R.id.no_blocks_text_view);
 
@@ -92,13 +92,10 @@ public class DayActivity extends AppCompatActivity {
         dayRecyclerView.setLayoutManager(dayLayoutManager);
         dayRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        dayAdapter = new BlockListAdapter(dayBlocklistContainer.getBlockList());
-
-        dayRecyclerView.setAdapter(dayAdapter);
-
-        dayRecyclerView.addOnItemTouchListener( new ListRecyclerTouchListener(this, new ListRecyclerTouchListener.ClickListener() {
+        dayAdapter = new BlockListAdapter(dayBlocklistContainer.getBlockList(), new View.OnClickListener() {
             @Override
-            public void onClick(int position) {
+            public void onClick(View v) {
+                int position = dayRecyclerView.getChildAdapterPosition(v);
                 Block b = dayBlocklistContainer.getBlock(position);
                 if(null!=b.getSubjectName()){
                     Intent intent = new Intent(thisActivity, BlockActivity.class);
@@ -106,7 +103,9 @@ public class DayActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-        }));
+        });
+
+        dayRecyclerView.setAdapter(dayAdapter);
     }
 
     private void setView(){

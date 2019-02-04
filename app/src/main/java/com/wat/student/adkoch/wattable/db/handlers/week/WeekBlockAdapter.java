@@ -14,20 +14,23 @@ import java.util.List;
 
 public class WeekBlockAdapter extends RecyclerView.Adapter<WeekBlockAdapter.WeekBlockViewHolder>  {
     private final List<Block> mDataset;
+    private final View.OnClickListener weekOnClickListener;
 
     static class WeekBlockViewHolder extends RecyclerView.ViewHolder{
         final TextView descriptionTextView;
         final TextView detailsTextView;
         final TextView locationTextView;
-        WeekBlockViewHolder(View v){
+        WeekBlockViewHolder(View v, View.OnClickListener onClickListener){
             super(v);
             descriptionTextView = v.findViewById(R.id.subject_description);
             detailsTextView = v.findViewById(R.id.subject_details);
             locationTextView = v.findViewById(R.id.subject_location);
+            v.setOnClickListener(onClickListener);
         }
     }
 
-    public WeekBlockAdapter(List<Block> dataset){
+    public WeekBlockAdapter(List<Block> dataset, View.OnClickListener onClickListener){
+        weekOnClickListener=onClickListener;
         mDataset = dataset;
     }
 
@@ -37,7 +40,7 @@ public class WeekBlockAdapter extends RecyclerView.Adapter<WeekBlockAdapter.Week
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.week_block_item, parent, false);
 
-        return new WeekBlockViewHolder(v);
+        return new WeekBlockViewHolder(v,weekOnClickListener);
     }
 
     @Override
