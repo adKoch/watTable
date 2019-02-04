@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class SubscriptionMapper {
     private Map<String,String> subMapper;
-    private String TAG="SubscriptionMapper";
+    private final String TAG="SubscriptionMapper";
 
     private static SubscriptionMapper instance;
 

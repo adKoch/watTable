@@ -43,7 +43,7 @@ public class BlockActivity extends AppCompatActivity {
     private String[] months;
     private String[] daysOfTheWeek;
     private String[] blockTime;
-    private String TAG="BlockAct";
+    private final String TAG="BlockAct";
     private List<Note> notes;
     private RecyclerView noteRecyclerView;
     private NoteListAdapter notelistAdapter;

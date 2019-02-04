@@ -7,10 +7,10 @@ import java.util.Objects;
 
 public class DayBlockListContainer {
 
-    private ArrayList<Block> blockList;
-    private String[] titles;
-    private int month;
-    private int day;
+    private final ArrayList<Block> blockList;
+    private final String[] titles;
+    private final int month;
+    private final int day;
 
     public DayBlockListContainer(int month, int day){
         titles = new String[7];

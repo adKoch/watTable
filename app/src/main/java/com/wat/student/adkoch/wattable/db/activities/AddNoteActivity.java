@@ -27,7 +27,7 @@ public class AddNoteActivity extends AppCompatActivity {
     private Block block;
     private String token;
     private EditText titleInput, descriptionInput;
-    private String TAG="AddNoteAct";
+    private final String TAG="AddNoteAct";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,7 +113,7 @@ public class AddNoteActivity extends AppCompatActivity {
                             .update(getString(R.string.document_attribute_noteCount),index);
 
                 }else {
-                    Log.w(TAG,"Fetching block notes");
+                    Log.w(TAG,"Fetching block notes error");
                 }
             }
         });

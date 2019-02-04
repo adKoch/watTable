@@ -43,7 +43,7 @@ public class WeekActivity extends AppCompatActivity {
     private RecyclerView.Adapter weekDateAdapter;
     private RecyclerView.LayoutManager weekDateLayoutManager;
 
-    private String TAG="WeekAct";
+    private final String TAG="WeekAct";
 
     private WeekBlockListContainer weekBlocklistContainer;
 
@@ -105,7 +105,7 @@ public class WeekActivity extends AppCompatActivity {
         weekDateRecyclerView.addOnScrollListener(scrollListeners[0]);
         weekBlockRecyclerView.addOnScrollListener(scrollListeners[1]);
 
-        weekBlockRecyclerView.addOnItemTouchListener( new ListRecyclerTouchListener(this, weekBlockRecyclerView, new ListRecyclerTouchListener.ClickListener() {
+        weekBlockRecyclerView.addOnItemTouchListener( new ListRecyclerTouchListener(this, new ListRecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(int position) {
                 Block b = weekBlocklistContainer.getBlocks().get(position);
@@ -151,7 +151,7 @@ public class WeekActivity extends AppCompatActivity {
         return true;
     }
 
-    public Query getTimetableQuery(){
+    private Query getTimetableQuery(){
         return FirebaseFirestore.getInstance().collection(getResources().getString(R.string.collection_semester))
                 .document(Settings.getInstance().getSemester())
                 .collection(Settings.getInstance().getGroup());

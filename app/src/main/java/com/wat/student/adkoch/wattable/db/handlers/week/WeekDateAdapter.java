@@ -12,10 +12,11 @@ import com.wat.student.adkoch.wattable.R;
 import java.util.List;
 
 public class WeekDateAdapter extends RecyclerView.Adapter<WeekDateAdapter.WeekDateViewHolder>  {
-    private List<WeekDateContainer> mDataset;
+    private final List<WeekDateContainer> mDataset;
 
     static class WeekDateViewHolder extends RecyclerView.ViewHolder{
-        TextView dateTextView,dayoftwTextView;
+        final TextView dateTextView;
+        final TextView dayoftwTextView;
         WeekDateViewHolder(View v){
             super(v);
             dateTextView = v.findViewById(R.id.date_text_view);

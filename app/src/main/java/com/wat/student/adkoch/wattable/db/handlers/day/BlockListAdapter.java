@@ -13,12 +13,15 @@ import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import java.util.List;
 
 public class BlockListAdapter extends RecyclerView.Adapter<BlockListAdapter.BlockListViewHolder>  {
-    private List<Block> mDataset;
+    private final List<Block> mDataset;
 
     private String[] blockTime;
 
     static class BlockListViewHolder extends RecyclerView.ViewHolder{
-        TextView timeTextView, descriptionTextView, detailsTextView, noteCountTextView;
+        final TextView timeTextView;
+        final TextView descriptionTextView;
+        final TextView detailsTextView;
+        final TextView noteCountTextView;
         BlockListViewHolder(View v){
             super(v);
             timeTextView = v.findViewById(R.id.time);

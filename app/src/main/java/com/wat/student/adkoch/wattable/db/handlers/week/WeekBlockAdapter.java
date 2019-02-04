@@ -13,10 +13,12 @@ import com.wat.student.adkoch.wattable.db.data.entities.Block;
 import java.util.List;
 
 public class WeekBlockAdapter extends RecyclerView.Adapter<WeekBlockAdapter.WeekBlockViewHolder>  {
-    private List<Block> mDataset;
+    private final List<Block> mDataset;
 
     static class WeekBlockViewHolder extends RecyclerView.ViewHolder{
-        TextView descriptionTextView, detailsTextView, locationTextView;
+        final TextView descriptionTextView;
+        final TextView detailsTextView;
+        final TextView locationTextView;
         WeekBlockViewHolder(View v){
             super(v);
             descriptionTextView = v.findViewById(R.id.subject_description);

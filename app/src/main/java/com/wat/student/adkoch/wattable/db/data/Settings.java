@@ -20,10 +20,10 @@ import java.util.Map;
 
 public class Settings {
 
-    private static String TAG="Settings";
+    private static final String TAG="Settings";
 
-    private String group;
-    private String semester;
+    private final String group;
+    private final String semester;
 
     private Timestamp semesterStart;
     private Timestamp semesterEnd;

@@ -26,7 +26,7 @@ public class AddSubActivity extends AppCompatActivity {
     private Subscription sub;
     private Button addSubButton, deleteButton;
     private EditText subName, subToken;
-    private String TAG="AddSubAct";
+    private final String TAG="AddSubAct";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Button clearButton;

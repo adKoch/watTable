@@ -11,10 +11,10 @@ import java.util.List;
 
 public class WeekBlockListContainer {
 
-    private List<Block> blocks;
-    private List<WeekDateContainer> days;
-    private int count;
-    private Calendar startDate;
+    private final List<Block> blocks;
+    private final List<WeekDateContainer> days;
+    private final int count;
+    private final Calendar startDate;
 
     public List<Block> getBlocks(){
         return blocks;

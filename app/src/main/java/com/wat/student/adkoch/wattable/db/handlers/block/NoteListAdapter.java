@@ -14,10 +14,12 @@ import com.wat.student.adkoch.wattable.db.data.entities.Note;
 import java.util.List;
 
 public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.NoteListViewHolder> {
-    private List<Note> mDataset;
+    private final List<Note> mDataset;
 
     static class NoteListViewHolder extends RecyclerView.ViewHolder{
-        TextView titleTextView, authorTextView, descriptionTextView;
+        final TextView titleTextView;
+        final TextView authorTextView;
+        final TextView descriptionTextView;
         NoteListViewHolder(View v){
             super(v);
             titleTextView = v.findViewById(R.id.title);

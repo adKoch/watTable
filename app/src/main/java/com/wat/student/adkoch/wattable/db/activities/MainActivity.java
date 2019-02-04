@@ -35,7 +35,7 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static String TAG = "MainLoginAct";
+    private static final String TAG = "MainLoginAct";
     private static final int RC_SIGN_IN = 123;
     private ProgressBar mainProgressBar;
     private Button loginButton;

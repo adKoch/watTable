@@ -6,10 +6,10 @@ import com.wat.student.adkoch.wattable.R;
 
 class WeekDateContainer {
 
-    private String[] daysOfTheWeek;
-    private int month;
-    private int day;
-    private int dayOfTheWeek;
+    private final String[] daysOfTheWeek;
+    private final int month;
+    private final int day;
+    private final int dayOfTheWeek;
 
     WeekDateContainer(int month, int day, int dayOfTheWeek, Context context) {
         this.month = month;

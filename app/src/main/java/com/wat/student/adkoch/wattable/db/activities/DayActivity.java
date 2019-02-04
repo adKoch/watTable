@@ -43,7 +43,7 @@ public class DayActivity extends AppCompatActivity {
     private TextView noBlocksTextView;
     private final AppCompatActivity thisActivity=this;
 
-    private String TAG="DayAct";
+    private final String TAG="DayAct";
     private ProgressBar dayProgressBar;
 
     private String[] months;
@@ -96,7 +96,7 @@ public class DayActivity extends AppCompatActivity {
 
         dayRecyclerView.setAdapter(dayAdapter);
 
-        dayRecyclerView.addOnItemTouchListener( new ListRecyclerTouchListener(this, dayRecyclerView, new ListRecyclerTouchListener.ClickListener() {
+        dayRecyclerView.addOnItemTouchListener( new ListRecyclerTouchListener(this, new ListRecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(int position) {
                 Block b = dayBlocklistContainer.getBlock(position);
@@ -124,7 +124,7 @@ public class DayActivity extends AppCompatActivity {
         return true;
     }
 
-    public Query getDayQuery(Date day){
+    private Query getDayQuery(Date day){
         Calendar cal = Calendar.getInstance();
         cal.setTime(day);
         FirebaseFirestore db = FirebaseFirestore.getInstance();

@@ -51,7 +51,7 @@ import java.util.Map;
 
 public class SettingsActivity extends AppCompatActivity{
 
-    private String TAG="SettingsAct";
+    private final String TAG="SettingsAct";
 
     private Spinner groupSpinner, semesterSpinner;
     private TextView tokenTextView, yourTokenTextView, semesterTextView, groupTextView;

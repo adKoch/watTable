@@ -34,7 +34,7 @@ public class SubListActivity extends AppCompatActivity {
 
     private FirestoreRecyclerAdapter<Subscription, SublistViewHolder> recyclerAdapter;
     private final AppCompatActivity thisActivity=this;
-    private String TAG="SublistAct";
+    private final String TAG="SublistAct";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,7 @@ public class SubListActivity extends AppCompatActivity {
         recyclerAdapter = new FirestoreRecyclerAdapter<Subscription, SublistViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull SublistViewHolder holder, int position, @NonNull Subscription model) {
+                Log.d(TAG,"Bound :"+model.getTitle());
                 holder.setFields(model);
             }
 
@@ -79,7 +80,7 @@ public class SubListActivity extends AppCompatActivity {
 
 
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
-        mRecyclerView.addOnItemTouchListener(new ListRecyclerTouchListener(getApplicationContext(), mRecyclerView, new ListRecyclerTouchListener.ClickListener() {
+        mRecyclerView.addOnItemTouchListener(new ListRecyclerTouchListener(getApplicationContext(), new ListRecyclerTouchListener.ClickListener() {
             @Override
             public void onClick(int position) {
                 Subscription sub = recyclerAdapter.getItem(position);
@@ -94,7 +95,8 @@ public class SubListActivity extends AppCompatActivity {
 
 
     private static class SublistViewHolder extends RecyclerView.ViewHolder{
-        private TextView titleTextView, tokenTextView;
+        private final TextView titleTextView;
+        private final TextView tokenTextView;
 
         SublistViewHolder(View v){
             super(v);
