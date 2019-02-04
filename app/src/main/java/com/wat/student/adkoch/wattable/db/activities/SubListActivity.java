@@ -153,6 +153,7 @@ public class SubListActivity extends AppCompatActivity {
             startActivity(intent);
         } else if(id == R.id.action_logout){
             Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             AuthUI.getInstance().signOut(this);
             startActivity(intent);
         }
