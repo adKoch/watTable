@@ -131,7 +131,7 @@ public class DayActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         return db.collection(getResources().getString(R.string.collection_semester))
                 .document(Settings.getInstance().getSemester())
-                .collection(getResources().getString(R.string.collection_groups))
+                .collection(Settings.getInstance().getGroup())
                 .whereEqualTo(getString(R.string.entity_block_month),cal.get(Calendar.MONTH)+1)
                 .whereEqualTo(getString(R.string.entity_block_day),cal.get(Calendar.DAY_OF_MONTH));
     }
